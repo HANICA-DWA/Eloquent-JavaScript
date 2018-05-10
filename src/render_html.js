@@ -155,7 +155,55 @@ let renderer = {
   meta_keyname_close() { return "</span>" },
 
   meta_hint_open() { return "\n\n<div class=\"solution\"><div class=\"solution-text\">" },
-  meta_hint_close() { return "\n\n</div></div>" }
+  meta_hint_close() { return "\n\n</div></div>" },
+
+  //-------- Added meta-things by DWA team -------------
+
+  meta_youtube(token) {
+    try {
+      let id = token.args[0].id
+      console.log(`<!-- YOUTUBE ${id}-->`);
+      return `\n\n<iframe width="560" height="315"
+                      src="https://www.youtube.com/embed/${id}?rel=0"
+                      frameborder="0"
+                      allow="autoplay; encrypted-media"
+                      allowfullscreen>
+              </iframe>`
+    } catch(e) {
+      console.log("ERROR:");
+      console.log(e);
+      throw e;
+    }
+  },
+
+  meta_added_open(token) {
+    try {
+      let [a,b] = token.args
+      console.log(`<!-- ADDED OPEN ${a} ${b}`);
+      console.log(token);
+      console.log(`-->`);
+      return "\n\n<div class=\"added\">"
+    } catch(e) {
+      console.log("ERROR:");
+      console.log(e);
+      throw e;
+    }
+  },
+  meta_added_close(token) {
+    try {
+      let [a,b] = token.args
+      console.log(`<!-- ADDED CLOSED ${a} ${b} -->`);
+      return "\n\n</div>"
+    } catch(e) {
+      console.log("ERROR:");
+      console.log(e);
+      throw e;
+    }
+  },
+
+
+  //-------- End meta-things by DWA team -------------
+
 }
 
 function renderArray(tokens) {
