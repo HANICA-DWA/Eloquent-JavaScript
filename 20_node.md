@@ -12,7 +12,11 @@ beautiful huts.'
 
 quote}}
 
-{{index "command line", "Yuan-Ma", "Book of Programming"}}
+{{index "Yuan-Ma", "Book of Programming"}}
+
+{{figure {url: "img/chapter_picture_20.jpg", alt: "Picture of a telephone pole", chapter: "framed"}}}
+
+{{index "command line"}}
 
 So far, we have used the JavaScript language in a single environment:
 the browser. This chapter and the [next one](skillsharing) will
@@ -35,10 +39,11 @@ often won't run in the browser.
 
 if}}
 
-If you want to follow along and run the code in this chapter, start by
-going to [_nodejs.org_](https://nodejs.org) and following the
-installation instructions for your operating system. You can also find
-further ((documentation)) for Node.js there.
+If you want to follow along and run the code in this chapter, you'll
+need to install Node.js version 10 or higher. To do so, go to
+[_https://nodejs.org_](https://nodejs.org) and follow the installation
+instructions for your operating system. You can also find further
+((documentation)) for Node.js there.
 
 ## Background
 
@@ -345,11 +350,11 @@ somewhat scary if random people could update existing packages.
 Since the `npm` program is a piece of software that talks to an open
 system—the package registry—there is nothing unique about what it
 does. Another program, `yarn`, which can be installed from the NPM
-registry, fills the same role `npm` using a somewhat different
+registry, fills the same role as `npm` using a somewhat different
 interface and installation strategy.
 
 This book won't delve further into the details of ((NPM)) usage. Refer
-to [_npmjs.org_](https://npmjs.org) for further documentation and a
+to [_https://npmjs.org_](https://npmjs.org) for further documentation and a
 way to search for packages.
 
 ## The file system module
@@ -419,7 +424,7 @@ The `fs` module contains many other useful functions: `readdir` will
 return the ((file))s in a ((directory)) as an array of strings, `stat`
 will retrieve information about a file, `rename` will rename a file,
 `unlink` will remove one, and so on. See the documentation at
-[_nodejs.org_](https://nodejs.org) for specifics.
+[_https://nodejs.org_](https://nodejs.org) for specifics.
 
 {{index "asynchronous programming", "Node.js", "error handling", "callback function"}}
 
@@ -429,18 +434,16 @@ result (the second). As we saw in [Chapter ?](async), there are
 downsides to this style of programming—the biggest one being that
 error handling becomes verbose and error-prone.
 
-{{index "Promise class", "promisify function", "util package"}}
+{{index "Promise class", "fs/promises package"}}
 
 Though promises have been part of JavaScript for a while, at the time
-of writing the work to integrate them in Node.js is still in progress.
-There is a `promisify` function in the built-in `util` module, which
-you can call on a callback-style function to create a
-promise-returning function. But since this is a little awkward, there
-are also packages on NPM like `mz`, which provide their own,
-promise-style version of built-in Node modules.
+of writing their integration into Node.js is still a work in progress.
+There is a package called `fs/promises` in the standard library since
+version 10, which exports most of the same functions as `fs`, but
+using promises rather than callback functions.
 
 ```
-const {readFile} = require("mz/fs");
+const {readFile} = require("fs/promises");
 readFile("file.txt", "utf8")
   .then(text => console.log("The file contains:", text));
 ```
@@ -536,7 +539,7 @@ _localhost_, which would use the default port 80.
 When you run this script, the process just sits there and waits. When
 a script is listening for events—in this case, network
 connections—`node` will not automatically exit when it reaches the end
-of the script. To close it, press Ctrl-C.
+of the script. To close it, press {{control}}-C.
 
 A real web ((server)) usually does more than the one in the example—it
 looks at the request's ((method)) (the `method` property) to see what
@@ -845,14 +848,13 @@ knows the correct type for a large number of ((file extension))s.
 {{index "require function", "npm program"}}
 
 The following `npm` command, in the directory where the server script
-lives, installs specific versions of `mime` and `mz`. We'll use the
-latter as a source of promise-based `fs` functions.
+lives, installs a specific version of `mime`.
 
 ```{lang: null}
-$ npm install mime@2.2.0 mz@2.7.0
+$ npm install mime@2.2.0
 ```
 
-{{index "404 (HTTP status code)", "stat function", "mz package"}}
+{{index "404 (HTTP status code)", "stat function"}}
 
 When a requested file does not exist, the correct HTTP status code to
 return is 404. We'll use the `stat` function, which looks up
@@ -861,7 +863,7 @@ and whether it is a ((directory)).
 
 ```{includeCode: ">code/file_server.js"}
 const {createReadStream} = require("fs");
-const {stat, readdir} = require("mz/fs");
+const {stat, readdir} = require("fs/promises");
 const mime = require("mime");
 
 methods.GET = async function(request) {
@@ -886,7 +888,7 @@ methods.GET = async function(request) {
 
 Because it has to touch the disk and thus might take a while, `stat`
 is asynchronous. Since we're using promises rather than callback
-style, it has to be imported from `mz/fs` instead of `fs`.
+style, it has to be imported from `fs/promises` instead of `fs`.
 
 When the file does not exist `stat` will throw an error object with a
 `code` property of `"ENOENT"`. These somewhat obscure,
@@ -912,7 +914,7 @@ content type that the `mime` package gives us for the file's name.
 The code to handle `DELETE` requests is slightly simpler.
 
 ```{includeCode: ">code/file_server.js"}
-const {rmdir, unlink} = require("mz/fs");
+const {rmdir, unlink} = require("fs/promises");
 
 methods.DELETE = async function(request) {
   let path = urlPath(request.url);
@@ -993,7 +995,7 @@ where we can successfully resolve the promise (returning nothing).
 {{index download, "file server example", "Node.js"}}
 
 The full script for the server is available at
-[_eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
+[_https://eloquentjavascript.net/code/file_server.js_](https://eloquentjavascript.net/code/file_server.js).
 You can download that and, after installing its dependencies, run it
 with Node to start your own file server. And of course, you can modify
 and extend it to solve this chapter's exercises or to experiment.
@@ -1051,11 +1053,11 @@ callback functions, and Node will call them with an error value and
 
 {{index grep, search, "search tool (exercise)"}}
 
-On ((Unix)) systems, there is a command line tool called `grep` that
+On ((Unix)) systems, there is a command-line tool called `grep` that
 can be used to quickly search files for a ((regular expression)).
 
 Write a Node script that can be run from the ((command line)) and acts
-somewhat like `grep`. It treats its first command line argument as a
+somewhat like `grep`. It treats its first command-line argument as a
 regular expression, and any further arguments as files to search. It
 should output the names of any file whose content matches the regular
 expression.
@@ -1069,13 +1071,13 @@ subdirectories.
 Use asynchronous or synchronous file system functions as you see fit.
 Setting things up so that multiple asynchronous actions are requested
 at the same time might speed things up a little, but not a huge
-amount, since most file systems can only read one thing at a time.
+amount, since most file systems can read only one thing at a time.
 
 {{hint
 
 {{index "RegExp class", "search tool (exercise)"}}
 
-Your first command line argument, the ((regular expression)), can be
+Your first command-line argument, the ((regular expression)), can be
 found in `process.argv[2]`. The input files come after that. You can
 use the `RegExp` constructor to go from a string to a regular
 expression object.
@@ -1083,8 +1085,9 @@ expression object.
 {{index "readFileSync function"}}
 
 Doing this synchronously, with `readFileSync`, is more
-straightforward, but if you use `mz` again to get promise-returning
-functions and write an `async` function, the code looks similar.
+straightforward, but if you use `fs/promises` again to get
+promise-returning functions and write an `async` function, the code
+looks similar.
 
 {{index "stat function", "statSync function", "isDirectory method"}}
 
@@ -1101,7 +1104,7 @@ capitalization—Node's file system function naming is loosely based on
 standard Unix functions, such as `readdir`, which are all lowercase,
 but then it adds `Sync` with a capital letter).
 
-To go from a file name read with `readdir` to a full path name, you
+To go from a filename read with `readdir` to a full path name, you
 have to combine it with the name of the directory, putting a ((slash
 character)) (`/`) between them.
 
@@ -1124,7 +1127,7 @@ the _((WebDAV))_ standard, which specifies a set of conventions on top
 of ((HTTP)) that make it suitable for creating documents.
 
 ```{hidden: true, includeCode: ">code/file_server.js"}
-const {mkdir} = require("mz/fs");
+const {mkdir} = require("fs/promises");
 
 methods.MKCOL = async function(request) {
   let path = urlPath(request.url);

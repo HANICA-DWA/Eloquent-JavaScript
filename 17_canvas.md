@@ -8,7 +8,11 @@ Drawing is deception.
 
 quote}}
 
-{{index "Escher, M.C.", CSS, "transform (CSS)"}}
+{{index "Escher, M.C."}}
+
+{{figure {url: "img/chapter_picture_17.jpg", alt: "Picture of a robot arm drawing on paper", chapter: "framed"}}}
+
+{{index CSS, "transform (CSS)"}}
 
 Browsers give us several ways to display ((graphics)). The simplest
 way is to use styles to position and color regular ((DOM)) elements.
@@ -307,7 +311,7 @@ determine the curvature of the line, the method is given a ((control
 point)) as well as a destination point. Imagine this control point as
 _attracting_ the line, giving it its curve. The line won't go through
 the control point, but its direction at the start and end points will
-be such that a straight in that direction would point towards the
+be such that a straight line in that direction would point towards the
 control point. The following example illustrates this:
 
 ```{lang: "text/html"}
@@ -1179,8 +1183,8 @@ pixel surface gives canvas a lower cost per shape.
 
 There are also effects, such as rendering a scene one pixel at a time
 (for example using a ray tracer) or postprocessing an image with
-JavaScript (blurring or distorting it), that can only be realistically
-handled by a ((pixel))-based approach.
+JavaScript (blurring or distorting it), that can be realistically
+handled only by a ((pixel))-based approach.
 
 In some cases, you may want to combine several of these techniques.
 For example, you might draw a ((graph)) with ((SVG)) or ((canvas)) but

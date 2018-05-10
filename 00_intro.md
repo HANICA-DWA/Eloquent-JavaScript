@@ -11,6 +11,8 @@ portion devoted to logic, order, rule, and clarity.
 
 quote}}
 
+{{figure {url: "img/chapter_picture_00.jpg", alt: "Picture of a screwdriver and a circuit board", chapter: "framed"}}}
+
 This is a book about instructing ((computer))s. Computers are about as
 common as screwdrivers today, but they are quite a bit more complex,
 and making them do what you want them to do isn't always easy.
@@ -357,7 +359,7 @@ underway on an ambitious version 4, which planned a number of radical
 improvements and extensions to the language. Changing a living, widely
 used language in such a radical way turned out to be politically
 difficult, and work on the version 4 was abandoned in 2008, leading to
-a much less ambitious version 5, which only made some uncontroversial
+a much less ambitious version 5, which made only some uncontroversial
 improvements, coming out in 2009. Then in 2015 version 6 came out, a
 major update that included some of the ideas planned for version 4.
 Since then we've had new, small updates every year.
@@ -411,10 +413,10 @@ if}}
 
 The easiest way to run the example code in the book, and to experiment
 with it, is to look it up in the online version of the book at
-[_eloquentjavascript.net_](https://eloquentjavascript.net/). There,
+[_https://eloquentjavascript.net_](https://eloquentjavascript.net/). There,
 you can click any code example to edit and run it and to see the
 output it produces. To work on the exercises, go to
-[_eloquentjavascript.net/code_](https://eloquentjavascript.net/code),
+[_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code),
 which provides starting code for each coding exercise and allows you
 to look at the solutions.
 

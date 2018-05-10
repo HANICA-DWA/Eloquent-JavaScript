@@ -10,6 +10,8 @@ quote}}
 
 {{index "Banks, Ian", "project chapter", simulation}}
 
+{{figure {url: "img/chapter_picture_16.jpg", alt: "Picture of a game character jumping over lava", chapter: "framed"}}}
+
 Much of my initial fascination with computers, like that of many nerdy
 kids, had to do with computer ((game))s. I was drawn into the tiny
 simulated ((world))s that I could manipulate and in which stories
@@ -133,7 +135,7 @@ var simpleLevelPlan = `
 
 Periods are empty space, hash ("#") characters are walls, and plus
 signs are lava. The ((player))'s starting position is the ((at sign))
-(`@`). Every O characters is a coin, and the equals sign (`=`) at the
+(`@`). Every O character is a coin, and the equals sign (`=`) at the
 top is a block of lava that moves back and forth horizontally.
 
 {{index bouncing}}
@@ -1218,7 +1220,7 @@ another promise, which resolves when the player finished the game.
 There is a set of ((level)) plans available in the `GAME_LEVELS`
 binding in [this chapter's
 sandbox](https://eloquentjavascript.net/code#16)[
-([_eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if
+([_https://eloquentjavascript.net/code#16_](https://eloquentjavascript.net/code#16))]{if
 book}. This page feeds them to `runGame`, starting an actual game:
 
 ```{sandbox: null, focus: yes, lang: "text/html", startCode: true}

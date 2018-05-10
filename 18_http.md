@@ -11,6 +11,10 @@ context on the server.
 
 quote}}
 
+{{index "Fielding, Roy"}}
+
+{{figure {url: "img/chapter_picture_18.jpg", alt: "Picture of a web form on a medieval scroll", chapter: "framed"}}}
+
 The _Hypertext Transfer Protocol_, already mentioned in [Chapter
 ?](browser#web), is the mechanism through which data is requested and
 provided on the ((World Wide Web)). This chapter describes the
@@ -76,7 +80,7 @@ request applies to. In the simplest case, a resource is simply a
 A resource may be anything that can be transferred _as if_ it is a
 file. Many servers generate the responses they produce on the fly. For
 example, if you open
-[_github.com/marijnh_](https://github.com/marijnh), the server looks
+[_https://github.com/marijnh_](https://github.com/marijnh), the server looks
 in its database for a user named "marijnh", and if it finds one, it
 will generate a profile page for that user.
 
@@ -334,7 +338,7 @@ of saying "I can't do that".
 
 To add a request body, you can include a `body` option. To set
 headers, there's the `headers` option. For example, this request
-includes a `Range` header, which instructs the server to only return a
+includes a `Range` header, which instructs the server to return only
 part of a response.
 
 ```{test: no}
@@ -581,7 +585,7 @@ the currently active element and the recipient of keyboard ((input)).
 
 {{index "option (HTML tag)", "select (HTML tag)"}}
 
-Thus you can only type into a ((text field)) when it is focused. Other
+Thus you can type into a ((text field)) only when it is focused. Other
 fields respond differently to keyboard events. For example, a
 `<select>` menu tries to move to the option that contains the text the
 user typed and responds to the arrow keys by moving its selection up
@@ -619,7 +623,7 @@ user has focused something else.
 {{index "tab key", keyboard, "tabindex attribute", "a (HTML tag)"}}
 
 Browsers traditionally also allow the user to move the focus
-through the document by pressing the Tab key. We can influence the
+through the document by pressing the [tab]{keyname} key. We can influence the
 order in which elements receive focus with the `tabindex` attribute.
 The following example document will let focus jump from the text input to
 the OK button, rather than going through the help link first:
@@ -702,10 +706,10 @@ acts both as an array-like object (accessible by number) and a ((map))
 </script>
 ```
 
-{{index "button (HTML tag)", "type attribute", submit, "Enter key"}}
+{{index "button (HTML tag)", "type attribute", submit, "enter key"}}
 
 A button with a `type` attribute of `submit` will, when pressed,
-cause the form to be submitted. Pressing Enter when a form field is
+cause the form to be submitted. Pressing [enter]{keyname} when a form field is
 focused has the same effect.
 
 {{index "submit event", "event handling", "preventDefault method", "page reload", "GET method", "POST method"}}
@@ -922,7 +926,7 @@ deselect an option.
 
 This example extracts the selected values from a `multiple` select
 field and uses them to compose a binary number from individual bits.
-Hold Ctrl (or Command on a Mac) to select multiple options.
+Hold [control]{keyname} (or [command]{keyname} on a Mac) to select multiple options.
 
 ```{lang: "text/html"}
 <select multiple>
@@ -1087,7 +1091,7 @@ removed with `removeItem`, or the user clears their local data.
 
 Sites from different ((domain))s get different storage
 compartments. That means data stored in `localStorage` by a given
-website can, in principle, only be read (and overwritten) by scripts on
+website can, in principle, be read (and overwritten) only by scripts on
 that same site.
 
 {{index "localStorage object"}}
@@ -1155,7 +1159,7 @@ Notes: <select></select> <button>Add</button><br>
 
 The script gets its starting state from the `"Notes"` value stored in
 `localStorage` or, if that is missing, it creates an example state
-that only has a shopping list in it. Reading a field that does not
+that has only a shopping list in it. Reading a field that does not
 exist from `localStorage` will yield `null`. Passing `null` to
 `JSON.parse` will make it parse the string `"null"` and return `null`.
 Thus, the `||` operator can be used to provide a default value in a
@@ -1244,7 +1248,7 @@ it can look at this header and send the one that the client prefers.
 {{index "MIME type"}}
 
 The URL
-[_eloquentjavascript.net/author_](https://eloquentjavascript.net/author)
+[_http://eloquentjavascript.net/author_](http://eloquentjavascript.net/author)
 is configured to respond with either plaintext, HTML, or JSON,
 depending on what the client asks for. These formats are identified by
 the standardized _((media type))s_ `text/plain`, `text/html`, and

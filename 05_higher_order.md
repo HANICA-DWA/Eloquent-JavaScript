@@ -285,7 +285,7 @@ characters are associated with a specific script. The standard
 contains 140 different scripts—81 are still in use today, and 59
 are historic.
 
-Though I can only fluently read Latin characters, I appreciate the
+Though I can fluently read only Latin characters, I appreciate the
 fact that people are writing texts in at least 80 other writing
 systems, many of which I wouldn't even recognize. For example, here's
 a sample of ((Tamil)) handwriting.
@@ -297,7 +297,7 @@ a sample of ((Tamil)) handwriting.
 The example ((data set)) contains some pieces of information about the
 140 scripts defined in Unicode. It is available in the [coding
 sandbox](https://eloquentjavascript.net/code#5) for this chapter[
-([_eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if
+([_https://eloquentjavascript.net/code#5_](https://eloquentjavascript.net/code#5))]{if
 book} as the `SCRIPTS` binding. The binding contains an array of
 objects, each of which describes a script.
 
@@ -422,7 +422,7 @@ the most characters.
 The higher-order operation that represents this pattern is called
 _reduce_ (sometimes also called _fold_). It builds a value by
 repeatedly taking a single element from the array and combining it
-with the previous value. When summing numbers, you'd start with the
+with the current value. When summing numbers, you'd start with the
 number zero and, for each element, add that to the sum.
 
 The parameters to `reduce` are, apart from the array, a combining
@@ -704,7 +704,8 @@ console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
 ```
 
 The `countBy` function expects a collection (anything that we can loop
-over with `for`/`of`) and a grouping function. It returns an array of
+over with `for`/`of`) and a function that computes a group name for a
+given element. It returns an array of
 objects, each of which names a group and tells you the amount of
 elements that were found in that group.
 

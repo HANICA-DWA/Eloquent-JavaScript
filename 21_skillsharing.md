@@ -10,6 +10,8 @@ quote}}
 
 {{index "skill-sharing project", meetup, "project chapter"}}
 
+{{figure {url: "img/chapter_picture_21.jpg", alt: "Picture of two unicycles", chapter: "framed"}}}
+
 A _((skill-sharing))_ meeting is an event where people with a shared
 interest come together and give small, informal presentations about
 things they know. At a ((gardening)) skill-sharing meeting, someone
@@ -38,7 +40,7 @@ organizer.
 chapter is written for Node.js, and running it directly in the HTML
 page that you are looking at is unlikely to work.]{if interactive} The
 full code for the project can be ((download))ed from
-[_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
+[_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip).
 
 ## Design
 
@@ -228,10 +230,10 @@ tag does not match the server responds as normal.
 {{index "Prefer header"}}
 
 We need something like this, where the client can tell the server
-which version of the list of talks it has, and the server only
-responds when that list has changed. But instead of immediately
+which version of the list of talks it has, and the server
+responds only when that list has changed. But instead of immediately
 returning a 304 response, the server should stall the response, and
-only return when something new is available or a given amount of time
+return only when something new is available or a given amount of time
 has elapsed. To distinguish long polling requests from normal
 conditional requests, we give them another header `Prefer: wait=90`,
 which tells the server that the client is willing wait up to 90
@@ -1016,7 +1018,7 @@ runApp();
 ```
 
 If you run the server and open two browser windows for
-[_localhost:8000_](http://localhost:8000/) next to each other, you can
+[_http://localhost:8000_](http://localhost:8000/) next to each other, you can
 see that the actions you perform in one window are immediately visible
 in the other.
 
@@ -1027,8 +1029,8 @@ in the other.
 The following exercises will involve modifying the system defined in
 this chapter. To work on them, make sure you ((download)) the code
 first
-([_eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)),
-have Node installed [_nodejs.org_](https://nodejs.org), and have
+([_https://eloquentjavascript.net/code/skillsharing.zip_](https://eloquentjavascript.net/code/skillsharing.zip)),
+have Node installed [_https://nodejs.org_](https://nodejs.org), and have
 installed the project's dependency with `npm install`.
 
 ### Disk persistence

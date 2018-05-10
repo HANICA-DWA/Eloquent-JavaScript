@@ -59,7 +59,7 @@ let re1 = new RegExp("abc");
 let re2 = /abc/;
 ```
 
-Both of these regular expression objects represent the same
+Both of those regular expression objects represent the same
 ((pattern)): an _a_ character followed by a _b_ followed by a _c_.
 
 {{index "backslash character", "RegExp class"}}
@@ -138,7 +138,7 @@ sit right next to each other in this ordering (codes 48 to 57), so
 
 {{index whitespace, "alphanumeric character", "period character"}}
 
-There are a number of common character groups that have their own
+A number of common character groups have their own
 built-in shortcuts. Digits are one of them: `\d` means the same thing
 as `[0-9]`.
 
@@ -154,12 +154,12 @@ as `[0-9]`.
 | `\S`    | A nonwhitespace character
 | `.`     | Any character except for newline
 
-So you could match a ((date)) and ((time)) format like 30-01-2003
+So you could match a ((date)) and ((time)) format like 01-30-2003
 15:20 with the following expression:
 
 ```
 let dateTime = /\d\d-\d\d-\d\d\d\d \d\d:\d\d/;
-console.log(dateTime.test("30-01-2003 15:20"));
+console.log(dateTime.test("01-30-2003 15:20"));
 // → true
 console.log(dateTime.test("30-jan-2003 15:20"));
 // → false
@@ -227,7 +227,7 @@ any suitable text to match.
 {{index "British English", "American English", "question mark"}}
 
 A question mark makes a part of a pattern _((optional))_, meaning it
-may occur zero or one time. In the following example, the _u_
+may occur zero times or one time. In the following example, the _u_
 character is allowed to occur, but the pattern also matches when it is
 missing.
 
@@ -255,12 +255,12 @@ is also slightly easier to decipher.
 
 ```
 let dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
-console.log(dateTime.test("30-1-2003 8:45"));
+console.log(dateTime.test("1-30-2003 8:45"));
 // → true
 ```
 
 You can also specify open-ended ((range))s when using ((curly braces))
-by omitting the number after the comma. So `{5,}` means five or more
+by omitting the number after the comma. So, `{5,}` means five or more
 times.
 
 ## Grouping subexpressions
@@ -424,8 +424,8 @@ millisecond count by creating a new `Date` object and calling
 
 Date objects provide methods like `getFullYear`, `getMonth`,
 `getDate`, `getHours`, `getMinutes`, and `getSeconds` to extract their
-components. Besides `getFullYear`, there's also `getYear`, which gives
-you a rather useless two-digit year value (such as `93` or `14`).
+components. Besides `getFullYear` there's also `getYear`, which gives
+you the year minus 1900 (`98` or `119`), and is mostly useless.
 
 {{index "capture group", "getDate function"}}
 
@@ -434,17 +434,17 @@ interested in, we can now create a date object from a string.
 
 ```
 function getDate(string) {
-  let [_, day, month, year] =
+  let [_, month, day, year] =
     /(\d{1,2})-(\d{1,2})-(\d{4})/.exec(string);
   return new Date(year, month - 1, day);
 }
-console.log(getDate("30-1-2003"));
+console.log(getDate("1-30-2003"));
 // → Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
 ```
 
 {{index destructuring, "underscore character"}}
 
-The `_` (underscore) binding is ignored, and only used to skip the
+The `_` (underscore) binding is ignored, and used only to skip the
 full match element in the array returned by `exec`.
 
 ## Word and string boundaries
@@ -460,7 +460,7 @@ second character and end at the second-to-last character.
 
 If we want to enforce that the match must span the whole string, we
 can add the markers `^` and `$`. The caret matches the start of the
-input string, while the dollar sign matches the end. So, `/^\d+$/`
+input string, whereas the dollar sign matches the end. So, `/^\d+$/`
 matches a string consisting entirely of one or more digits, `/^!/`
 matches any string that starts with an exclamation mark, and `/x^/`
 does not match any string (there cannot be an _x_ before the start of
@@ -632,7 +632,7 @@ write something like `/([01]+)+b/`.
 {{index "inner loop", [nesting, "in regexps"]}}
 
 If that tries to match some long series of zeros and ones with no
-trailing _b_ character, the matcher will first go through the inner
+trailing _b_ character, the matcher first goes through the inner
 loop until it runs out of digits. Then it notices there is no _b_, so
 it backtracks one position, goes through the outer loop once, and
 gives up again, trying to backtrack out of the inner loop once more.
@@ -645,7 +645,7 @@ will take practically forever.
 
 {{index "replace method", "regular expression"}}
 
-String values have a `replace` method, which can be used to replace
+String values have a `replace` method that can be used to replace
 part of the string with another string.
 
 ```
@@ -836,10 +836,10 @@ When creating the `\b` ((boundary)) markers, we have to use two
 backslashes because we are writing them in a normal string, not a
 slash-enclosed regular expression. The second argument to the `RegExp`
 constructor contains the options for the regular expression—in this
-case `"gi"` for global and case-insensitive.
+case, `"gi"` for global and case-insensitive.
 
 But what if the name is `"dea+hl[]rd"` because our user is a ((nerd))y
-teenager? That would result in a nonsensical regular expression, which
+teenager? That would result in a nonsensical regular expression that
 won't actually match the user's name.
 
 {{index "backslash character", [escaping, "in regexps"], ["regular expression", escaping]}}
@@ -861,7 +861,7 @@ console.log(text.replace(regexp, "_$&_"));
 {{index searching, ["regular expression", methods], "indexOf method", "search method"}}
 
 The `indexOf` method on strings cannot be called with a regular
-expression. But there is another method, `search`, which does expect a
+expression. But there is another method, `search`, that does expect a
 regular expression. Like `indexOf`, it returns the first index on
 which the expression was found, or -1 when it wasn't found.
 
@@ -918,7 +918,7 @@ found, `lastIndex` is set back to zero, which is also the value it has
 in a newly constructed regular expression object.
 
 The difference between the global and the sticky options is that, when
-sticky is enabled, the match will only succeed if it starts directly
+sticky is enabled, the match will succeed only if it starts directly
 at `lastIndex`, whereas with global, it will search ahead for a
 position where a match can start.
 
@@ -1036,8 +1036,9 @@ usually called an _INI_ file) are as follows:
 - Anything else is invalid.
 
 Our task is to convert a string like this into an object whose
-properties hold strings for sectionless settings and sub-objects for
-sections, with those sub-objects holding the section's settings.
+properties hold strings for settings written before the first
+section header and sub-objects for sections, with those sub-objects
+holding the section's settings.
 
 {{index "carriage return", "line break", "newline character"}}
 
@@ -1047,7 +1048,7 @@ the file into separate lines is a good start. We used
 Some operating systems, however, use not just a newline character to
 separate lines but a carriage return character followed by a newline
 (`"\r\n"`). Given that the `split` method also allows a regular
-expression as its argument, we can split on a regular expression like
+expression as its argument, we can use a regular expression like
 `/\r?\n/` to split in a way that allows both `"\n"` and `"\r\n"`
 between lines.
 
@@ -1153,7 +1154,7 @@ units, and the `{3}` part is applied only to the second one.
 Similarly, the dot matches a single code unit, not the two that make
 up the rose ((emoji)).
 
-You must add an `u` option (for ((Unicode))) to your regular
+You must add a `u` option (for ((Unicode))) to your regular
 expression to make it treat such characters properly. The wrong
 behavior remains the default, unfortunately, because changing that
 might cause problems for existing code that depends on it.
@@ -1181,7 +1182,7 @@ that you need may not always be trivial. You can use the
 `\p{Property=Value}` notation to match any character that has the
 given value for that property. If the property name is left off, as in
 `\p{Name}`, the name is assumed to either be a binary property such as
-`Alphabetic`, or a category such as `Number`.
+`Alphabetic` or a category such as `Number`.
 
 {{id summary_regexp}}
 
@@ -1222,7 +1223,7 @@ starting position of the match. Their `replace` method can replace
 matches of a pattern with a replacement string or function.
 
 Regular expressions can have options, which are written after the
-closing slash. The `i` option makes the match case insensitive. The
+closing slash. The `i` option makes the match case-insensitive. The
 `g` option makes the expression _global_, which, among other things,
 causes the `replace` method to replace all instances instead of just
 the first. The `y` option makes it sticky, which means that it will
@@ -1244,7 +1245,7 @@ It is almost unavoidable that, in the course of working on these
 exercises, you will get confused and frustrated by some regular
 expression's inexplicable ((behavior)). Sometimes it helps to enter
 your expression into an online tool like
-[_debuggex.com_](https://www.debuggex.com/) to see whether its
+[_https://debuggex.com_](https://www.debuggex.com/) to see whether its
 visualization corresponds to what you intended and to ((experiment))
 with the way it responds to various input strings.
 
@@ -1352,7 +1353,7 @@ if}}
 
 {{index "quoting style (exercise)", boundary}}
 
-The most obvious solution is to only replace quotes with a nonword
+The most obvious solution is to replace only quotes with a nonword
 character on at least one side. Something like `/\W'|'\W/`. But you
 also have to take the start and end of the line into account.
 

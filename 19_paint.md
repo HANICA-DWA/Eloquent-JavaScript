@@ -12,6 +12,8 @@ quote}}
 
 {{index "Miro, Joan", "drawing program example", "project chapter"}}
 
+{{figure {url: "img/chapter_picture_19.jpg", alt: "Picture of a tiled mosaic", chapter: "framed"}}}
+
 The material from the previous chapters gives you all the elements you
 need to build a basic ((web application)). In this chapter, we will do
 just that.
@@ -269,7 +271,7 @@ responsible for two things: showing a picture and communicating
 
 {{index "PictureCanvas class", "callback function", "scale constant", "canvas (HTML tag)", "mousedown event", "touchstart event"}}
 
-As such, we can define it as a component that only knows about the
+As such, we can define it as a component that knows about only the
 current picture, not the whole application ((state)). Because it
 doesn't know how the application as a whole works, it can not directly
 dispatch ((action))s. Rather, when responding to pointer events, it
@@ -299,7 +301,7 @@ class PictureCanvas {
 
 We draw each pixel as a 10-by-10 square, as determined by the `scale`
 constant. To avoid unnecessary work, the component keeps track of its
-current picture, and only does a redraw when `setState` is given a new
+current picture, and does a redraw only when `setState` is given a new
 picture.
 
 {{index "drawPicture function"}}
@@ -1032,7 +1034,7 @@ more features as exercises.
 {{index "keyboard bindings (exercise)"}}
 
 Add ((keyboard)) shortcuts to the application. The first letter of a
-tool's name selects the tool, and Ctrl-Z or Command-Z activates undo.
+tool's name selects the tool, and [control]{keyname}-Z or [command]{keyname}-Z activates undo.
 
 {{index "PixelEditor class", "tabindex attribute", "elt function", "keydown event"}}
 
@@ -1094,8 +1096,8 @@ if}}
 {{index "keyboard bindings (exercise)", "key property", "shift key"}}
 
 The `key` property of events for letter keys will be the lower case
-letter itself, if Shift isn't being held. And we're not interested in
-key events with Shift here.
+letter itself, if [shift]{keyname} isn't being held. And we're not interested in
+key events with [shift]{keyname} here.
 
 {{index "keydown event"}}
 
@@ -1176,7 +1178,7 @@ if}}
 
 This exercise is a good example of how ((immutable)) data structures
 can make code _faster_. Because we have both the old and the new
-picture, we can compare them and only redraw the pixels that changed
+picture, we can compare them and redraw only the pixels that changed
 color, saving over 99% of the drawing work in most cases.
 
 {{index "drawPicture function"}}

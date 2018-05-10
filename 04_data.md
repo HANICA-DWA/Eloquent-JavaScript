@@ -35,7 +35,7 @@ introduced earlier in the text.
 {{if book
 
 The online coding ((sandbox)) for the book
-([_eloquentjavascript.net/code_](https://eloquentjavascript.net/code))
+([_https://eloquentjavascript.net/code_](https://eloquentjavascript.net/code))
 provides a way to run code in the context of a specific chapter. If
 you decide to work through the examples in another environment, be
 sure to first download the full code for this chapter from the sandbox
@@ -166,7 +166,7 @@ the result, converted to a string, as the property name.
 So if you know that the property you are interested in is called
 _color_, you say `value.color`. If you want to extract the property
 named by the value held in the binding `i`, you say `value[i]`.
-Property names are strings. They can be any string, but the dot notation only works with
+Property names are strings. They can be any string, but the dot notation works only with
 names that look like valid binding names. So if you want to access a
 property named _2_ or _John Doe_, you must use square brackets:
 `value[2]` or `value["John Doe"]`.
@@ -642,7 +642,7 @@ columns are not stored directly in our data structure.
 Jacques kept his journal for three months. The resulting ((data set))
 is available in the [coding
 sandbox](https://eloquentjavascript.net/code#4) for this chapter[
-([_eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if
+([_https://eloquentjavascript.net/code#4_](https://eloquentjavascript.net/code#4))]{if
 book}, where it is stored in the `JOURNAL` binding, and in a
 downloadable
 [file](https://eloquentjavascript.net/code/journal.js).
