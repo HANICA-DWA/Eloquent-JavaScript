@@ -27,6 +27,7 @@ they were operating only on simple data types. This chapter will
 introduce basic data structures. By the end of it, you'll know enough
 to start writing useful programs.
 
+{{youtube  {id: "Q-36WlrS6bE"}}}
 The chapter will work through a more or less realistic programming
 example, introducing concepts as they apply to the problem at hand.
 The example code will often build on functions and bindings that were
