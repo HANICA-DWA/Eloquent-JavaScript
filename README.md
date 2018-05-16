@@ -9,6 +9,7 @@ Feedback welcome, in the form of issues and pull requests.
 
 We can add additions to the text:
 
+#### notes
 ```
 {{note
 Some additional text that we want students to read.
@@ -16,17 +17,20 @@ note}}
 ```
 Markdown will work inside the note.
 
+#### videos
 ```
 {{youtube "dQw4w9WgXcQ" }}
 ```
 Youtube annotations live on a single line, and do not enclose text. Note that the quotes around the video-id are optional. You do need them if the
 id contains special characters.
 
+#### margin notes (asides)
 ```
 normal text normal text [a small remark that fits in the margin]{aside "title"} normal text normal text
 ```
 For asides, the title is optional, and inline-level markdown (bold, italic etc.) will work in the remark text.
 
+#### not required reading
 ```
 {{skip
 
@@ -36,6 +40,7 @@ skip}}
 ```
 Skip annotations will grray-out the enclosed part of the book and inform students that they do not need to read this part of the text.
 
+#### notes while developing
 ```
 {{todo
 Note to self...  
