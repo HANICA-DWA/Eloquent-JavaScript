@@ -391,7 +391,7 @@ blockquote footer:before {
 }
 
 .sandbox-open-menu {
-  font-family: tahoma, arial, sans-serif;
+  font-family: 'Rubik', tahoma, arial, sans-serif;
   position: absolute;
   background: white;
   border: 1px solid #aaa;
@@ -452,7 +452,7 @@ blockquote footer:before {
 .sandboxhint {
   position: absolute;
   right: -15px;
-  font-family: tahoma, arial, sans-serif;
+  font-family: 'Rubik', tahoma, arial, sans-serif;
   font-size: 70%;
   padding: 4px 8px;
   background: rgb(220, 220, 220);
@@ -648,21 +648,41 @@ sup {
   padding: 10px 0 10px 0
 }
 
-.skip-remark {
+.skip-open {
   background-color: #aaa;
   font-family: "Crimson Text";
+  font-style: italic;
   color: white;
+  text-align: center;
+  line-height: 1.2em;
   border-radius: 6px 6px 0 0;
   margin-bottom: 0;
   padding: 10px 20px;
 }
 .skip {
   background-color: #eee;
-  color: #666;
-  border-radius: 0 0 6px 6px;
+  color: #999;
+  border-radius: 0;
   margin-top: 0;
+  margin-bottom: 0;
   padding: 10px;
 }
+.skip:hover {
+  color: #000;
+  background-color: #f4f4f4;
+}
+.skip-close {
+  background-color: #aaa;
+  font-family: "Crimson Text";
+  font-style: italic;
+  color: white;
+  text-align: center;
+  line-height: 1em;
+  border-radius: 0 0 6px 6px;
+  margin-top: 0;
+  padding: 10px 20px;
+}
+
 
 .exercise {
   border-left: 8pt solid #d0e8e0;

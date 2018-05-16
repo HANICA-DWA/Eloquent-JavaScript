@@ -213,13 +213,13 @@ let renderer = {
 
   meta_skip_open(token) {
 
-    return `<div class="skip-remark">
-      De volgende, grijze text hoef je niet te lezen. <br>
-      Lees verder waar de text weer zwart-op-wit wordt.</div>
+    return `<div class="skip-open">
+      De volgende, grijze tekst hoef je niet te lezen. <br>
+      Lees verder waar de tekst weer zwart-op-wit wordt.</div>
       <div class="skip">`
   },
   meta_skip_close(token) {
-    return `</div>`
+    return `</div><div class="skip-close">einde van tekst die overgeslagen kan worden</div>`
   }
 
   //-------- End meta-things by DWA team -------------
