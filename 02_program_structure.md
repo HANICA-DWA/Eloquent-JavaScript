@@ -79,6 +79,7 @@ in this book, every statement that needs a semicolon will always get
 one. I recommend you do the same, at least until you've learned more
 about the subtleties of missing semicolons.
 
+
 ## Bindings
 
 {{indexsee variable, binding}}
@@ -191,6 +192,10 @@ binding, which points at the same value for as long as it lives. This
 is useful for bindings that give a name to a value so that you can
 easily refer to it later.
 
+{{todo
+opmerken dat bindings ook consts zijn, en variabelen daar dus een subcategorie van zijn.
+todo}}
+
 ## Binding names
 
 {{index "underscore character", "dollar sign", [binding, naming]}}
@@ -220,6 +225,14 @@ Don't worry about memorizing this list. When creating a binding produces
 an unexpected ((syntax error)), see whether you're trying to define a
 reserved word.
 
+{{todo
+
+#### leesvraag: 
+
+ naar correcte namen w/o $, undefined, __pipo
+
+todo}}
+
 ## The environment
 
 {{index "standard environment"}}
@@ -231,6 +244,12 @@ the language ((standard)), and most of the time, it also has bindings
 that provide ways to interact with the surrounding system. For
 example, in a ((browser)), there are functions to interact with the
 currently loaded website and to read ((mouse)) and ((keyboard)) input.
+
+{{todo
+
+voorbeelden van overenkomsten en verschillen in global environment van Node en browser
+
+todo}}
 
 ## Functions
 
@@ -281,6 +300,24 @@ but most browsers open it when you press F12 or, on a Mac, [command]{keyname}-[o
 If that does not work, search through the menus for an item named Developer
 Tools or similar.
 
+{{todo
+
+ video over browser devtools en node console.
+
+todo}}
+
+{{todo 
+
+uitleg over docs (MDN en Node)
+
+todo}}
+
+{{todo
+
+opdracht zoek console.error en console.dir uit
+
+todo}}
+
 {{if interactive
 
 When running the examples (or your own code) on the pages of this
@@ -303,7 +340,18 @@ simple binding. It is actually an expression that retrieves the `log`
 ((property)) from the value held by the `console` binding. We'll
 find out exactly what this means in [Chapter ?](data#properties).
 
+{{todo
+
+opmerking: control structs, comments, assignment operators en naamgevingsconventies zijn zelfde tussen JS en Java
+
+todo}}
+
+
+
+{{skip
+
 {{id return_values}}
+
 ## Return values
 
 {{index [comparison, "of numbers"], "return value", "Math.max function", maximum}}
@@ -875,6 +923,8 @@ information about a file or a chunk of program.
 const myNumber = 11213;
 ```
 
+skip}}
+
 ## Summary
 
 You now know that a program is built out of statements, which
@@ -895,6 +945,18 @@ of useful standard bindings into your environment.
 Functions are special values that encapsulate a piece of program. You
 can invoke them by writing `functionName(argument1, argument2)`. Such
 a function call is an expression and may produce a value.
+
+{{todo
+
+vingeroefingen over controlstructs 
+
+todo}}
+
+{{todo 
+
+vingeroefening over lifetime van let-var
+
+todo}}
 
 ## Exercises
 
@@ -1027,13 +1089,13 @@ Passing this string to `console.log` should show something like this:
 
 ```{lang: null}
  # # # #
-# # # # 
+# # # #
  # # # #
-# # # # 
+# # # #
  # # # #
-# # # # 
+# # # #
  # # # #
-# # # # 
+# # # #
 ```
 
 When you have a program that generates this pattern, define a

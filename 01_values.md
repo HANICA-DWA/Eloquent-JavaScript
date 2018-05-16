@@ -17,6 +17,10 @@ quote}}
 
 {{index "binary data", data, bit, memory}}
 
+
+
+{{skip 
+
 Inside the computer's world, there is only data. You can read data,
 modify data, create new data—but that which isn't data cannot be
 mentioned. All this data is stored as long sequences of bits and is
@@ -523,6 +527,8 @@ the _ternary_ operator since it is the only such operator in the
 language). The value on the left of the question mark "picks" which of
 the other two values will come out. When it is true, it chooses the
 middle value, and when it is false, it chooses the value on the right.
+
+skip}}
 
 ## Empty values
 

@@ -160,47 +160,67 @@ let renderer = {
   //-------- Added meta-things by DWA team -------------
 
   meta_youtube(token) {
-    try {
-      let id = token.args[0].id
-      console.log(`<!-- YOUTUBE ${id}-->`);
-      return `\n\n<iframe width="560" height="315"
-                      src="https://www.youtube.com/embed/${id}?rel=0"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media"
-                      allowfullscreen>
-              </iframe>`
-    } catch(e) {
-      console.log("ERROR:");
-      console.log(e);
-      throw e;
-    }
+      let id = token.args[0]
+      return (
+        `\n\n<div class="youtube dwa-addition">
+          <iframe width="560" height="315"
+                  src="https://www.youtube.com/embed/${id}?rel=0"
+                  frameborder="0"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen>
+          </iframe>
+        </div>`)
   },
 
-  meta_added_open(token) {
-    try {
-      let [a,b] = token.args
-      console.log(`<!-- ADDED OPEN ${a} ${b}`);
-      console.log(token);
-      console.log(`-->`);
-      return "\n\n<div class=\"added\">"
-    } catch(e) {
-      console.log("ERROR:");
-      console.log(e);
-      throw e;
-    }
+  meta_note_open(token) {
+    return `\n\n<div class="note dwa-addition">`
   },
-  meta_added_close(token) {
-    try {
-      let [a,b] = token.args
-      console.log(`<!-- ADDED CLOSED ${a} ${b} -->`);
-      return "\n\n</div>"
-    } catch(e) {
-      console.log("ERROR:");
-      console.log(e);
-      throw e;
-    }
+  meta_note_close(token) {
+      return `\n\n</div>`
   },
 
+  meta_todo_open(token) {
+    return `\n\n<div class="note todo dwa-addition"><em>TO DO:</em>`
+  },
+  meta_todo_close(token) {
+      return `\n\n</div>`
+  },
+
+  meta_aside_open(token, isFixMe = false) {
+    let fixmeClass = isFixMe ? "fixme" : ""
+    let refStar = `<span class="aside-ref ${fixmeClass}">✱</span>`
+    let asideStar = `<span class="aside-star ${fixmeClass}">✱</span>`
+    let title = token.args[0]
+    if(title || isFixMe) {
+      title = `<span class="aside-title ${fixmeClass}">${asideStar} ${title || "FIX ME:"}</span>`
+    } else {
+      title = asideStar + "&nbsp; "
+    }
+    return refStar + `<span class="aside"><span class="sidenote ${fixmeClass}">${title}`
+  },
+
+  meta_aside_close(token) {
+    return `</span></span>`
+  },
+
+  meta_fixme_open(token) {
+    return renderer.meta_aside_open(token, true)
+  },
+
+  meta_fixme_close(token) {
+    return renderer.meta_aside_close(token)
+  },
+
+  meta_skip_open(token) {
+
+    return `<div class="skip-remark">
+      De volgende, grijze text hoef je niet te lezen. <br>
+      Lees verder waar de text weer zwart-op-wit wordt.</div>
+      <div class="skip">`
+  },
+  meta_skip_close(token) {
+    return `</div>`
+  }
 
   //-------- End meta-things by DWA team -------------
 

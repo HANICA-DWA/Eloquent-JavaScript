@@ -1,33 +1,133 @@
+/* fira-mono-500 - latin */
 @font-face {
-  font-family: 'Cinzel';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Cinzel-Bold'), url(../font/cinzel_bold.woff) format('woff');
-}
-
-@font-face {
-  font-family: 'PT Mono';
+  font-family: 'Fira Mono';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Mono'), local('PTMono-Regular'), url(../font/pt_mono.woff) format('woff');
+  src: local('Fira Mono Medium'), local('FiraMono-Medium'),
+       url('../font/fira-mono-v6-latin-500.woff2') format('woff2');
 }
 
-html, body { 
+
+/* rubik-regular - latin_latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Rubik'), local('Rubik-Regular'),
+       url('../font/rubik-v7-latin_latin-ext-regular.woff2') format('woff2');
+}
+
+/* rubik-italic - latin_latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Rubik Italic'), local('Rubik-Italic'),
+       url('../font/rubik-v7-latin_latin-ext-italic.woff2') format('woff2');
+}
+
+/* rubik-700 - latin_latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Rubik Bold'), local('Rubik-Bold'),
+       url('../font/rubik-v7-latin_latin-ext-700.woff2') format('woff2');
+}
+
+/* rubik-700italic - latin_latin-ext */
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Rubik Bold Italic'), local('Rubik-BoldItalic'),
+       url('../font/rubik-v7-latin_latin-ext-700italic.woff2') format('woff2');
+}
+
+/* zilla-slab-regular - latin-ext_latin */
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Zilla Slab'), local('ZillaSlab-Regular'),
+       url('../font/zilla-slab-v3-latin-ext_latin-regular.woff2') format('woff2');
+}
+/* zilla-slab-italic - latin-ext_latin */
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Zilla Slab Italic'), local('ZillaSlab-Italic'),
+       url('../font/zilla-slab-v3-latin-ext_latin-italic.woff2') format('woff2');
+}
+/* zilla-slab-700 - latin-ext_latin */
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Zilla Slab Bold'), local('ZillaSlab-Bold'),
+       url('../font/zilla-slab-v3-latin-ext_latin-700.woff2') format('woff2');
+}
+/* zilla-slab-700italic - latin-ext_latin */
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Zilla Slab Bold Italic'), local('ZillaSlab-BoldItalic'),
+       url('../font/zilla-slab-v3-latin-ext_latin-700italic.woff2') format('woff2');
+}
+
+/* crimson-text-regular - latin */
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Crimson Text Regular'), local('CrimsonText-Regular'),
+       url('../font/crimson-text-v8-latin-regular.woff2') format('woff2');
+}
+/* crimson-text-italic - latin */
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Crimson Text Italic'), local('CrimsonText-Italic'),
+       url('../font/crimson-text-v8-latin-italic.woff2') format('woff2');
+}
+/* crimson-text-700 - latin */
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Crimson Text Bold'), local('CrimsonText-Bold'),
+       url('../font/crimson-text-v8-latin-700.woff2') format('woff2');
+}
+/* crimson-text-700italic - latin */
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Crimson Text Bold Italic'), local('CrimsonText-BoldItalic'),
+       url('../font/crimson-text-v8-latin-700italic.woff2') format('woff2');
+}
+/*----------------------------------------------------------------------------*/
+
+
+html, body {
   padding: 0;
   margin: 0;
 }
 
 body {
-  font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
-  font-size: 20px;
-  line-height: 1.45;
-  color: black;
+  font-family: 'Zilla Slab', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #37363f;
   background: white;
 }
 
 article {
   margin: 0 auto;
-  max-width: 35em;
+  max-width: 40em;
   padding: 2em 1em 5em;
   position: relative;
   overflow-wrap: break-word;
@@ -64,7 +164,7 @@ pre[data-language=javascript] {
 
 p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3:hover a.i_ident:after {
   content: "¶";
-  font-family: 'Cinzel', Georgia, serif;
+  font-family: 'Zilla Slab', Georgia, serif;
   color: #888;
   font-size: 17px;
   position: absolute;
@@ -83,29 +183,32 @@ p:hover a.p_ident:after, pre:hover a.c_ident:after, h2:hover a.h_ident:after, h3
 
 
 code, pre, .CodeMirror {
-  font-size: 18px;
-  font-family: 'PT Mono', monospace;
+  font-size: 15px;
+  font-family: 'Fira Mono', monospace;
 }
 
 code {
   padding: 0 2px;
+  color: #666;
 }
 
 h1, h2, h3 {
-  font-family: 'Cinzel', Georgia, serif;
+  font-family: 'Rubik', Georgia, serif;
   font-weight: 700;
-  margin: 1rem 0;
-  letter-spacing: 2px;
+  margin: 3rem 0 1rem 0;
+  letter-spacing: 1px;
 }
 
 h1 {
-  font-size: 130%;
+  font-size: 180%;
+  margin: 6rem 0 4rem 0;
+  font-weight: normal;
 }
 h2 {
-  font-size: 115%;
+  font-size: 150%;
 }
 h3 {
-  font-size: 100%;
+  font-size: 120%;
 }
 
 pre.cm-s-default, p, h2, h3 {
@@ -268,7 +371,7 @@ blockquote footer:before {
 .sandbox-output-etc-block table td {
   vertical-align: top;
   white-space: pre-wrap;
-  font-family: 'PT Mono', monospace;
+  font-family: 'Fira Mono', monospace;
 }
 .sandbox-output-etc-block table td:first-child {
   text-align: right;
@@ -458,4 +561,113 @@ sub {
 
 sup {
   font-size: 70%;
+}
+
+
+/*---------- CSS added by DWA team -------------------- */
+
+.dwa-addition {
+  background-color: #f8f0f4;
+  padding: 1pt 10pt 1pt 10pt;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-left: 8pt solid #e0d0e8;
+  border-radius: 3pt;
+  font-family: 'Crimson Text', serif;
+}
+
+.dwa-addition.todo {
+  background-color: #0c0;
+  border-left: 8pt solid #0a0;
+  font-family: 'Rubik';
+  color: white;
+}
+
+.note p {
+  margin: 10px 0 10px 0px
+}
+
+.aside {
+  position: relative;
+  height: 0px;
+  width: 0px;
+  overflow: visible;
+  display: inline-block;
+}
+
+.sidenote {
+  background-color: #f8f0f4;
+  padding: 10pt 10pt 10pt 20pt;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 3pt;
+  position: absolute;
+  left: 400px;
+  top: -2em;
+  width: 250px;
+  display: inline-block;
+  font-family: "Crimson Text";
+  font-weight: normal;
+  color: black;
+  line-height: 120%;
+}
+
+.sidenote.fixme {
+  background-color: #ff6060;
+  color: white;
+  font-family: 'Rubik';
+  font-size: 90%;
+  line-height: 140%;
+}
+
+.aside-star, .aside-ref {
+  color: #a080b0;
+  font-weight: bold;
+}
+.aside-ref.fixme {
+  color: red;
+}
+.aside-star.fixme {
+  color: white;
+}
+
+.aside-title {
+  display: block;
+  position: relative;
+  left: -1em;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+.aside-title.fixme {
+  color: white;
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: normal;
+}
+.youtube {
+  padding: 10px 0 10px 0
+}
+
+.skip-remark {
+  background-color: #aaa;
+  font-family: "Crimson Text";
+  color: white;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+  padding: 10px 20px;
+}
+.skip {
+  background-color: #eee;
+  color: #666;
+  border-radius: 0 0 6px 6px;
+  margin-top: 0;
+  padding: 10px;
+}
+
+.exercise {
+  border-left: 8pt solid #d0e8e0;
+}
+
+.question {
+  border-left: 8pt solid #d0e8e0;
 }
