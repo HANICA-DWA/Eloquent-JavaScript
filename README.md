@@ -60,5 +60,5 @@ Fixme-items are like asides: the live in the margin, but have a distinct color. 
 
 To build the PDF file:
 
-    apt-get install texlive texlive-xetex fonts-inconsolata fonts-symbola texlive-fonts-chinese
+    apt-get install texlive texlive-xetex fonts-inconsolata fonts-symbola texlive-lang-chinese inkscape
     make book.pdf
