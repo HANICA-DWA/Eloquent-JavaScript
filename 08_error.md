@@ -631,6 +631,10 @@ circumstances, the problem may occur so rarely that it is never even
 noticed. Whether that is a good thing or a really bad thing depends on
 how much damage the software will do when it fails.
 
+{{todo
+Oefening maken met volgorde van try catch en finally voor in de workshop
+todo}}
+
 {{skip 
 ## Selective catching
 
