@@ -956,6 +956,8 @@ todo}}
 
 vingeroefening over lifetime van let-var
 
+[https://github.com/HANICA-DWA/swd_v2/tree/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten#exercise-scoping-rules-let-and-var](https://github.com/HANICA-DWA/swd_v2/tree/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten#exercise-scoping-rules-let-and-var)
+
 todo}}
 
 ## Exercises
