@@ -513,6 +513,13 @@ een volgende les
 
 todo}}
 
+{{todo 
+
+Note maken waarmee je laat zien dat je in feite alle types kan gooien, maar dat dit misschien niet 
+zo'n goed idee is.
+
+todo}}
+
 {{index "exception handling"}}
 
 Note that the `look` function completely ignores the possibility that
