@@ -3,8 +3,7 @@
   font-family: 'Fira Mono';
   font-style: normal;
   font-weight: 400;
-  src: local('Fira Mono Medium'), local('FiraMono-Medium'),
-       url('../font/fira-mono-v6-latin-500.woff2') format('woff2');
+  src: url('../font/fira-mono-v6-latin-500.woff2') format('woff2');
 }
 
 
@@ -13,8 +12,7 @@
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 400;
-  src: local('Rubik'), local('Rubik-Regular'),
-       url('../font/rubik-v7-latin_latin-ext-regular.woff2') format('woff2');
+  src: url('../font/rubik-v7-latin_latin-ext-regular.woff2') format('woff2');
 }
 
 /* rubik-italic - latin_latin-ext */
@@ -22,8 +20,7 @@
   font-family: 'Rubik';
   font-style: italic;
   font-weight: 400;
-  src: local('Rubik Italic'), local('Rubik-Italic'),
-       url('../font/rubik-v7-latin_latin-ext-italic.woff2') format('woff2');
+  src: url('../font/rubik-v7-latin_latin-ext-italic.woff2') format('woff2');
 }
 
 /* rubik-700 - latin_latin-ext */
@@ -31,8 +28,7 @@
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 700;
-  src: local('Rubik Bold'), local('Rubik-Bold'),
-       url('../font/rubik-v7-latin_latin-ext-700.woff2') format('woff2');
+  src: url('../font/rubik-v7-latin_latin-ext-700.woff2') format('woff2');
 }
 
 /* rubik-700italic - latin_latin-ext */
@@ -40,8 +36,7 @@
   font-family: 'Rubik';
   font-style: italic;
   font-weight: 700;
-  src: local('Rubik Bold Italic'), local('Rubik-BoldItalic'),
-       url('../font/rubik-v7-latin_latin-ext-700italic.woff2') format('woff2');
+  src: url('../font/rubik-v7-latin_latin-ext-700italic.woff2') format('woff2');
 }
 
 /* zilla-slab-regular - latin-ext_latin */
@@ -49,32 +44,28 @@
   font-family: 'Zilla Slab';
   font-style: normal;
   font-weight: 400;
-  src: local('Zilla Slab'), local('ZillaSlab-Regular'),
-       url('../font/zilla-slab-v3-latin-ext_latin-regular.woff2') format('woff2');
+  src: url('../font/zilla-slab-v3-latin-ext_latin-regular.woff2') format('woff2');
 }
 /* zilla-slab-italic - latin-ext_latin */
 @font-face {
   font-family: 'Zilla Slab';
   font-style: italic;
   font-weight: 400;
-  src: local('Zilla Slab Italic'), local('ZillaSlab-Italic'),
-       url('../font/zilla-slab-v3-latin-ext_latin-italic.woff2') format('woff2');
+  src: url('../font/zilla-slab-v3-latin-ext_latin-italic.woff2') format('woff2');
 }
 /* zilla-slab-700 - latin-ext_latin */
 @font-face {
   font-family: 'Zilla Slab';
   font-style: normal;
   font-weight: 700;
-  src: local('Zilla Slab Bold'), local('ZillaSlab-Bold'),
-       url('../font/zilla-slab-v3-latin-ext_latin-700.woff2') format('woff2');
+  src: url('../font/zilla-slab-v3-latin-ext_latin-700.woff2') format('woff2');
 }
 /* zilla-slab-700italic - latin-ext_latin */
 @font-face {
   font-family: 'Zilla Slab';
   font-style: italic;
   font-weight: 700;
-  src: local('Zilla Slab Bold Italic'), local('ZillaSlab-BoldItalic'),
-       url('../font/zilla-slab-v3-latin-ext_latin-700italic.woff2') format('woff2');
+  src: url('../font/zilla-slab-v3-latin-ext_latin-700italic.woff2') format('woff2');
 }
 
 /* crimson-text-regular - latin */
@@ -82,32 +73,43 @@
   font-family: 'Crimson Text';
   font-style: normal;
   font-weight: 400;
-  src: local('Crimson Text Regular'), local('CrimsonText-Regular'),
-       url('../font/crimson-text-v8-latin-regular.woff2') format('woff2');
+  src: url('../font/crimson-text-v8-latin-regular.woff2') format('woff2');
 }
 /* crimson-text-italic - latin */
 @font-face {
   font-family: 'Crimson Text';
   font-style: italic;
   font-weight: 400;
-  src: local('Crimson Text Italic'), local('CrimsonText-Italic'),
-       url('../font/crimson-text-v8-latin-italic.woff2') format('woff2');
+  src: url('../font/crimson-text-v8-latin-italic.woff2') format('woff2');
 }
 /* crimson-text-700 - latin */
 @font-face {
   font-family: 'Crimson Text';
   font-style: normal;
   font-weight: 700;
-  src: local('Crimson Text Bold'), local('CrimsonText-Bold'),
-       url('../font/crimson-text-v8-latin-700.woff2') format('woff2');
+  src: url('../font/crimson-text-v8-latin-700.woff2') format('woff2');
 }
 /* crimson-text-700italic - latin */
 @font-face {
   font-family: 'Crimson Text';
   font-style: italic;
   font-weight: 700;
-  src: local('Crimson Text Bold Italic'), local('CrimsonText-BoldItalic'),
-       url('../font/crimson-text-v8-latin-700italic.woff2') format('woff2');
+  src: url('../font/crimson-text-v8-latin-700italic.woff2') format('woff2');
+}
+
+/* kalam-regular - latin_latin-ext */
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../font/kalam-v8-latin_latin-ext-regular.woff2') format('woff2');
+}
+/* kalam-700 - latin_latin-ext */
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../font/kalam-v8-latin_latin-ext-700.woff2') format('woff2');
 }
 /*----------------------------------------------------------------------------*/
 
@@ -567,19 +569,19 @@ sup {
 /*---------- CSS added by DWA team -------------------- */
 
 .dwa-addition {
-  background-color: #f8f0f4;
+  background-color: #ece4d0;
   padding: 1pt 10pt 1pt 10pt;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-left: 8pt solid #e0d0e8;
+  border-left: 8pt solid #d9c89a;
   border-radius: 3pt;
   font-family: 'Crimson Text', serif;
 }
 
 .dwa-addition.todo {
-  background-color: #0c0;
-  border-left: 8pt solid #0a0;
-  font-family: 'Rubik';
+  background-color: #906fa0;
+  border-left: 8pt solid #6e318d;
+  font-family: 'Kalam';
   color: white;
 }
 
@@ -596,7 +598,7 @@ sup {
 }
 
 .sidenote {
-  background-color: #f8f0f4;
+  background-color: #ece4d0;
   padding: 10pt 10pt 10pt 20pt;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -613,19 +615,18 @@ sup {
 }
 
 .sidenote.fixme {
-  background-color: #ff6060;
+  background-color: #906fa0;
   color: white;
-  font-family: 'Rubik';
-  font-size: 90%;
+  font-family: 'Kalam';
   line-height: 140%;
 }
 
 .aside-star, .aside-ref {
-  color: #a080b0;
+  color: #c7af70;
   font-weight: bold;
 }
 .aside-ref.fixme {
-  color: red;
+  color: #9f4acb;
 }
 .aside-star.fixme {
   color: white;
@@ -640,8 +641,7 @@ sup {
 }
 .aside-title.fixme {
   color: white;
-  font-family: 'Rubik';
-  font-style: italic;
+  font-family: 'Kalam';
   font-weight: normal;
 }
 .youtube {
@@ -685,9 +685,7 @@ sup {
 
 
 .exercise {
-  border-left: 8pt solid #d0e8e0;
 }
 
 .question {
-  border-left: 8pt solid #d0e8e0;
 }

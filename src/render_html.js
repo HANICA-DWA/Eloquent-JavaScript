@@ -180,7 +180,7 @@ let renderer = {
   },
 
   meta_todo_open(token) {
-    return `\n\n<div class="note todo dwa-addition"><em>TO DO:</em>`
+    return `\n\n<div class="note todo dwa-addition"><strong>TO DO:</strong>`
   },
   meta_todo_close(token) {
       return `\n\n</div>`
