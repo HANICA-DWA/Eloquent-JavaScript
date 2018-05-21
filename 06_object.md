@@ -30,7 +30,7 @@ can be applied in JavaScript.
 
 The core idea in object-oriented programming is to divide programs
 into smaller pieces and make each piece responsible for managing its
-own state.
+own state. [_state_ uitleggen, checken of de term eerder uitgelegd is in boek]{fixme}
 
 This way, some knowledge about the way a piece of the program works
 can be kept _local_ to that piece. Someone working on the rest of the
@@ -48,7 +48,7 @@ implementation.
 {{index "public properties", "private properties", "access control"}}
 
 Such program pieces are modeled using ((object))s. Their interface
-consists of a specific set of ((method))s and properties. Properties
+consists of a specific set of ((method))s and properties ["properties" uitleggen in termen van bindings, relatie met objecten en functies]{fixme}. Properties
 that are part of the interface are called _public_. The others, which
 outside code should not be touching, are called _private_.
 
@@ -147,6 +147,18 @@ normalize.call({coords: [0, 2, 3], length: 5});
 
 If I had written the argument to `map` using the `function` keyword,
 the code wouldn't work.
+
+{{todo
+
+Beter(e) voorbeeld(en) van gebruik arrow-functions om omliggende `this` te kunnen gebruiken.
+
+todo}}
+
+{{todo
+
+vingeroefening over betekenis van `this` i.v.m. arow functions.
+
+todo}}
 
 {{id prototypes}}
 
@@ -247,7 +259,13 @@ killerRabbit.speak("SKREEEE!");
 
 A property like `speak(line)` in an object expression is a shorthand
 for defining a method. It creates a property called `speak` and gives
-it a function as its value.
+it a function as its value. 
+
+{{todo
+
+uitleggen es6 method definities: equiv aan speak: function(line) {…}, maar static props bestaan niet in es6, dit soort defs kunnen alleen in object/class definitions
+
+todo}}
 
 The "proto" rabbit acts as a container for the properties that are
 shared by all rabbits. An individual rabbit object, like the killer
@@ -375,7 +393,7 @@ braces)). The one named `constructor` is treated specially. It
 provides the actual constructor function, which will be bound to the
 name `Rabbit`. The others are packaged into that constructor's
 prototype. Thus, the class declaration above is equivalent to the
-constructor definition from the previous section. It just looks nicer.
+constructor definition from the previous section. It just looks nicer.[uitleggen _syntactic sugar_]{fixme}
 
 {{index ["class declaration", properties]}}
 
@@ -385,6 +403,14 @@ inconvenient when you want to save a non-function value in there.
 The next version of the language will probably improve this. For now, you
 can create such properties by directly manipulating the
 prototype after you've defined the class.
+
+{{todo
+
+uitleg over es7+ properties en hoe die te gebruiken.
+
+todo}}
+
+{{skip
 
 Like `function`, `class` can be used both in statement and in
 expression positions. When used as an expression, it doesn't define a
@@ -396,6 +422,8 @@ let object = new class { getWord() { return "hello"; } };
 console.log(object.getWord());
 // → hello
 ```
+
+skip}}
 
 ## Overriding derived properties
 
@@ -541,7 +569,9 @@ console.log(ages.has("toString"));
 {{index interface, "set method", "get method", "has method", encapsulation}}
 
 The methods `set`, `get`, and `has` are part of the interface of the
-`Map` object. Writing a data structure that can quickly update and
+
+###### ###### ###### ###### ###### ###### ###### ###### ###### `Map` object. Writing a data structure that can quickly update and
+
 search a large set of values isn't easy, but we don't have to worry
 about that. Someone else did it for us, and we can go through this
 simple interface to use their work.
