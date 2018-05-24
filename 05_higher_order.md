@@ -192,14 +192,14 @@ console.log(labels);
 // → ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
 ```
 
-{{index "loop body", "curly braces"}}
+{{index "loop body", braces}}
 
 This is structured a little like a `for` loop—it first describes the
 kind of loop and then provides a body. However, the body is now written
 as a function value, which is wrapped in the ((parentheses)) of the
 call to `repeat`. This is why it has to be closed with the closing
 brace _and_ closing parenthesis. In cases like this example, where the
-body is a single small expression, you could also omit the curly
+body is a single small expression, you could also omit the
 braces and write the loop on a single line.
 
 ## Higher-order functions
@@ -526,10 +526,10 @@ function average(array) {
 
 console.log(Math.round(average(
   SCRIPTS.filter(s => s.living).map(s => s.year))));
-// → 1185
+// → 1188
 console.log(Math.round(average(
   SCRIPTS.filter(s => !s.living).map(s => s.year))));
-// → 209
+// → 188
 ```
 
 So the dead scripts in Unicode are, on average, older than the living
@@ -550,7 +550,7 @@ for (let script of SCRIPTS) {
   }
 }
 console.log(Math.round(total / count));
-// → 1185
+// → 1188
 ```
 
 But it is harder to see what was being computed and how. And because

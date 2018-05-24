@@ -50,8 +50,8 @@ console.log(square(12));
 // → 144
 ```
 
-{{indexsee braces, "curly braces"}}
-{{index "curly braces", block, syntax, "function keyword", [function, body], [function, "as value"]}}
+{{indexsee "curly braces", braces}}
+{{index braces, block, syntax, "function keyword", [function, body], [function, "as value"]}}
 
 A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
@@ -329,7 +329,7 @@ functions before they are used.
 
 There's a third notation for functions, which looks very different
 from the others. Instead of the `function` keyword, it uses an arrow
-(`=>`) made up of equals and greater-than characters (not to be
+(`=>`) made up of an equal sign and a greater-than character (not to be
 confused with the greater-than-or-equal operator, which is written
 `>=`).
 
@@ -349,12 +349,12 @@ The arrow comes _after_ the list of parameters and is followed by the
 function's body. It expresses something like "this input (the
 ((parameter))s) produces this result (the body)".
 
-{{index "curly braces", "square example"}}
+{{index braces, "square example"}}
 
 When there is only one parameter name, you can omit the ((parentheses)) around the
 parameter list. If the body is a single expression,
 rather than a ((block)) in braces, that expression will be returned
-from the function. So these two definitions of `square` do the same
+from the function. So, these two definitions of `square` do the same
 thing:
 
 ```
@@ -373,7 +373,7 @@ const horn = () => {
 
 {{index verbosity}}
 
-There's no very good reason to have both arrow functions and
+There's no deep reason to have both arrow functions and
 `function` expressions in the language. Apart from a minor detail,
 which we'll discuss in [Chapter ?](object), they do the same thing.
 Arrow functions were added in 2015, mostly to make it possible to
@@ -495,7 +495,7 @@ accidentally pass the wrong number of arguments to functions. And no
 one will tell you about it.
 
 The upside is that this behavior can be used to allow a function to be
-called with different amounts of arguments. For example, this `minus`
+called with different numbers of arguments. For example, this `minus`
 function tries to imitate the `-` operator by acting on either one or
 two arguments:
 
@@ -600,7 +600,7 @@ ways.
 {{index "multiplier function"}}
 
 With a slight change, we can turn the previous example into a way to
-create functions that multiply by an arbitrary amount:
+create functions that multiply by an arbitrary amount.
 
 ```
 function multiplier(factor) {
@@ -694,8 +694,8 @@ can be paralyzing.
 
 Therefore, always start by writing something that's correct and easy
 to understand. If you're worried that it's too slow—which it usually
-isn't, since most code simply isn't executed often enough to take any
-significant amount of time—you can measure afterwards and improve it
+isn't since most code simply isn't executed often enough to take any
+significant amount of time—you can measure afterward and improve it
 if necessary.
 
 {{index "branching recursion"}}
@@ -710,7 +710,7 @@ into even more branches.
 {{index recursion, "number puzzle example"}}
 
 Consider this puzzle: by starting from the number 1 and repeatedly
-either adding 5 or multiplying by 3, an infinite amount of new numbers
+either adding 5 or multiplying by 3, an infinite set of numbers
 can be produced. How would you write a function that, given a number,
 tries to find a sequence of such additions and multiplications that
 produces that number?
@@ -748,7 +748,7 @@ It is okay if you don't see how it works right away. Let's work
 through it, since it makes for a great exercise in recursive thinking.
 
 The inner function `find` does the actual recursing. It takes two
-((argument))s: The current number and a string that records how we
+((argument))s: the current number and a string that records how we
 reached this number. If it finds a solution, it returns a string that
 shows how to get to the target. If no solution can be found starting
 from this number, it returns `null`.
@@ -760,7 +760,7 @@ number is the target number, the current history is a way to reach
 that target, so it is returned. If the current number is greater than
 the target, there's no sense in further exploring this branch because
 both adding and multiplying will only make the number bigger, so it
-returns `null`. And finally, if we're still below the target number,
+returns `null`. Finally, if we're still below the target number,
 the function tries both possible paths that start from the current
 number by calling itself twice, once for addition and once for
 multiplication. If the first call returns something that is not
@@ -810,10 +810,10 @@ into programs.
 
 {{index repetition}}
 
-The first is that you find yourself writing very similar code multiple
-times. We'd prefer not to do that. Having more code means more space
+The first is that you find yourself writing similar code multiple
+times. You'd prefer not to do that. Having more code means more space
 for mistakes to hide and more material to read for people trying to
-understand the program. So we take the repeated functionality, find a
+understand the program. So you take the repeated functionality, find a
 good name for it, and put it into a function.
 
 The second way is that you find you need some functionality that you
@@ -830,9 +830,9 @@ Let's go through an example.
 
 {{index "farm example"}}
 
-We want to write a program that prints two numbers, the numbers of
+We want to write a program that prints two numbers: the numbers of
 cows and chickens on a farm, with the words `Cows` and `Chickens`
-after them, and zeros padded before both numbers so that they are
+after them and zeros padded before both numbers so that they are
 always three digits long.
 
 ```{lang: null}
@@ -935,7 +935,7 @@ numbers.
 
 How smart and versatile _should_ our function be? We could write
 anything, from a terribly simple function that can only pad a number
-to be three characters wide, to a complicated generalized
+to be three characters wide to a complicated generalized
 number-formatting system that handles fractional numbers, negative
 numbers, alignment of decimal dots, padding with different characters,
 and so on.
@@ -977,7 +977,7 @@ when called with the same arguments, it always produces the same value
 (and doesn't do anything else). A call to such a function can be
 substituted by its return value without changing the meaning of the
 code. When you are not sure that a pure function is working correctly,
-you can test it by simply calling it, and know that if it works in
+you can test it by simply calling it and know that if it works in
 that context, it will work in any context. Nonpure functions tend to
 require more scaffolding to test.
 
@@ -1021,7 +1021,7 @@ let h = a => a % 3;
 
 A key aspect in understanding functions is understanding scopes. Each
 block creates a new scope. Parameters and bindings declared in a given
-scope are local, and not visible from the outside. Bindings declared
+scope are local and not visible from the outside. Bindings declared
 with `var` behave differently—they end up in the nearest function
 scope or the global scope.
 
@@ -1134,7 +1134,7 @@ hint}}
 
 You can get the Nth character, or letter, from a string by writing
 `"string"[N]`. The returned value will be a string containing only one
-character (for example, `"b"`). The first character has position zero,
+character (for example, `"b"`). The first character has position 0,
 which causes the last one to be found at position `string.length - 1`.
 In other words, a two-character string has length 2, and its
 characters have positions 0 and 1.
