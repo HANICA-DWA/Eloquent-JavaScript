@@ -946,17 +946,19 @@ Functions are special values that encapsulate a piece of program. You
 can invoke them by writing `functionName(argument1, argument2)`. Such
 a function call is an expression and may produce a value.
 
-{{todo
+{{todo 
 
 vingeroefingen over controlstructs 
 
 todo}}
 
-{{todo 
+{{note 
+## Exercise van Lars
 
-vingeroefening over lifetime van let-var
+vingeroefening over scoping regels van let en var
+[https://github.com/HANICA-DWA/swd_v2/tree/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten#exercise-scoping-rules-let-and-var](https://github.com/HANICA-DWA/swd_v2/tree/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten#exercise-scoping-rules-let-and-var)
 
-todo}}
+note}}
 
 ## Exercises
 

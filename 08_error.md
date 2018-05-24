@@ -1,3 +1,5 @@
+{{skip 
+
 {{meta {load_files: ["code/chapter/08_error.js"]}}}
 
 # Bugs and Errors
@@ -351,6 +353,7 @@ Another way to set a breakpoint is to include a `debugger` statement
 ((developer tools)) of your browser are active, the program will pause
 whenever it reaches such a statement.
 
+skip}}
 ## Error propagation
 
 {{index input, output, "run-time error", error, validation}}
@@ -503,6 +506,20 @@ property and can be helpful when trying to debug a problem: it tells
 us the function where the problem occurred and which functions made
 the failing call.
 
+{{todo
+
+Iets zeggen over dat we met constructors elk soor object kunnen maken en dat we dit behandelen in 
+een volgende les
+
+todo}}
+
+{{todo 
+
+Note maken waarmee je laat zien dat je in feite alle types kan gooien, maar dat dit misschien niet 
+zo'n goed idee is.
+
+todo}}
+
 {{index "exception handling"}}
 
 Note that the `look` function completely ignores the possibility that
@@ -510,6 +527,12 @@ Note that the `look` function completely ignores the possibility that
 exceptions: Error-handling code is necessary only at the point where
 the error occurs and at the point where it is handled. The functions
 in between can forget all about it.
+
+{{todo
+
+Een plaatje van de stack laten zien. Als er geen try catch is, dan crashen we.
+
+todo}}
 
 Well, almost...
 
@@ -615,6 +638,11 @@ circumstances, the problem may occur so rarely that it is never even
 noticed. Whether that is a good thing or a really bad thing depends on
 how much damage the software will do when it fails.
 
+{{todo
+Oefening maken met volgorde van try catch en finally voor in de workshop
+todo}}
+
+{{skip 
 ## Selective catching
 
 {{index "uncaught exception", "exception handling", "JavaScript console", "developer tools", "call stack", error}}
@@ -813,6 +841,8 @@ which should verify that it is actually the expected kind of exception
 and then do something with it. To help address the unpredictable
 control flow caused by exceptions, `finally` blocks can be used to
 ensure that a piece of code _always_ runs when a block finishes.
+
+skip}}
 
 ## Exercises
 

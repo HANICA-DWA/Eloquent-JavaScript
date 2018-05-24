@@ -168,6 +168,12 @@ console.log(n);
 // → 10
 ```
 
+{{todo
+
+Verplaats de vingeroefening over life-time van let en var naar hier
+
+todo}}
+
 {{id scoping}}
 
 ### Nested scope
@@ -214,6 +220,16 @@ also see all the local scopes that contain it, and all scopes can see
 the global scope. This approach to binding visibility is called
 _((lexical scoping))_.
 
+{{todo
+
+Dus de scope van een binding wordt volledig bepaald door de 
+plek in de broncode en niet door regels die optreden bij het
+runnen van het programma.
+
+Voorbeeld van dynamic scoping toevoegen??
+
+todo}}
+
 ## Functions as values
 
 {{index [function, "as value"]}}
@@ -244,6 +260,30 @@ if (safeMode) {
 
 In [Chapter ?](higher_order), we will discuss the interesting things
 that can be done by passing around function values to other functions.
+
+{{todo
+
+Geheugenmodel:
+
+Verschil laten zien tussen een binding die een 'primitieve waarde bevat' en een functie.
+
+todo}}
+
+{{note
+
+Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijvoorbeeld Java. In JavasScript is het al vanaf het begin mogelijk om functies as values voor bindings te gebruiken. Daarnaast kun je functies op elke plek in de code definieren en niet alleen in een klasse. Soms lees je daarom: 'In JavaScript functies are firts-class citizens'.
+
+note}}
+
+{{todo
+
+Vingeroefening maken waarin het verschil tussen 
+functieaanroep (met haakjes) en functiereferentie (zonder
+haakjes) duidelijk wordt.
+
+todo}}
+
+
 
 ## Declaration notation
 
@@ -340,6 +380,12 @@ Arrow functions were added in 2015, mostly to make it possible to
 write small function expressions in a less verbose way. We'll be using
 them a lot in [Chapter ?](higher_order).
 
+{{todo 
+
+Vingeroefening maken voor functies en returnwaarden
+
+todo}}
+
 {{id stack}}
 
 ## The call stack
@@ -393,6 +439,12 @@ The place where the computer stores this context is the _((call
 stack))_. Every time a function is called, the current context is
 stored on top of this stack. When a function returns, it removes the
 top context from the stack and uses that context to continue execution.
+
+{{todo
+
+Afbeelding van de call stack toevoegen en dit het geheugenmodel noemen. Belangrijk dat lokale variabele daar geplaatst worden.
+
+todo}}
 
 {{index "infinite loop", "stack overflow", recursion}}
 
@@ -527,6 +579,12 @@ console.log(wrap2());
 // → 2
 ```
 
+{{todo 
+
+geheugenmodellen tekenen.
+
+todo}}
+
 This is allowed and works as you'd hope—both instances of the binding
 can still be accessed. This situation is a good demonstration of the
 fact that local bindings are created anew for every call, and
@@ -571,6 +629,8 @@ In the example, `multiplier` is called and creates an environment in
 which its `factor` parameter is bound to 2. The function value it
 returns, which is stored in `twice`, remembers this environment. So
 when that is called, it multiplies its argument by 2.
+
+{{skip
 
 ## Recursion
 
@@ -886,6 +946,8 @@ sure you're going to need it. It can be tempting to write general
 Resist that urge. You won't get any real work done—you'll just be
 writing code that you never use.
 
+skip}}
+
 {{id pure}}
 ## Functions and side effects
 
@@ -927,6 +989,12 @@ are often useful. There'd be no way to write a pure version of
 `console.log`, for example, and `console.log` is good to have. Some
 operations are also easier to express in an efficient way when we use
 side effects, so computing speed can be a reason to avoid purity.
+
+{{todo
+
+Paar voorbeelden van functies en vragen of er een side-effect is.
+
+todo}}
 
 ## Summary
 
