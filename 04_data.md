@@ -654,6 +654,12 @@ html}[[$\sqrt{340000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈
 0.069, which is tiny. Eating ((pizza)) does not appear to have
 influence on the transformations.
 
+{{todo 
+
+Iets over correlation vertellen??? Iets over dat je ook events kan combineren, bijvoorbeeld pizza en pinda's.
+
+todo}}
+
 ## Computing correlation
 
 {{index [array, "as table"], [nesting, "of arrays"]}}
@@ -733,6 +739,12 @@ console.log(tableFor("pizza", JOURNAL));
 // → [76, 9, 4, 1]
 ```
 
+{{todo 
+
+Oeff, bovenstaande code is wel erg slim. Misschien even een voorbeeldje toevoegen om te zorgen dat iedereen het snapt.
+
+todo}}
+
 {{index [array, searching], "includes method"}}
 
 Arrays have an `includes` method that checks whether a given value
@@ -787,6 +799,12 @@ definition, it will loop over the elements of the value given after
 `of`. This works not only for arrays but also for strings and some
 other data structures. We'll discuss _how_ it works in [Chapter
 ?](object).
+
+{{todo 
+
+Vergelijk met for each in JAVA
+
+todo}}
 
 {{id analysis}}
 
