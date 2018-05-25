@@ -127,6 +127,12 @@ items to skip, counting from the start of the array.
 
 {{id properties}}
 
+{{todo
+
+Geheugenmodel van bovenstaande code laten zien.
+
+todo}}
+
 ## Properties
 
 {{index "Math object", "Math.max function", ["length property", "for string"], [object, property], "period character"}}
@@ -182,6 +188,12 @@ The `length` property of an array tells us how many elements it has.
 This property name is a valid binding name, and we know its name in
 advance, so to find the length of an array, you typically write
 `array.length` because that's easier to write than `array["length"]`.
+
+{{todo 
+
+length toevoegen aan het geheugenmodel
+
+todo}}
 
 {{id methods}}
 
