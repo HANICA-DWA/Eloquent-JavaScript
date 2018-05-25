@@ -277,12 +277,28 @@ note}}
 
 {{todo
 
-Vingeroefening maken waarin het verschil tussen 
-functieaanroep (met haakjes) en functiereferentie (zonder
-haakjes) duidelijk wordt.
+## Begripsvraag
+
+Gegeven onderstaande code
+
+```js
+const testFunction = function() {
+    console.log('test');
+}
+
+const x = testFunction;
+x(); //Werkt dit? Waarom wel, of waarom niet.
+```
 
 todo}}
 
+{{todo
+
+## Exercise Functions with and without()
+
+Verwijzing naar Function with and without '()'
+
+todo}}
 
 
 ## Declaration notation
