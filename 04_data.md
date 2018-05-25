@@ -225,6 +225,18 @@ arguments, the function somehow has access to the string `"Doh"`, the
 value whose property we called. How this works is described in
 [Chapter ?](object#obj_methods).
 
+{{todo
+
+Toch alvast een voorzet. Elke functie in javascript heeft een lokale binding die this heet. Als een functie wordt aangeroepen als methode van een object, dan wordt er een referentie naar dit object aan this gegeven zoals in onderstaande geheugemodel te zien is
+
+GEHEUGENMODEL MAKEN
+
+Dit lijkt wel wat op hoe het in Java gaat.
+
+todo}}
+
+
+
 Properties that contain functions are generally called _methods_ of
 the value they belong to, as in "`toUpperCase` is a method of a
 string".
@@ -259,6 +271,32 @@ opposite order so that the thing that was added last is removed first.
 These are common in programming—you might remember the function ((call
 stack)) from [the previous chapter](functions#stack), which is an
 instance of the same idea.
+
+{{todo
+
+## Exercise
+
+Gegeven de volgende code
+
+```js
+let sequence = [1, 2, 3]; 
+
+sequence.sum = () => {
+    const theSum = 0;
+    //YOUR ANSWER
+    return theSum;
+}
+
+sequence.push(5); 
+console.log(sequence.sum()) // 11
+
+sequence.push(10); 
+console.log(sequence.sum()); // 21
+```
+
+Implementeer de methode sum
+
+todo}}
 
 ## Objects
 
@@ -476,6 +514,12 @@ score.visitors = 1;
 score = {visitors: 1, home: 1};
 ```
 
+{{todo 
+
+Geheugenmodel toevoegen waarin dit duidelijk wordt
+
+todo}}
+
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
 When you compare objects with JavaScript's `==` operator, it compares
@@ -485,6 +529,14 @@ if they have identical properties. There is no "deep" comparison
 operation built into JavaScript, which compares objects by contents,
 but it is possible to write it yourself (which is one of the
 [exercises](data#exercise_deep_compare) at the end of this chapter).
+
+{{todo 
+
+## Exercise
+
+geeft == true of false met een object.Assign
+
+todo}}
 
 ## The lycanthrope's log
 
