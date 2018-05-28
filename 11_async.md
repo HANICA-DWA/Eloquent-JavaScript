@@ -170,6 +170,12 @@ Performing multiple asynchronous actions in a row using callbacks
 means that you have to keep passing new functions to handle the
 ((continuation)) of the computation after the actions.
 
+{{todo 
+
+Exercise, of uitleg toevoegen met drie setTimeouts
+
+todo}}
+
 {{index "hard disk"}}
 
 Most crow nest computers have a long-term data storage bulb, where
@@ -265,12 +271,32 @@ is done, having arranged for a callback to be called when it
 completes. So we need some asynchronous mechanism—in this case,
 another ((callback function))—to signal when a response is available.
 
+{{todo 
+
+Er moet even geoefend worden met die done parameter. En het is handig als 
+alle code van die crows beschikbaar is. 
+
+todo}}
+
 In a way, asynchronicity is _contagious_. Any function that calls a
 function that works asynchronously must itself be asynchronous, using
 a callback or similar mechanism to deliver its result. Calling
 callback is somewhat more involved and error-prone than simply
 returning a value, so needing to structure large parts of your program
 that way is not great.
+
+{{todo 
+
+Flink wat oefenen met node's ingebouwde asynchronous functions
+
+todo}}
+
+{{todo 
+
+In de les aandacht besteden aan het teruggeven van fouten in asynch
+functies.
+
+todo}}
 
 ## Promises
 
@@ -344,6 +370,22 @@ function storage(nest, name) {
 storage(bigOak, "enemies")
   .then(value => console.log("Got", value));
 ```
+
+{{note 
+
+Deze manier van een Promise construeren heb je alleen nodig als je een 
+asynchrone functie hebt die zelf geen promise retourneert. Bijvoorbeeld
+readfile.
+
+note}}
+
+{{todo 
+## Exercise
+
+Maak een functie readFilePromise die dezelfde constructie gebruikt als 
+readStorage om een readFile een promnise te laten retourneren.
+
+todo}}
 
 This asynchronous function returns a meaningful value. This is the
 main advantage of promises—they simplify the use of asynchronous
@@ -443,6 +485,8 @@ new Promise((_, reject) => reject(new Error("Fail")))
 Much like an uncaught exception is handled by the environment,
 JavaScript environments can detect when a promise rejection isn't
 handled, and will report this as an error.
+
+{{skip
 
 ## Networks are hard
 
@@ -577,6 +621,8 @@ with raw callbacks—it is very easy to forget to properly route
 exceptions like that, and if you don't do it, failures won't get
 reported to the right callback. Promises make this mostly automatic,
 and thus less error-prone.
+
+skip}}
 
 ## Collections of promises
 
