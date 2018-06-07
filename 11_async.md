@@ -285,6 +285,14 @@ callback is somewhat more involved and error-prone than simply
 returning a value, so needing to structure large parts of your program
 that way is not great.
 
+{{note
+
+Bekijk nu onderstaande presentatie tot en 21:40 om een beter beeld te krijgen van hoe de asynchrone callbacks worden afgehandeld.
+
+note}}
+
+{{youtube "8aGhZQkoFbQ"}}
+
 {{todo 
 
 Flink wat oefenen met node's ingebouwde asynchronous functions
