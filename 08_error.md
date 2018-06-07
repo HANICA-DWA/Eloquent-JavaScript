@@ -356,6 +356,14 @@ whenever it reaches such a statement.
 skip}}
 ## Error propagation
 
+{{note
+
+Het onderstaande stuk bevat de aanleiding voor het introduceren van Exceptions. Hoewel we dit stuk in de klas hebben behandeld, hoef je dit niet voor de toets te leren.
+
+note}}
+
+{{skip
+
 {{index input, output, "run-time error", error, validation}}
 
 Not all problems can be prevented by the programmer, unfortunately. If
@@ -423,11 +431,41 @@ function lastElement(array) {
 
 {{index "special return value", readability}}
 
+{{note
+
+Dit is een voorbeeld van een stukje code dat lastElement gebruikt om de problemen te illustreren. Je kunt dit in het code-block hierboven plakken
+
+```javascript
+function duplicateLastElement(array) {
+  let element = lastElement(array) 
+  //Dit is al vervelend. De naam van de variabele 
+  //is afhankelijk van succes of 
+  
+  if (element.hasOwnProperty("failed")) {
+  	return element;  	           
+      //Nu moet deze code ook dezelfde fout teruggeven
+  } else {
+  	return element.element * 2;
+      //eerst het object uit een result-object halen
+  }
+}
+
+const testLijst = [2, 3, 8];
+
+const result = duplicateLastElement(testLijst);
+
+console.log(result);
+```
+
+note}}
+
 The second issue with returning special values is that it can lead to
 very awkward code. If a piece of code calls `promptNumber` 10 times,
 it has to check 10 times whether `null` was returned. And if its
 response to finding `null` is to simply return `null` itself, callers
 of the function will in turn have to check for it, and so on.
+
+skip}}
 
 ## Exceptions
 
@@ -506,20 +544,6 @@ property and can be helpful when trying to debug a problem: it tells
 us the function where the problem occurred and which functions made
 the failing call.
 
-{{todo
-
-Iets zeggen over dat we met constructors elk soor object kunnen maken en dat we dit behandelen in 
-een volgende les
-
-todo}}
-
-{{todo 
-
-Note maken waarmee je laat zien dat je in feite alle types kan gooien, maar dat dit misschien niet 
-zo'n goed idee is.
-
-todo}}
-
 {{index "exception handling"}}
 
 Note that the `look` function completely ignores the possibility that
@@ -533,6 +557,28 @@ in between can forget all about it.
 Een plaatje van de stack laten zien. Als er geen try catch is, dan crashen we.
 
 todo}}
+
+{{note
+
+Je kunt `Error` inderdaad als een klasse zien met de bijbehorende constructor `Error()`. Hoewel JavaScript geen klasses kent, kun je klasses wel simuleren en vanaf ES6 heb je daar speciale syntax voor. Dit komt in een volgende les aan bod.
+
+note}}
+
+{{note 
+
+Je kunt in JavaScript elk datatype gooien dat je wilt. Voorbeelden: 
+
+```javascript
+//throw new Error('failure');
+//throw 'hoi';
+//throw 13
+//throw {failed: true};
+//throw () => {return 'nee dit is echt handig'};
+```
+
+Dit is echter af te raden omdat je op deze manier geen stack-trace krijgt en je in het catch-block niet de standaard properties...
+
+note}}
 
 Well, almost...
 
@@ -575,9 +621,38 @@ function transfer(from, amount) {
 }
 ```
 
+{{note
+
+Op regel 16, 17 en 18 zie je de blokhaken syntax om een property uit een object te selecteren in actie. De property die we willen hebben is `a` `b`, of `c`, maar we weten niet van te voren welk welk property de gebruiker wil selecteren.
+
+Waarom werk `accounts.from` niet? 
+
+En waarom `accounts.getAccount()` ook niet?
+
+note}}
+
 The `transfer` function transfers a sum of money from a given account
 to another, asking for the name of the other account in the process.
 If given an invalid account name, `getAccount` throws an exception.
+
+{{note
+
+Hieronder staat testcode voor de functies hierboven. Kijk met name naar het effect als de tweede bankrekening die je invult niet bestaat.
+
+```javascript
+console.log('ACCOUNT INFO BEFORE');
+console.log(accounts);
+
+try {
+transfer(getAccount(), 30)
+} catch (error) {
+  console.log(error);
+}
+console.log('ACCOUNT INFO AFTER');
+console.log(accounts);
+```
+
+note}}
 
 But `transfer` _first_ removes the money from the account, and _then_
 calls `getAccount` before it adds it to another account. If it is
@@ -637,10 +712,6 @@ because exceptions are typically reserved for exceptional
 circumstances, the problem may occur so rarely that it is never even
 noticed. Whether that is a good thing or a really bad thing depends on
 how much damage the software will do when it fails.
-
-{{todo
-Oefening maken met volgorde van try catch en finally voor in de workshop
-todo}}
 
 {{skip 
 ## Selective catching
