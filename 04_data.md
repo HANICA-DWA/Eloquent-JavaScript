@@ -294,7 +294,7 @@ sequence.push(10);
 console.log(sequence.sum()); // 21
 ```
 
-Implementeer de methode sum
+Implementeer de methode sum. MISSCHIEN MOET DEZE BIJ DE ASSIGNMENT. Als je een item oppakt, kun je checken hoeveel je al draagt ETC. OF NIET> WAT WIL IK PRECIES MET DEZE EXERCISE
 
 todo}}
 
