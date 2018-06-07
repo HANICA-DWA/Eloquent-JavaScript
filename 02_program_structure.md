@@ -2,7 +2,7 @@
 
 {{quote {author: "_why", title: "Why's (Poignant) Guide to Ruby", chapter: true}
 
-And my heart glows bright red under my filmy, translucent skin and
+wAnd my heart glows bright red under my filmy, translucent skin and
 they have to administer 10cc of JavaScript to get me to come back. (I
 respond well to toxins in the blood.) Man, that stuff will kick the
 peaches right out your gills!
@@ -952,13 +952,12 @@ vingeroefingen over controlstructs
 
 todo}}
 
-{{note 
-## Exercise van Lars
+{{todo
+## 💪 Exercise: Scoping rules `let` and `var`
 
-vingeroefening over scoping regels van let en var
-[https://github.com/HANICA-DWA/swd_v2/tree/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten#exercise-scoping-rules-let-and-var](https://github.com/HANICA-DWA/swd_v2/tree/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten#exercise-scoping-rules-let-and-var)
+[Exercise link](https://github.com/HANICA-DWA/swd_v2/blob/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten/YOUR_ANSWERS.md#-exercise-scoping-rules-let-and-var)
 
-note}}
+todo}}
 
 ## Exercises
 

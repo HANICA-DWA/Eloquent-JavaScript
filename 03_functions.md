@@ -294,9 +294,9 @@ todo}}
 
 {{todo
 
-## Exercise Functions with and without()
+## 💪 Exercise Functions with and without()
 
-Verwijzing naar Function with and without '()'
+[Exercise link](https://github.com/HANICA-DWA/swd_v2/blob/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten/YOUR_ANSWERS.md#-exercise-function-with-and-without-)
 
 todo}}
 
