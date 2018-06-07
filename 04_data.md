@@ -1038,6 +1038,8 @@ console.log("coconut".indexOf("u"));
 // → 5
 ```
 
+{{skip
+
 One difference is that a string's `indexOf` can search for a string
 containing more than one character, whereas the corresponding array
 method looks only for a single element.
@@ -1108,6 +1110,8 @@ console.log(string[1]);
 
 {{id rest_parameters}}
 
+skip}}
+
 ## Rest parameters
 
 {{index "Math.max function"}}
@@ -1163,6 +1167,8 @@ let words = ["never", "fully"];
 console.log(["will", ...words, "understand"]);
 // → ["will", "never", "fully", "understand"]
 ```
+
+{{skip
 
 ## The Math object
 
@@ -1270,6 +1276,8 @@ There are also the functions `Math.ceil` (for "ceiling", which rounds
 up to a whole number), `Math.round` (to the nearest whole number), and
 `Math.abs`, which takes the absolute value of a number, meaning it
 negates negative values but leaves positive ones as they are.
+
+skip}}
 
 ## Destructuring
 
