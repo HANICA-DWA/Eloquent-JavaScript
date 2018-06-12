@@ -156,6 +156,20 @@ When you define a binding without giving it a value, the tentacle has
 nothing to grasp, so it ends in thin air. If you ask for the value of
 an empty binding, you'll get the value `undefined`.
 
+{{todo 
+
+Beshrijven dat we het anders doen dan die tentacles
+
+{{figure {url: "img/memory_model/chap02/luigis_debt_01.svg", alt: ""}}}
+
+todo}}
+
+{{todo 
+
+{{figure {url: "img/memory_model/chap02/luigis_debt_02.svg", alt: ""}}}
+
+todo}}
+
 {{index "let keyword"}}
 
 A single `let` statement may define multiple bindings. The
@@ -192,8 +206,18 @@ binding, which points at the same value for as long as it lives. This
 is useful for bindings that give a name to a value so that you can
 easily refer to it later.
 
+{{note
+
+Beshrijving erbij
+
+{{figure {url: "img/memory_model/chap02/hello_ada.svg", alt: ""}}}
+
+note}}
+
 {{todo
+
 opmerken dat bindings ook consts zijn, en variabelen daar dus een subcategorie van zijn.
+
 todo}}
 
 ## Binding names
