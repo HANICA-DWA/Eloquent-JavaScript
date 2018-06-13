@@ -53,11 +53,19 @@ console.log(square(12));
 {{indexsee "curly braces", braces}}
 {{index braces, block, syntax, "function keyword", [function, body], [function, "as value"]}}
 
-{{todo
+{{note
 
-Voor functiedefinies gebruiken we wel de tentakel beeldspraak. 
+Voor een function binding kunnen we wel goed voorstellen als een tentakel die de definitie van de functie grijpt zoals in onderstaande figuur te zien is.
 
-todo}}
+{{figure {url: "img/memory_model/chap03/square_verbose.svg", alt: ""}}}
+
+Omdat de functie-definities te groot kunnen worden voor een dergelijk diagram, schrijven we meestal *Function Definition* in plaats van de hele broncode. Daarnaast schrijven we de naam van de functie soms bovenop het blok van de functie-definitie. Dit is hieronder te zien:
+
+{{figure {url: "img/memory_model/chap03/square_concise.svg", alt: ""}}}
+
+Om aan te geven dat dit hulpmiddelen voor onszelf zijn en niet in JavaScript-engine bestaan, geven we de tekst cursief weer.
+
+note}}
 
 A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
@@ -110,11 +118,15 @@ Parameters to a function behave like regular bindings, but their
 initial values are given by the _caller_ of the function, not the code
 in the function itself.
 
-{{todo
+{{note
 
-Zoals je ziet nemen we de parameters niet op in het functie-object. Ze krijgen wel een plek in het geheugenmodel. Zie verderop bij stack
+Zoals je kunt zien in het diagram van de function binding `power` nemen we de paramaters en de return-waarde niet als aparte 'doosjes' op in de definitie van de functie.  
 
-todo}}
+{{figure {url: "img/memory_model/chap03/power_verbose.svg", alt: ""}}}
+
+De JavaScript engine houdt deze bindings echter wel bij.  Verderop laten we zien waar de engine dit doet.
+
+note}}
 
 ## Bindings and scopes
 
@@ -232,16 +244,6 @@ also see all the local scopes that contain it, and all scopes can see
 the global scope. This approach to binding visibility is called
 _((lexical scoping))_.
 
-{{todo
-
-Dus de scope van een binding wordt volledig bepaald door de 
-plek in de broncode en niet door regels die optreden bij het
-runnen van het programma.
-
-Voorbeeld van dynamic scoping toevoegen??
-
-todo}}
-
 ## Functions as values
 
 {{index [function, "as value"]}}
@@ -273,17 +275,9 @@ if (safeMode) {
 In [Chapter ?](higher_order), we will discuss the interesting things
 that can be done by passing around function values to other functions.
 
-{{todo
-
-Geheugenmodel:
-
-Verschil laten zien tussen een binding die een 'primitieve waarde bevat' en een functie.
-
-todo}}
-
 {{note
 
-Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijvoorbeeld Java. In JavasScript is het al vanaf het begin mogelijk om functies as values voor bindings te gebruiken. Daarnaast kun je functies op elke plek in de code definieren en niet alleen in een klasse. Soms lees je daarom: 'In JavaScript functies are firts-class citizens'.
+Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijvoorbeeld Java. In JavasScript is het al vanaf de eerste versie mogelijk om function-bindings te maken. Daarnaast kun je functies op elke plek in de code definieren en niet alleen in een klasse. Soms lees, of hoor je daarom: *'In JavaScript functies are firts-class citizens'*.
 
 note}}
 
@@ -327,11 +321,11 @@ function square(x) {
 }
 ```
 
-{{todo 
+{{note 
 
-geheugenmodel
+Het geheugenmodel voor deze manier is hetzelfde als voor de eerdergenoemde notatie
 
-todo}}
+note}}
 
 {{index future, "execution order"}}
 
@@ -377,13 +371,11 @@ const power = (base, exponent) => {
 };
 ```
 
-{{todo
+{{note 
 
-Geheugenmodel
+Ook voor deze definitie tekenen we het geheugenmodel op dezelfde manier.
 
-todo}}
-
-
+note}}
 
 {{index [function, body]}}
 
@@ -479,68 +471,67 @@ the program.
 
 The place where the computer stores this context is the _((call
 stack))_. Every time a function is called, the current context is
-stored on top of this stack. When a function returns, it removes the
-top context from the stack and uses that context to continue execution.
+stored on top  [meestal gebruiken wij het begrip 'stack frame' in plaats van 'context']{aside "context"} of this stack. When a function returns, it removes the top context from the stack and uses that context to continue execution.
 
-{{todo
+{{note
 
-Afbeelding van de call stack toevoegen en dit het geheugenmodel noemen. Belangrijk dat lokale variabele daar geplaatst worden.
+We maken een uitgebreider diagram dan de bovenstaande schematische weergave om te laten zien hoe het geheugengebruik van een programma er op een bepaald moment eruit ziet.
 
-todo}}
+We noemen dit het geheugenmodel. In dit model zie je naast de stack ook de heap. Op de heap staan alle functie-definities. 
 
-{{todo
+note}}
 
-Hieronder zie je het geheugenmodel van de executie van eerder behandelde code op regel 9: 
+{{note
+
+Hieronder zie je een voorbeeld van een geheugenmodel van onderstaande code. Het geheugenmodel geeft het moment weer dat de functie `power` wordt uitgevoerd op regel 9. De functie heeft zijn werk gedaan, maar is nog niet van de stack verwijderd. De pijltjes in het commentaar in de code geven aan van welk moment er precies bedoeld wordt.
 
 ```javascript
 const power = function(base, exponent) {
   let result = 1;
   for (let count = 0; count < exponent; count++) {
     result *= base;
-  }
-  return result;
-};
+  } 
+  return result; 
+}; //<- 2
 
-let result = power(2, 10));
+let result = power(2, 10)); //<- 1
 console.log(result);
 // → 1024
 ```
 
 {{figure {url: "img/memory_model/chap03/power.svg", alt: ""}}}
 
-todo}}
+note}}
 
-{{todo
+{{note
 
-Geheugenmodel van humus
+Nog een voorbeeld van een geheugenmodel. 
 
 ```javascript
 const hummus = function(factor) {
   const ingredient = function(amount, unit, name) {
-    let ingredientAmount = amount * factor;
+    let ingredientAmount = amount * factor; //<- 3
     if (ingredientAmount > 1) {
       unit += "s";
     }
     console.log(`${ingredientAmount} ${unit} ${name}`);
   };
   ingredient(1, "can", "chickpeas");
-  ingredient(0.25, "cup", "tahini");
+  ingredient(0.25, "cup", "tahini"); //<- 2 
   ingredient(0.25, "cup", "lemon juice");
   ingredient(1, "clove", "garlic");
   ingredient(2, "tablespoon", "olive oil");
   ingredient(0.5, "teaspoon", "cumin");
 };
 
-hummus(2);
+hummus(2); //<- 1
 ```
 
-Het geheugenmodel van de executie van dit programma op regel 10 ziet er als vogt uit:
+Het diagram geeft het moment aan dat de functie `hummus`  (regel 17) en `ingredient` (regel 10) worden uitgevoerd:
 
 {{figure {url: "img/memory_model/chap03/hummus.svg", alt: ""}}}
 
-todo}}
-
-
+note}}
 
 {{index "infinite loop", "stack overflow", recursion}}
 
@@ -675,11 +666,11 @@ console.log(wrap2());
 // → 2
 ```
 
-{{todo 
+{{note 
 
-geheugenmodellen tekenen.
+Bij DWA maken we geen geheugenmodellen van closures omdat dit het diagram erg uitgebreid maakt.
 
-todo}}
+note}}
 
 This is allowed and works as you'd hope—both instances of the binding
 can still be accessed. This situation is a good demonstration of the
@@ -692,6 +683,8 @@ references bindings from local scopes around it is called _a_ closure. This beha
 not only frees you from having to worry about lifetimes of bindings
 but also makes it possible to use function values in some creative
 ways.
+
+{{skip
 
 {{index "multiplier function"}}
 
@@ -725,8 +718,6 @@ In the example, `multiplier` is called and creates an environment in
 which its `factor` parameter is bound to 2. The function value it
 returns, which is stored in `twice`, remembers this environment. So
 when that is called, it multiplies its argument by 2.
-
-{{skip
 
 ## Recursion
 
