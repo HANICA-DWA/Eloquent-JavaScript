@@ -490,7 +490,7 @@ todo}}
 
 {{todo
 
-Geheugenmodel van deze code tekenen
+Hieronder zie je het geheugenmodel van de executie van eerder behandelde code op regel 9: 
 
 ```javascript
 const power = function(base, exponent) {
@@ -505,6 +505,8 @@ let result = power(2, 10));
 console.log(result);
 // → 1024
 ```
+
+{{figure {url: "img/memory_model/chap03/power.svg", alt: ""}}}
 
 todo}}
 
@@ -532,7 +534,9 @@ const hummus = function(factor) {
 hummus(2);
 ```
 
+Het geheugenmodel van de executie van dit programma op regel 10 ziet er als vogt uit:
 
+{{figure {url: "img/memory_model/chap03/hummus.svg", alt: ""}}}
 
 todo}}
 
