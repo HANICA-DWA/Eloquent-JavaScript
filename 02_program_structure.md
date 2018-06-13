@@ -139,6 +139,14 @@ same value. A program can access only the values that it still has a
 reference to. When you need to remember something, you grow a tentacle
 to hold on to it or you reattach one of your existing tentacles to it.
 
+{{todo 
+
+Opmerking over dat we bij DWA toch aan doosjes denken.
+
+en voorbeeld geven.
+
+todo}}
+
 Let's look at another example. To remember the number of dollars that
 Luigi still owes you, you create a binding. And then when he pays back
 $35, you give this binding a new value.

@@ -53,6 +53,12 @@ console.log(square(12));
 {{indexsee "curly braces", braces}}
 {{index braces, block, syntax, "function keyword", [function, body], [function, "as value"]}}
 
+{{todo
+
+Voor functiedefinies gebruiken we wel de tentakel beeldspraak. 
+
+todo}}
+
 A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
 only `x`) and a _body_, which contains the statements that are to be
@@ -103,6 +109,12 @@ cause the function to return `undefined`. Functions that don't have a
 Parameters to a function behave like regular bindings, but their
 initial values are given by the _caller_ of the function, not the code
 in the function itself.
+
+{{todo
+
+Zoals je ziet nemen we de parameters niet op in het functie-object. Ze krijgen wel een plek in het geheugenmodel. Zie verderop bij stack
+
+todo}}
 
 ## Bindings and scopes
 
@@ -315,6 +327,12 @@ function square(x) {
 }
 ```
 
+{{todo 
+
+geheugenmodel
+
+todo}}
+
 {{index future, "execution order"}}
 
 This is a function _declaration_. The statement defines the binding
@@ -358,6 +376,14 @@ const power = (base, exponent) => {
   return result;
 };
 ```
+
+{{todo
+
+Geheugenmodel
+
+todo}}
+
+
 
 {{index [function, body]}}
 
@@ -461,6 +487,56 @@ top context from the stack and uses that context to continue execution.
 Afbeelding van de call stack toevoegen en dit het geheugenmodel noemen. Belangrijk dat lokale variabele daar geplaatst worden.
 
 todo}}
+
+{{todo
+
+Geheugenmodel van deze code tekenen
+
+```javascript
+const power = function(base, exponent) {
+  let result = 1;
+  for (let count = 0; count < exponent; count++) {
+    result *= base;
+  }
+  return result;
+};
+
+let result = power(2, 10));
+console.log(result);
+// → 1024
+```
+
+todo}}
+
+{{todo
+
+Geheugenmodel van humus
+
+```javascript
+const hummus = function(factor) {
+  const ingredient = function(amount, unit, name) {
+    let ingredientAmount = amount * factor;
+    if (ingredientAmount > 1) {
+      unit += "s";
+    }
+    console.log(`${ingredientAmount} ${unit} ${name}`);
+  };
+  ingredient(1, "can", "chickpeas");
+  ingredient(0.25, "cup", "tahini");
+  ingredient(0.25, "cup", "lemon juice");
+  ingredient(1, "clove", "garlic");
+  ingredient(2, "tablespoon", "olive oil");
+  ingredient(0.5, "teaspoon", "cumin");
+};
+
+hummus(2);
+```
+
+
+
+todo}}
+
+
 
 {{index "infinite loop", "stack overflow", recursion}}
 
