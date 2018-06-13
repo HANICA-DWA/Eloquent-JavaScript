@@ -323,7 +323,7 @@ function square(x) {
 
 {{note 
 
-Het geheugenmodel voor deze manier is hetzelfde als voor de eerdergenoemde notatie
+In diagrammen tekenen we functie-declaraties op dezelfde manier als functie-expressies.
 
 note}}
 
@@ -373,7 +373,7 @@ const power = (base, exponent) => {
 
 {{note 
 
-Ook voor deze definitie tekenen we het geheugenmodel op dezelfde manier.
+Ook arrow-functies tekenen we op dezelfde manier als eerder genoemde notaties.
 
 note}}
 
