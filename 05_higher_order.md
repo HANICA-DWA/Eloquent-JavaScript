@@ -1,4 +1,4 @@
-{{meta {load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js"], zip: "node/html"}}}
+{{meta {load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js", "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js", "code/loadLodash.js"], zip: "node/html"}}}
 
 # Higher-Order Functions
 
@@ -224,32 +224,34 @@ braces and write the loop on a single line.
 ex}}
 
 {{ex
-* Schrijf een Javascript functie, genaamd "`iffy`", die drie parameters accepteert:
-     * een boolean waarde, met de parameternaam "`condition`";
-     * een functie, met de parameternaam "`then`" (deze functie heeft zelf geen parameters nodig);
-     * nog een functie, met de parameternaam "`elsse`" (deze functie heeft ook geen parameters nodig);
+Schrijf een Javascript functie, genaamd "`iffy`", die drie parameters accepteert:
+* een boolean waarde, met de parameternaam "`condition`";
+* een functie, met de parameternaam "`then`" (deze functie heeft zelf geen parameters nodig);
+* nog een functie, met de parameternaam "`elsse`" (deze functie heeft ook geen parameters nodig);
 
-  En deze parameters als volgt gebruikt: Als _`condition`_ true is, dan wordt _`then`_ uitgevoerd. De returnwaarde van `iffy` is dan de returnwaarde van de `then` functie.
-  Als _`condition`_ `false` is, dan wordt `elsse` aangeroepen, en de returnwaarde van `iffy` is de returnwaarde van de `elsse` functie.
+En deze parameters als volgt gebruikt: Als _`condition`_ true is, dan wordt _`then`_ uitgevoerd. De returnwaarde van `iffy` is dan de returnwaarde van de `then` functie.
+Als _`condition`_ `false` is, dan wordt `elsse` aangeroepen, en de returnwaarde van `iffy` is de returnwaarde van de `elsse` functie.
 
-  <br/>
-  Dus de volgende aanroep zou "red" moeten opleveren in `fieldColor`:
+Dus de volgende aanroep zou "red" moeten opleveren in `fieldColor`:
 
-  ```js
-  let password = "1234"
+```js
+let password = "1234"
 
-  let fieldColor = iffy( password.length < 8,
-    () => {
-      console.log("password too short")
-      return "red"
-    },
-    () => {
-      console.log("password OK")
-      return "green"      
-    }
-  )  
+let fieldColor = iffy( password.length < 8,
+  () => {
+    console.log("password too short")
+    return "red"
+  },
+  () => {
+    console.log("password OK")
+    return "green"      
+  }
+)  
+```
+ex}}
 
-* Wat is, qua werking, het belangrijkste verschil tussen deze `iffy` en het gewone `if`-statement in Javascript?
+{{ex
+Wat is, qua werking, het belangrijkste verschil tussen de `iffy` functie uit de vorige oefening, en het gewone `if`-statement in Javascript?
 
 ex}}
 
@@ -262,7 +264,7 @@ arguments or by returning them, are called _higher-order functions_.
 Since we have already seen that functions are regular values, there is
 nothing particularly remarkable about the fact that such functions
 exist. The term comes from ((mathematics)), where the distinction
-between functions and other values is taken more seriously.
+between functions and other values is taken more seriously. [__Higher order__ betekent dus niet: _"degene die deze functie heeft gemaakt is heel knap"_. Maar het is wel lekker om dat te denken als je net je eerste hogere-orde functie hebt geschreven ;-)]{aside}
 
 {{index abstraction}}
 
@@ -278,6 +280,10 @@ let greaterThan10 = greaterThan(10);
 console.log(greaterThan10(11));
 // → true
 ```
+{{note
+**Let op:** De mini-functie die als returnwaarde door `GreaterThan()` wordt opgeleverd, is een closure
+
+note}}
 
 And we can have functions that change other functions.
 
@@ -331,6 +337,11 @@ Eigenlijk was de `forEach`-methode er eerder. Hij heeft één handig voordeel bo
 Beide for-constructies (`forEach` en `for`/`of`) worden veel gebruikt, dus je moet ze beide snappen om source-code en internet-artikelen te kunnen lezen. Welke je in je eigen code gebruikt, mag je zelf weten.
 
 note}}
+
+{{todo
+Video over functies in array's opslaan.
+
+todo}}
 
 ## Script data set
 
@@ -427,10 +438,40 @@ Like `forEach`, `filter` is a ((standard)) array method. The example
 defined the function only to show what it does internally.
 From now on, we'll use it like this instead:
 
-```
+```js
 console.log(SCRIPTS.filter(s => s.direction == "ttb"));
 // → [{name: "Mongolian", …}, …]
 ```
+
+{{note
+Er bestaat nog een `filter()`-functie die veel gebruikt wordt: In de populaire Javascript library "[Lodash](https://lodash.com/)", die al eerder genoemd is. Deze versie moet je weer op een wat andere manier aanroepen:
+```js
+console.log(
+  _.filter(SCRIPTS, s => s.direction == "ttb")
+)
+// → [{name: "Mongolian", …}, …]
+```
+
+Deze versie kan wat meer kunstjes dan de `filter()` die door TC39 als officiële versie is toegevoegd aan Javascript, vooral als de array objecten bevat.
+
+Je kan bijvoorbeeld in plaats van een functie een veldnaam meegeven. Elk object dat in dat veld een waarde heeft zitten die _"[truthy](https://www.sitepoint.com/javascript-truthy-falsy/)"_ is, wordt meegenomen in het resultaat.
+```js
+console.log(
+  _.filter(SCRIPTS, 'living')
+)
+```
+Ook cool in Lodash:
+```js
+console.log(
+  _.filter(SCRIPTS, {living: false, direction: "rtl"})
+)
+```
+Dit selecteert alle objecten met de opgegeven waarden voor de opgegeven velden.
+
+Lodash is geen verplichte stof voor dit vak. Het is echter wel heel handig, en goed om
+te kennen. Je kunt er even mee spelen op deze pagina. We hebben Lodash ook toegevoegd aan
+de code-editor van dit hoofdstuk, onder de binding-naam "\_", zoals gebruikelijk.
+note}}
 
 {{id map}}
 
