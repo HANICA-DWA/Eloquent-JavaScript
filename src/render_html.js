@@ -226,6 +226,12 @@ let renderer = {
   },
   meta_skip_close(token) {
     return `</div><div class="skip-close">einde van tekst die overgeslagen kan worden</div>`
+  },
+
+  // allow html iside markdown:
+  html_inline(token) {
+    console.error("TOKEN", token);
+    return token.content
   }
 
   //-------- End meta-things by DWA team -------------
