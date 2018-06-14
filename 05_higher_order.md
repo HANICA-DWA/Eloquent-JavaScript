@@ -130,6 +130,18 @@ one by one, blind to the higher-level concepts that they express.
 It is a useful skill, in programming, to notice when you are working
 at too low a level of abstraction.
 
+{{note
+Eén manier om in te schatten of je code op het goede abstractieniveau is, is om naar je code te kijken alsof je die voor het eerst ziet, en in te schatten of een lezer de betekenis van de code kan _lezen_ (tekst zien, betekenis begrijpen), of moet _puzzelen_ (in je hoofd een serie denkstappen moeten maken voordat je tot een one-liner kunt komen zoals "Oh, deze code telt alle getallen tussen 1 en 10 bij elkaar op!").
+
+Voor code die op deze manier leesbaar is, heb je bruikbare bouwstenen nodig. Zoals `sum` en `range` in het voorbeeld. Soms, of vaak, kun je hele nuttige bouwstenen halen uit mainstream JavaScript libraries, zoals [_lodash_](). Da's handig voor teamgenoten, want als zij lodash kennen, dan wordt jouw code zowel compact als leesbaar voor hen. (lodash is de ["most depended upon"](https://www.npmjs.com/browse/depended) library in de JS wereld.)
+
+Maar veel programmeerwerk bestaat uit het zelf maken van functies die als bouwstenen dienen om code verderop in je programma het ideale abstractieniveau te geven. In dat geval heb je twee uitdagingen:
+1. Je abstracties (vaak functies, maar data-types en classes tellen ook) moeten goede namen hebben. Dat voelt soms als een van de [lastigste](https://www.itworld.com/article/2823759/enterprise-software/124383-Arg-The-9-hardest-things-programmers-have-to-do.html#slide1)  [programmeertaken](https://martinfowler.com/bliki/TwoHardThings.html).
+1.  Je abstracties zijn nuttiger als ze redelijk hebruikbaar zijn. Daarvoor zijn parameters uitgevonden, maar ook _hogere orde functies_ (waar dit hoofdstuk over gaat). Maar ze hoeven niet _maximaal_ herbruikbaar te zijn. Maximaal herbruikbare functies krijgen vaak namen die te vaag of algemeen zijn om in de rest van je programma de code echt leesbaar te maken.  
+
+note}}
+
+
 ## Abstracting repetition
 
 {{index array}}
@@ -140,7 +152,7 @@ abstractions. But sometimes they fall short.
 {{index "for loop"}}
 
 It is common for a program to do something a given number of times.
-You can write a `for` ((loop)) for that, like this:
+You can write a `for` ((loop)) for that, like this [Dit voorbeeld is wel erg simpel. Ervaren programmeurs zien onmiddelijk dat hier een herhaling van 0 to 9 staat. Voor hen is dit geen puzzel. Maar voor de auteur is dit wel een bruikbaar voorbeeld om functies-als-parameters te introduceren]{aside}:
 
 ```
 for (let i = 0; i < 10; i++) {
@@ -201,6 +213,44 @@ call to `repeat`. This is why it has to be closed with the closing
 brace _and_ closing parenthesis. In cases like this example, where the
 body is a single small expression, you could also omit the
 braces and write the loop on a single line.
+
+{{ex
+  In de definitie van de repeat(...) functie hierboven, gebruikt de auteur een loop-variabele met de naam "`i`".
+  In de aanroep met de arrow-functie gebruikt de auteur _ook_ "`i`", dit keer als parameter-naam.
+
+  Is dat nodig? Dat de variabele die de repeat-functie gebruikt, en de variabele die de action functie gebruikt _identiek_ zijn?
+
+ex}}
+
+{{ex
+* Schrijf een Javascript functie, genaamd "`iffy`", die drie parameters accepteert:
+     * een boolean waarde, met de parameternaam "`condition`";
+     * een functie, met de parameternaam "`then`" (deze functie heeft zelf geen parameters nodig);
+     * nog een functie, met de parameternaam "`elsse`" (deze functie heeft ook geen parameters nodig);
+
+  En deze parameters als volgt gebruikt: Als _`condition`_ true is, dan wordt _`then`_ uitgevoerd. De returnwaarde van `iffy` is dan de returnwaarde van de `then` functie.
+  Als _`condition`_ `false` is, dan wordt `elsse` aangeroepen, en de returnwaarde van `iffy` is de returnwaarde van de `elsse` functie.
+
+  <br/>
+  Dus de volgende aanroep zou "red" moeten opleveren in `fieldColor`:
+
+  ```js
+  let password = "1234"
+
+  let fieldColor = iffy( password.length < 8,
+    () => {
+      console.log("password too short")
+      return "red"
+    },
+    () => {
+      console.log("password OK")
+      return "green"      
+    }
+  )  
+
+* Wat is, qua werking, het belangrijkste verschil tussen deze `iffy` en het gewone `if`-statement in Javascript?
+
+ex}}
 
 ## Higher-order functions
 
@@ -271,6 +321,15 @@ like a `for`/`of` loop as a higher-order function.
 // → A
 // → B
 ```
+
+{{note
+Waarom zou de [TC39 commissie](https://github.com/tc39), die beslist wat er wel en niet in JavaScript komt, deze `forEach` een goed idee vinden, terwijl de `for( item of array) {...}` notatie er ook is?
+
+Eigenlijk was de `forEach`-methode er eerder. Hij heeft één handig voordeel boven de `for`/`of` loop (welke? [uitzoeken op MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach), de belangrijkste site voor documentatie over JavaScript, CSS, HTML, en browser API's). Maar over de `for`/`of` loop heeft de TC39 een stuk beter nagedacht, met als gevolg dat de `for`/`of` loop ook bruikbaar is op andere dingen dan alleen array's. Objecten bijvoorbeeld, en strings, en wat [obscuurdere JavaScript data-structuren](https://www.sitepoint.com/es6-collections-map-set-weakmap-weakset/).
+
+Beide for-constructies (`forEach` en `for`/`of`) worden veel gebruikt, dus je moet ze beide snappen om source-code en internet-artikelen te kunnen lezen. Welke je in je eigen code gebruikt, mag je zelf weten.
+
+note}}
 
 ## Script data set
 
