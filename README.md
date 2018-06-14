@@ -32,6 +32,15 @@ bla bla bla [a small remark that fits in the margin]{aside "title"} bla bla bla
 ```
 For asides, the title is optional, and inline-level markdown (bold, italic etc.) will work in the remark text.
 
+#### exercises
+```
+{{ex
+
+Text of the exercise.
+
+ex}}
+```
+
 #### not required reading
 ```
 {{skip
@@ -40,7 +49,21 @@ Lots of book...
 
 skip}}
 ```
-Skip annotations will grray-out the enclosed part of the book and inform students that they do not need to read this part of the text.
+Skip annotations will gray-out the enclosed part of the book and inform students that they do not need to read this part of the text.
+
+#### html
+
+HTML tags will no longer be filtered out. Don't know if <BLINK> works, though...
+
+#### live reloading
+
+From the command-line execute:
+```sh
+npm run watch
+```
+to automatically generate HTML when a markdown file is saved.
+
+The HTML-files will try, once per second, to reload the page if anything has changed. (There is no option, yet, to turn this off).
 
 #### notes while developing
 ```
