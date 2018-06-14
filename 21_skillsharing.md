@@ -3,7 +3,7 @@
 # Project: Skill-Sharing Website
 
 {{quote {author: "Margaret Fuller", chapter: true}
-	
+
 If you have knowledge, let others light their candles at it.
 
 quote}}
@@ -158,7 +158,7 @@ A `GET` request to `/talks` returns a JSON document like this:
 [{"title": "Unituning",
   "presenter": "Jamal",
   "summary": "Modifying your cycle for extra style",
-  "comment": []}]}
+  "comments": []}]}
 ```
 
 {{index "PUT method", URL}}
@@ -365,7 +365,7 @@ request handler function. We use the `root` option to tell the server
 where it should look for files. The handler function accepts `request`
 and `response` parameters and can be passed directly to `createServer`
 to create a server that serves _only_ files. We want to first check
-for requests that we handle specially, though, so we wrap it in
+for requests that we should handle specially, though, so we wrap it in
 another function.
 
 ```{includeCode: ">code/skillsharing/skillsharing_server.js"}
@@ -971,10 +971,10 @@ class SkillShareApp {
                    renderUserField(state.user, dispatch),
                    this.talkDOM,
                    renderTalkForm(dispatch));
-    this.setState(state);
+    this.syncState(state);
   }
 
-  setState(state) {
+  syncState(state) {
     if (state.talks != this.talks) {
       this.talkDOM.textContent = "";
       for (let talk of state.talks) {
@@ -1000,7 +1000,7 @@ function runApp() {
   let state, app;
   function dispatch(action) {
     state = handleAction(state, action);
-    app.setState(state);
+    app.syncState(state);
   }
 
   pollTalks(talks => {
@@ -1091,12 +1091,12 @@ to solve it?
 
 {{hint
 
-{{index "comment field reset (exercise)", template, "setState method"}}
+{{index "comment field reset (exercise)", template, "syncState method"}}
 
 The best way to do this is probably to make talks component objects,
-with a `setState` method, so that they can be updated to show a
+with a `syncState` method, so that they can be updated to show a
 modified version of the talk. During normal operation, the only way a
-talk can be changed is by adding more comments, so the `setState`
+talk can be changed is by adding more comments, so the `syncState`
 method can be relatively simple.
 
 The difficult part is that, when a changed list of talks comes in, we

@@ -783,8 +783,8 @@ transforming, and then restore the old transformation. This is usually
 the proper thing to do for a function that needs to temporarily
 transform the coordinate system. First, we save whatever
 transformation the code that called the function was using. Then the
-function does its thing (on top of the existing transformation),
-possibly adding more transformations. And finally, we revert to the
+function does its thing, adding more transformations on top of the
+current transformation. And finally, we revert to the
 transformation we started with.
 
 {{index "save method", "restore method"}}
@@ -863,7 +863,7 @@ that represent the game's elements.
 
 We define another display object type called `CanvasDisplay`,
 supporting the same ((interface)) as `DOMDisplay` from [Chapter
-?](game#domdisplay), namely the methods `setState` and `clear`.
+?](game#domdisplay), namely the methods `syncState` and `clear`.
 
 {{index state}}
 
@@ -899,11 +899,11 @@ class CanvasDisplay {
 }
 ```
 
-The `setState` method first computes a new viewport and then draws
+The `syncState` method first computes a new viewport and then draws
 the game scene at the appropriate position.
 
 ```{sandbox: "game", includeCode: true}
-CanvasDisplay.prototype.setState = function(state) {
+CanvasDisplay.prototype.syncState = function(state) {
   this.updateViewport(state);
   this.clearDisplay(state.status);
   this.drawBackground(state.level);

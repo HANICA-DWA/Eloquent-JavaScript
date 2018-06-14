@@ -428,7 +428,7 @@ tentacles in a neat row, labeled with numbers.
 
 {{index journal, "weresquirrel example"}}
 
-We will represent Jacques' journal as an array of objects.
+We will represent the journal that Jacques keeps as an array of objects.
 
 ```{test: wrap}
 let journal = [
