@@ -245,6 +245,7 @@ let index
 if (chapter && (index = chapters.indexOf(chapter[1])) > -1) {
   metadata.chap_num = index
   if (index > 0) metadata.prev_link = `${pad(index - 1)}_${chapters[index - 1]}`
+  metadata.current_page = `${pad(index)}_${chapters[index]}`
   if (index < chapters.length - 1) metadata.next_link = `${pad(index + 1)}_${chapters[index + 1]}`
 }
 

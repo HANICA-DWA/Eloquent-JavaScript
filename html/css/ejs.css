@@ -208,6 +208,17 @@ h1 {
 }
 h2 {
   font-size: 150%;
+  position: relative;
+  counter-reset: exerciseCount;
+}
+article.chapter > h2::before {
+  content: counter(level1Count) "." counter(level2Count) " ";
+  color: #aaa;
+  font-weight: normal;
+  counter-increment: level2Count;
+  display: inline-block;
+  position: absolute;
+  left: -1.8em;
 }
 h3 {
   font-size: 120%;

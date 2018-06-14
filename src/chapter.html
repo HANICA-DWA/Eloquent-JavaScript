@@ -13,10 +13,15 @@
     <<if $in.chap_num>>var chapNum = <<h $in.chap_num>>;<</if>>
     <<if $in.load_files>>var sandboxLoadFiles = <<h JSON.stringify($in.load_files)>>;<</if>>
   </script>
+  <style>
+    h1 {
+      counter-reset: level1Count <<h $in.chap_num>> level2Count 0;
+    }
+  </style>
   <</if>>
 </head>
 
-<article>
+<article class="chapter">
 <nav>
   <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
   <a href="index.html" title="cover">◆</a>
