@@ -330,6 +330,7 @@ blockquote footer:before {
 }
 
 .sandbox-output {
+  background-color: #e7f5f8;
   border-top: 1px solid #4ab;
   padding: 4px 0 4px 10px;
   white-space: pre;
@@ -588,12 +589,23 @@ sup {
   border-radius: 3pt;
   font-family: 'Crimson Text', serif;
 }
+.dwa-addition li > p {
+  margin: 0;
+}
 
 .dwa-addition.todo {
   background-color: #906fa0;
   border-left: 8pt solid #6e318d;
   font-family: 'Kalam';
   color: white;
+}
+
+.dwa-addition a {
+  text-decoration: underline;
+  text-decoration-color: #9644c055;
+
+  color: #9644c0;
+
 }
 
 .dwa-addition.exercise {
@@ -637,7 +649,7 @@ sup {
   font-family: "Crimson Text";
   font-weight: normal;
   color: black;
-  line-height: 120%;
+  line-height: 21px;
 }
 
 .sidenote.fixme {
@@ -652,7 +664,7 @@ sup {
   font-weight: bold;
 }
 .aside-ref.fixme {
-  color: #9f4acb;
+  color: #9644c0;
 }
 .aside-star.fixme {
   color: white;
