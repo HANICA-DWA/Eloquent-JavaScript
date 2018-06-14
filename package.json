@@ -21,9 +21,11 @@
   },
   "devDependencies": {
     "jsdom": "^11.2.0",
+    "onchange": "^4.0.0",
     "promise": "^8.0.1"
   },
   "scripts": {
+    "watch": "onchange \"*.md\" \"./src/*.js\" -- make html",
     "test": "make test"
   }
 }
