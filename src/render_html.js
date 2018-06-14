@@ -178,6 +178,12 @@ let renderer = {
   meta_note_close(token) {
       return `\n\n</div>`
   },
+  meta_ex_open(token) {
+    return `\n\n<div class="exercise dwa-addition"><header>oefening</header>`
+  },
+  meta_ex_close(token) {
+      return `\n\n</div>`
+  },
 
   meta_todo_open(token) {
     return `\n\n<div class="note todo dwa-addition"><strong>TO DO:</strong>`

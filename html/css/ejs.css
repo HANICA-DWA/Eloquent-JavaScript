@@ -596,6 +596,21 @@ sup {
   color: white;
 }
 
+.dwa-addition.exercise {
+  background-color: #d8e9d7;
+  border-color: #b2d1b0;
+}
+.dwa-addition.exercise > header {
+  font-family: "Rubik";
+  position:relative;
+  top: 8px;
+}
+
+.dwa-addition.exercise > header::after {
+  counter-increment: exerciseCount;
+  content: " " counter(level1Count) "." counter(level2Count) "." counter(exerciseCount,lower-alpha);
+}
+
 .note p {
   margin: 10px 0 10px 0px
 }
