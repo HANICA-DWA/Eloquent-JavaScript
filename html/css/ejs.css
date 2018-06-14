@@ -588,6 +588,7 @@ sup {
   border-left: 8pt solid #d9c89a;
   border-radius: 3pt;
   font-family: 'Crimson Text', serif;
+  line-height: 23px;
 }
 .dwa-addition li > p {
   margin: 0;
