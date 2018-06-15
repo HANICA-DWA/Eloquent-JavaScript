@@ -237,6 +237,8 @@ GEHEUGENMODEL MAKEN
 
 Dit lijkt wel wat op hoe het in Java gaat.
 
+IK DENK TOCH DAT IK DIT NIET WIL, WANT HET HOOFDSTUK IS AL MOEILIJK GENOEG
+
 todo}}
 
 Properties that contain functions are generally called _methods_ of
