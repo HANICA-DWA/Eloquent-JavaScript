@@ -67,6 +67,12 @@ Om aan te geven dat dit hulpmiddelen voor onszelf zijn en niet in JavaScript-eng
 
 note}}
 
+{{todo
+
+screencast maken waarin we laten zien dat een console.log van een functie inderdaad de broncode geeft.
+
+todo}}
+
 A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
 only `x`) and a _body_, which contains the statements that are to be
