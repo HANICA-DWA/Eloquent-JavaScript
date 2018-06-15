@@ -694,6 +694,12 @@ todo}}
 
 ## Computing correlation
 
+{{todo
+
+De voorbeeldcode voor het bepalen van correlaties staat in de persoonlijke repo bij BLABAALBA 
+
+todo}}
+
 {{index [array, "as table"], [nesting, "of arrays"]}}
 
 We can represent a two-by-two ((table)) in JavaScript with a
@@ -771,9 +777,9 @@ console.log(tableFor("pizza", JOURNAL));
 // → [76, 9, 4, 1]
 ```
 
-{{todo 
+{{todo
 
-Oeff, bovenstaande code is wel erg slim. Misschien even een voorbeeldje toevoegen om te zorgen dat iedereen het snapt.
+JavaScriptDOC. Zie de code 
 
 todo}}
 
@@ -929,6 +935,12 @@ eats ((peanuts)) and fails to brush his teeth. If only he weren't such
 a slob about dental hygiene, he'd have never even noticed his
 affliction.
 
+{{todo
+
+Een vraag maken over of de bovenstaande code de variabel JOURNAL aanpast.
+
+todo}}
+
 Knowing this, Jacques stops eating peanuts altogether and finds that
 his transformations don't come back.
 
@@ -943,6 +955,8 @@ stuffing his mouth with peanut butter before every show.
 One day, fed up with this pitiful existence, Jacques fails to change
 back into his human form, hops through a crack in the circus tent, and
 vanishes into the forest. He is never seen again.
+
+{{skip
 
 ## Further arrayology
 
@@ -1069,8 +1083,6 @@ console.log("coconuts".slice(4, 7));
 console.log("coconut".indexOf("u"));
 // → 5
 ```
-
-{{skip
 
 One difference is that a string's `indexOf` can search for a string
 containing more than one character, whereas the corresponding array
