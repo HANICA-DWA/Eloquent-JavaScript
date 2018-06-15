@@ -127,11 +127,13 @@ items to skip, counting from the start of the array.
 
 {{id properties}}
 
-{{todo
+{{note
 
-Geheugenmodel van bovenstaande code laten zien.
+Arrays 'leven' net als functies op de heap en een binding bevat een verwijzing naar dit array-object. Hieronder zie je een voorbeeld van bovenstaande code.
 
-todo}}
+{{figure {url: "img/memory_model/chap04/listOfNumbers.svg", alt: ""}}}
+
+note}}
 
 ## Properties
 
@@ -189,11 +191,13 @@ This property name is a valid binding name, and we know its name in
 advance, so to find the length of an array, you typically write
 `array.length` because that's easier to write than `array["length"]`.
 
-{{todo 
+{{note 
 
-length toevoegen aan het geheugenmodel
+We kunnen de property `length` gewoon toevoegen aan het array-object.
 
-todo}}
+{{figure {url: "img/memory_model/chap04/listOfNumbers_with_length.svg", alt: ""}}}
+
+note}}
 
 {{id methods}}
 
@@ -234,8 +238,6 @@ GEHEUGENMODEL MAKEN
 Dit lijkt wel wat op hoe het in Java gaat.
 
 todo}}
-
-
 
 Properties that contain functions are generally called _methods_ of
 the value they belong to, as in "`toUpperCase` is a method of a
@@ -363,11 +365,19 @@ or create a new property on the object if it didn't.
 
 {{index "tentacle (analogy)", [property, "model of"]}}
 
+{{note
+
+Ook objecten zijn op de heap te vinden zoals hieronder te zien is.
+
+{{figure {url: "img/memory_model/chap04/descriptions.svg", alt: ""}}}
+
+note}}
+
 To briefly return to our tentacle model of ((binding))s—property
 bindings are similar. They _grasp_ values, but other bindings and
 properties might be holding onto those same values. You may think of
 objects as octopuses with any number of tentacles, each of which has a
-name tattooed on it.
+name tattooed on it. [Bij DWA doen we dit toch een beetje anders. In de meeste gevallen kunnen we een property zien als een doosje met een waarde erin. Alleen als property naar een object, array, of functie wijst, kun je je voorstellen dat er in het doosje een tentakel zit die het object, de array, of de functie vastgrijpt]{aside "octopussen"}
 
 {{index "delete operator", [property, deletion]}}
 
@@ -497,6 +507,16 @@ said to have the same _identity_. The binding `object3` points to a
 different object, which initially contains the same properties as
 `object1` but lives a separate life.
 
+{{note
+
+Hieronder is een geheugenmodel van het programma te zien nadat de regel `object1.value = 15` is uitgevoerd. 
+
+ {{figure {url: "img/memory_model/chap04/object_1_2_3.svg", alt: ""}}}
+
+`object1` en `object2` wijzen naar hetzelfde object op de heap.
+
+note}}
+
 {{index "const keyword", "let keyword"}}
 
 Bindings can also be changeable or constant, but this is separate from
@@ -514,11 +534,21 @@ score.visitors = 1;
 score = {visitors: 1, home: 1};
 ```
 
-{{todo 
+{{note 
 
-Geheugenmodel toevoegen waarin dit duidelijk wordt
+Hieronder is te zien in het geheugenmodel, hoe de regel `score.visitors = 1` de inhoud van het object waar `score` naar wijst verandert. 
 
-todo}}
+{{figure {url: "img/memory_model/chap04/score_ok.svg", alt: ""}}}
+
+De waarde in het doosje van `score` (de pijl die naar het object verwijst) verander zelf niet.
+
+Hieronder is te zien hoe de regel `score = {visitors: 1, home: 1}` eruit ziet.
+
+{{figure {url: "img/memory_model/chap04/score_not_ok.svg", alt: ""}}}
+
+Je ziet dat deze regel een nieuw object maakt en de waarde van `score` verandert (door er een andere pijl naar het nieuwe object in te stoppen).
+
+note}}
 
 {{index "== operator", [comparison, "of objects"], "deep comparison"}}
 
