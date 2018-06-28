@@ -164,9 +164,52 @@ setTimeout(() => console.log("Tick"), 500);
 
 Waiting is not generally a very important type of work, but it can be
 useful when doing something like updating an animation or checking whether
-something is taking longer than a given amount of ((time)).[Daarnaast is setTimeout een handige als je wilt oefenen met het schrijven van asynchrone code. Normaal gesproken heb je functies nodig die een bestand lezen van de harde schijf, of een netwerk request doen. Als je even geen netwerk bij de hand hebt, of geen files die je kunt lezen, is `setTimeout` een goed functie om je code aynchroon te krijgen]{aside}
+something is taking longer than a given amount of ((time)).[Daarnaast is `setTimeout` een handige functie voor het simuleren van asynchroon gedrag. Normaal gesproken heb je hiervoor functies nodig die specifieke I/O-functionaliteit beidne (bijvoorbeeld een bestand lezen van de harde schijf, of een netwerk request doen). De crow-nest code maakt intern ook gebruik van `setTimeout` om asynchroon gedrag te kunnen simuleren waardoor je de code in de browser en in een Node-omgeving kan runnen]{aside}
 
+{{note
 
+De belangrijkste eigenschap van een asynchrone callback is dat deze pas kan worden gestart wanneer er op dat moment geen andere JavaScript code meer wordt uitgevoerd. 
+
+```javascript
+setTimeout(() => {
+    console.log("A");
+}, 500);
+
+console.log('B');
+```
+
+De bovenstaande code heeft daarom als uitvoer: 
+
+```
+B
+A
+```
+
+note}}
+
+{{note
+
+Dit betekent ook dat JavaScript code die erg traag is, de performance van het hele systeem onderuit kan halen.
+
+In het onderstaande voorbeeld wel "A" nooit op de console worden getoond.
+
+```javascript
+setTimeout(() => { 
+  console.log("A"); 
+}, 500); 
+
+while (true) { 
+  console.log('B');
+}
+```
+
+note}}
+
+{{todo
+
+Noemen dat niet alle callbacks ook asynchroon hoeven zijn. Of misschien beter bewaren als vraag voor in de les.
+
+todo}}
 
 Performing multiple asynchronous actions in a row using callbacks
 means that you have to keep passing new functions to handle the
@@ -176,21 +219,55 @@ means that you have to keep passing new functions to handle the
 
 Hieronder zie je een voorbeeld van de ellende die je krijgt wanneer je meerdere aynchrone functies na elkaar wilt uitvoeren. In dit geval voeren we drie setTimeouts na elkaar uit waarbij de nieuwe timeout pas wordt gestart als de vorige timeout klaar is. 
 
-```javasc
-setTimeout(() => {
-  console.log("Tick 1");
-  setTimeOut(() => {
-    console.log("Tick 2");
-   	setTimeOut(() => {
-        console.log("Tick 3");
+```javascript
+setTimeout(() => { //definitie van callback 1
+  console.log('Taak 1');
+  setTimeOut(() => { //definitie van callback 1
+    console.log('Taak 2');
+   	setTimeOut(() => { //definitie van callback 1
+        console.log('Taak 3');
    	}, 300)   
   }, 200)
 }, 500);
 ```
 
-In werkelijkheid krijg je bijvoorbeeld met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wannee we uit meerder 'tabellen' gegevens nodig hebben. 
+In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wannee we uit meerder 'tabellen' gegevens nodig hebben. 
 
 note}}
+
+{{ex
+
+We schrijven asynchrone code om dingen tegelijkertijd te doen. Hoewel dat makkelijker is, dan werken met meerdere threads is het complexer dan werken met synchrone code. Daarom onderstaande oefening. 
+
+Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitgevoerd. Om te simuleren dat je geen controle hebt over de duur van een taak (wat in werkelijkheid ook zo is), gebruiken we `Math.random() * 1000` om de tijdsduur van `setTimeout` te bepalen. 
+
+```javascript
+setTimeout(() => {
+    console.log('Klaar met taak A');
+}, Math.random() * 1000);
+
+setTimeout(() => {
+    console.log('Klaar met taak B');    
+}, Math.random() * 1000);
+
+setTimeout(() => {
+    console.log('Klaar met taak C');    
+}, Math.random() * 1000);
+
+console.log('Klaar met alle taken');
+```
+
+De tekst 'Klaar met alle taken ' wordt echter te vroeg getoond. 
+
+Pas de code zo aan dat`console.log('Klaar met alle taken')`pas wordt uitgevoerd nadat de taken A, B en C afgerond zijn. 
+
+De drie taken moeten wel tegelijkertijd uitgevoerd worden, dus je mag de ene `setTimeout` niet in de callback van de andere `setTimeout` plaatsen.
+
+Ook mag je de duur van elke taak niet aanpassen.
+
+Hint: om dit te bereiken moet je `console.log('Klaar met alle taken')` verplaatsen naar de callback van elke `setTimeout`
+
+ex}}
 
 {{index "hard disk"}}
 
@@ -207,11 +284,7 @@ names that point at other pieces of data, describing the actual cache.
 To look up a food ((cache)) in the storage bulbs of the _Big Oak_
 nest, a crow could run code like this:
 
-{{todo
-
-Ik heb een kleine aanpassing aan onderstaande code gemaakt waardoor deze niet meer werkt. Gebruik de bestanden in je lokale repo om met deze code te kunnen spelen.
-
-todo}}
+[Ik heb een kleine aanpassing aan onderstaande code gemaakt waardoor deze niet meer werkt. Gebruik de bestanden in je lokale repo om met deze code te kunnen spelen.]{aside}
 
 {{index "readStorage function"}}
 
@@ -220,8 +293,8 @@ import {bigOak} from "./crow-tech";
 
 bigOak.readStorage("food caches", caches => {
   let firstCache = caches[0];
-  bigOak.readCache(firstCache, info => {
-    console.log(info);
+  bigOak.readCache(firstCache, cacheInfo => {
+    console.log(cacheInfo);
   });
 });
 ```
@@ -231,11 +304,27 @@ to English.)
 
 {{note
 
-Als je de regel 
+De data die we met  `bigOak.readStorage` willen verkrijgen is een lijst van alle caches. In asynchrone code kunnen we deze data jammer genoeg **niet** als 'return-waarde' behandelen zoals hieronder staat.
 
-```bigOak.readStorage("food caches", caches => {```
+```javascript
+let caches = bigOak.readStorage("food caches");
+```
 
-vergelijkt met 
+Daarom geven we de data die we willen hebben als resultaat van de functie mee als parameter aan de asynchrone callback die wordt uitgevoerd op de onderstaande manier
+
+```javascript
+bigOak.readStorage("food caches", caches => {
+  ...
+}
+```
+
+note}}
+
+{{note
+
+De functies`readStorag`en `readCache` krijgen als laatste parameter de asynchrone callback functie, terwijl `setTimeout` deze als eerste parameter krijgt.  
+
+Bijna alle functies die we later gaan tegenkomen zul je zien dat de asynchrone callback als laatste parameter meegegeven moet worden. WAAROM EIGENLIJK? LEESBAARHEID
 
 note}}
 
@@ -325,12 +414,63 @@ is done, having arranged for a callback to be called when it
 completes. So we need some asynchronous mechanism—in this case,
 another ((callback function))—to signal when a response is available.
 
-{{todo 
+{{ex 
 
-Er moet even geoefend worden met die done parameter. En het is handig als 
-alle code van die crows beschikbaar is. 
+De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd en de resultaten van elke taak in een lokale variabele worden opgeslagen. 
 
-todo}}
+```javascript
+let doAllTasks = () => {
+    let tasksResults = [];
+    setTimeout(() => {
+        console.log('Taak 1 klaar');
+        taskResults.push('belangrijke data');
+        setTimeout(() => {
+        	taskResult.push(41);
+            console.log('Taak 2 klaar');
+        }, Math.random() * 100);
+    }, Math.random() * 100);    
+};
+```
+
+#### A)
+
+Pas deze functie aan, zodat je een asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven. Zorg ervoor dat de tasksResults kan worden meegegeven aan deze asynchrone callback.
+
+#### B)
+
+Test de implementatie van `doAllTasks` met de functie `printWhenFinished`
+
+Pas daarvoor de aanroep van `doAllTasks` zo aan zodat de functie `printWhenFinished` wordt uitgevoerd als alle taken van `doAllTasks` uitgevoerd zijn.  
+
+```javascript
+let printWhenFinished = () => {
+    console.log('Alle taken klaar');
+    console.log('nu gaan we andere dingen doen');
+};
+
+//Pas deze aanroep aan
+doAllTasks()
+```
+
+
+
+#### C)
+
+Test de implementatie van `doAllTasks` nu met de functie `printResults`.
+
+Pas daarvoor de aanroep van `doAllTasks` zo aan zodat de functie `printResults` wordt uitgevoerd als alle taken van `doAllTasks` uitgevoerd zijn en zorg ervoor dat de inhoud van `tasksResults` in de parameter `resultList` komt van `printResults`.  
+
+```javascript
+let printResults = (resultList) => {
+    console.log('Alle taken klaar, dit zijn de resultaten');
+	console.log(resultList);
+};
+
+//Pas deze aanroep aan
+doAllTasks()
+```
+
+ex}}
 
 In a way, asynchronicity is _contagious_. Any function that calls a
 function that works asynchronously must itself be asynchronous, using
@@ -341,7 +481,7 @@ that way is not great.
 
 {{note
 
-Bekijk nu onderstaande presentatie tot en 21:40 om een beter beeld te krijgen van hoe de asynchrone callbacks worden afgehandeld.
+Bekijk nu onderstaande presentatie tot en 21:40 om een beter beeld te krijgen van hoe de asynchrone callbacks worden afgehandeld in Node en in de browser.
 
 note}}
 
@@ -349,7 +489,7 @@ note}}
 
 {{todo 
 
-Flink wat oefenen met node's ingebouwde asynchronous functions
+Flink wat oefenen met node's ingebouwde asynchronous functions. Zeker nog een oefening met die done parameter. EN NATUURLIJK in de les die err parameter behandelen.
 
 todo}}
 
