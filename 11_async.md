@@ -244,14 +244,17 @@ Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitg
 ```javascript
 setTimeout(() => {
     console.log('Klaar met taak A');
+    //Pas hier de code aan
 }, Math.random() * 1000);
 
 setTimeout(() => {
     console.log('Klaar met taak B');    
+    //Pas hier de code aan
 }, Math.random() * 1000);
 
 setTimeout(() => {
-    console.log('Klaar met taak C');    
+    console.log('Klaar met taak C');
+    //Pas hier de code aan
 }, Math.random() * 1000);
 
 console.log('Klaar met alle taken');
@@ -419,7 +422,7 @@ another ((callback function))—to signal when a response is available.
 De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd en de resultaten van elke taak in een lokale variabele worden opgeslagen. 
 
 ```javascript
-let doAllTasks = () => {
+let doAllTasks = (/* Pas hier de code aan */) => {
     let tasksResults = [];
     setTimeout(() => {
         console.log('Taak 1 klaar');
@@ -427,6 +430,7 @@ let doAllTasks = () => {
         setTimeout(() => {
         	taskResult.push(41);
             console.log('Taak 2 klaar');
+            /* Pas hier de code aan */
         }, Math.random() * 100);
     }, Math.random() * 100);    
 };
@@ -449,7 +453,7 @@ let printWhenFinished = () => {
 };
 
 //Pas deze aanroep aan
-doAllTasks()
+doAllTasks(/* Pas hier de code aan */);
 ```
 
 
@@ -467,7 +471,7 @@ let printResults = (resultList) => {
 };
 
 //Pas deze aanroep aan
-doAllTasks()
+doAllTasks(/* Pas hier de code aan */);
 ```
 
 ex}}
