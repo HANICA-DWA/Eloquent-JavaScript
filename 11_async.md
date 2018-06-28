@@ -207,11 +207,39 @@ bigOak.readStorage("food caches", caches => {
 (All binding names and strings have been translated from crow language
 to English.)
 
+{{note
+
+In de echte wereld is bovenstaande code is te vergelijken met een programma dat alle files uit een bepaalde folder leest, vervolgens de inhoud van de eerste file leest en deze op het scherm toont.
+
+
+
+```javascript
+//Lees alle bestanden uit de folder "food caches" en stop de naam van het //eerste bestand in de variabele firstCache
+bigOak.readStorage("food caches", caches => {
+  let firstCache = caches[0];
+```
+
+
+
+```javascript
+//Lees de inhoud van het bestand waarvan de naam in firstCache zit en 
+//log de inhoud naar de console
+  bigOak.readStorage(firstCache, info => {
+    console.log(info);
+  });
+```
+
+Node heeft zijn eigen methoden om dit voor elkaar te krijgen: `readdir` en `readfile` uit de module `file system`
+
+note}}
+
 {{todo
 
-In feite leest bovenstaande code gewoon de inhoud van een folder en daarnaa de inhoud van de eerste file.
+### Exercise reader readfile
 
-Exercise: gebruik de node-functies om dit voor elkaar te krijgen.
+De de bestanden readDirExample.js en readFileExample.js zie je een voorbeeld van hoe je `readdir` en `readfile` kunt gebruiken.
+
+Gebruik deze voorbeelden om de inhoud van de folder 'food_caches' te lezen en vervolgens de inhoud van het laatste bestand naar de console te loggen.
 
 todo}}
 
