@@ -207,6 +207,14 @@ bigOak.readStorage("food caches", caches => {
 (All binding names and strings have been translated from crow language
 to English.)
 
+{{todo
+
+In feite leest bovenstaande code gewoon de inhoud van een folder en daarnaa de inhoud van de eerste file.
+
+Exercise: gebruik de node-functies om dit voor elkaar te krijgen.
+
+todo}}
+
 This style of programming is workable, but the indentation level
 increases with each asynchronous action, because you end up in another
 function. Doing more complicated things, like running multiple actions
