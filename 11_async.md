@@ -164,17 +164,33 @@ setTimeout(() => console.log("Tick"), 500);
 
 Waiting is not generally a very important type of work, but it can be
 useful when doing something like updating an animation or checking whether
-something is taking longer than a given amount of ((time)).
+something is taking longer than a given amount of ((time)).[Daarnaast is setTimeout een handige als je wilt oefenen met het schrijven van asynchrone code. Normaal gesproken heb je functies nodig die een bestand lezen van de harde schijf, of een netwerk request doen. Als je even geen netwerk bij de hand hebt, of geen files die je kunt lezen, is `setTimeout` een goed functie om je code aynchroon te krijgen]{aside}
+
+
 
 Performing multiple asynchronous actions in a row using callbacks
 means that you have to keep passing new functions to handle the
 ((continuation)) of the computation after the actions.
 
-{{todo 
+{{note
 
-Exercise, of uitleg toevoegen met drie setTimeouts
+Hieronder zie je een voorbeeld van de ellende die je krijgt wanneer je meerdere aynchrone functies na elkaar wilt uitvoeren. In dit geval voeren we drie setTimeouts na elkaar uit waarbij de nieuwe timeout pas wordt gestart als de vorige timeout klaar is. 
 
-todo}}
+```javasc
+setTimeout(() => {
+  console.log("Tick 1");
+  setTimeOut(() => {
+    console.log("Tick 2");
+   	setTimeOut(() => {
+        console.log("Tick 3");
+   	}, 300)   
+  }, 200)
+}, 500);
+```
+
+In werkelijkheid krijg je bijvoorbeeld met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wannee we uit meerder 'tabellen' gegevens nodig hebben. 
+
+note}}
 
 {{index "hard disk"}}
 
@@ -191,6 +207,12 @@ names that point at other pieces of data, describing the actual cache.
 To look up a food ((cache)) in the storage bulbs of the _Big Oak_
 nest, a crow could run code like this:
 
+{{todo
+
+Ik heb een kleine aanpassing aan onderstaande code gemaakt waardoor deze niet meer werkt. Gebruik de bestanden in je lokale repo om met deze code te kunnen spelen.
+
+todo}}
+
 {{index "readStorage function"}}
 
 ```{includeCode: "top_lines: 1"}
@@ -198,7 +220,7 @@ import {bigOak} from "./crow-tech";
 
 bigOak.readStorage("food caches", caches => {
   let firstCache = caches[0];
-  bigOak.readStorage(firstCache, info => {
+  bigOak.readCache(firstCache, info => {
     console.log(info);
   });
 });
@@ -209,39 +231,35 @@ to English.)
 
 {{note
 
-In de echte wereld is bovenstaande code is te vergelijken met een programma dat alle files uit een bepaalde folder leest, vervolgens de inhoud van de eerste file leest en deze op het scherm toont.
+Als je de regel 
 
+```bigOak.readStorage("food caches", caches => {```
 
-
-```javascript
-//Lees alle bestanden uit de folder "food caches" en stop de naam van het //eerste bestand in de variabele firstCache
-bigOak.readStorage("food caches", caches => {
-  let firstCache = caches[0];
-```
-
-
-
-```javascript
-//Lees de inhoud van het bestand waarvan de naam in firstCache zit en 
-//log de inhoud naar de console
-  bigOak.readStorage(firstCache, info => {
-    console.log(info);
-  });
-```
-
-Node heeft zijn eigen methoden om dit voor elkaar te krijgen: `readdir` en `readfile` uit de module `file system`
+vergelijkt met 
 
 note}}
 
-{{todo
+{{note
 
-### Exercise reader readfile
+In de 'echte wereld' is bovenstaande code is te vergelijken met een programma dat alle files uit een bepaalde folder op de harde schijf leest (`readStorage`), de inhoud van de eerste file leest en deze naar de console logt (`readCache`).
+
+Node heeft zijn eigen methoden om dit voor elkaar te krijgen: respectievelijk `readdir` en `readFile` uit de module 'file system'. Zie onderstaande links voor de API documentatie van beide functies:
+
+[readdir](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback)
+
+[readFile](https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback)
+
+note}}
+
+{{ex
+
+### readir readfile
 
 De de bestanden readDirExample.js en readFileExample.js zie je een voorbeeld van hoe je `readdir` en `readfile` kunt gebruiken.
 
-Gebruik deze voorbeelden om de inhoud van de folder 'food_caches' te lezen en vervolgens de inhoud van het laatste bestand naar de console te loggen.
+Gebruik deze voorbeelden om de inhoud van de folder 'food_caches' te lezen en vervolgens de inhoud van het laatste bestand uit deze lijst naar de console te loggen. In het 
 
-todo}}
+ex}}
 
 This style of programming is workable, but the indentation level
 increases with each asynchronous action, because you end up in another
