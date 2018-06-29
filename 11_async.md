@@ -497,9 +497,15 @@ Flink wat oefenen met node's ingebouwde asynchronous functions. Zeker nog een oe
 
 todo}}
 
+{{todo
+
+En natuutlijk een oefening met setTimeOUt in een for loop waarbij je de index uit de loop gaat printen.
+
+todo}}
+
 {{todo 
 
-In de les aandacht besteden aan het teruggeven van fouten in asynch
+In de les aandacht besteden aan het teruggeven van fouten in async
 functies.
 
 todo}}
