@@ -195,7 +195,7 @@ In het onderstaande voorbeeld wel "A" nooit op de console worden getoond.
 
 ```javascript
 setTimeout(() => { 
-  console.log("A"); 
+  console.log('A'); 
 }, 500); 
 
 while (true) { 
@@ -205,11 +205,27 @@ while (true) {
 
 note}}
 
-{{todo
+{{ex
 
-Noemen dat niet alle callbacks ook asynchroon hoeven zijn. Of misschien beter bewaren als vraag voor in de les.
+Gegeven onderstaande code
 
-todo}}
+```javascript
+const lijst = ['A', 'B'];
+
+setTimeout(() => {
+    console.log('C');
+});
+
+lijst.forEach((item) => {
+    console.log(item);
+});
+
+console.log('D');
+```
+
+Wat is de volgorde van de letters die op de console verschijnt?
+
+ex}}
 
 Performing multiple asynchronous actions in a row using callbacks
 means that you have to keep passing new functions to handle the
@@ -419,16 +435,13 @@ another ((callback function))—to signal when a response is available.
 
 {{ex 
 
-De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd en de resultaten van elke taak in een lokale variabele worden opgeslagen. 
+De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd. 
 
 ```javascript
 let doAllTasks = (/* Pas hier de code aan */) => {
-    let tasksResults = [];
     setTimeout(() => {
         console.log('Taak 1 klaar');
-        taskResults.push('belangrijke data');
         setTimeout(() => {
-        	taskResult.push(41);
             console.log('Taak 2 klaar');
             /* Pas hier de code aan */
         }, Math.random() * 100);
@@ -438,7 +451,7 @@ let doAllTasks = (/* Pas hier de code aan */) => {
 
 #### A)
 
-Pas deze functie aan, zodat je een asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven. Zorg ervoor dat de tasksResults kan worden meegegeven aan deze asynchrone callback.
+Pas deze functie aan, zodat je een willekeurige asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven. 
 
 #### B)
 
@@ -456,22 +469,62 @@ let printWhenFinished = () => {
 doAllTasks(/* Pas hier de code aan */);
 ```
 
+Dit zou de uitvoer moeten zijn:
+
+```
+Taak 1 klaar
+Taak 2 klaar
+Alle taken klaar
+nu gaan we andere dingen doen
+```
 
 
-#### C)
 
-Test de implementatie van `doAllTasks` nu met de functie `printResults`.
+#### C) 
 
-Pas daarvoor de aanroep van `doAllTasks` zo aan zodat de functie `printResults` wordt uitgevoerd als alle taken van `doAllTasks` uitgevoerd zijn en zorg ervoor dat de inhoud van `tasksResults` in de parameter `resultList` komt van `printResults`.  
+Hieronder staat de code van  `doAllTasks2` . Deze functie simuleert een situatie waarbij we het resultaat van een asynchrone actie in een lijst stoppen (`completedTasks`).
+
+Pas deze functie zo aan dat er weer een asynchrone callback kan worden meegegeven die wordt uitgevoerd nadat alle taken klaar zijn en de lijst met resultaten meegeeft aan de asynchrone callback.
+
+```javascript
+let doAllTasks2 = (/* Pas hier de code aan */) => {
+    let completetTasks = [];
+    setTimeout(() => {
+        completedTasks.push('Taak 1 klaar');
+        setTimeout(() => {
+            completedTasks.push('Taak 2 klaar');
+            /* Pas hier de code aan */
+        }, Math.random() * 100);
+    }, Math.random() * 100);    
+};
+```
+
+
+
+#### D)
+
+Test de implementatie van `doAllTasks2` nu met de functie `printResults`.
+
+Pas daarvoor de aanroep van `doAllTasks2` zo aan zodat de functie `printResults` wordt uitgevoerd als alle taken van `doAllTasks2` uitgevoerd zijn en zorg ervoor dat de inhoud van `tasksResults` in de parameter `resultList` komt van `printResults`.  
 
 ```javascript
 let printResults = (resultList) => {
     console.log('Alle taken klaar, dit zijn de resultaten');
-	console.log(resultList);
+    resultList.forEach((result) => {
+        console.log(result);
+    })
 };
 
 //Pas deze aanroep aan
-doAllTasks(/* Pas hier de code aan */);
+doAllTasks2(/* Pas hier de code aan */);
+```
+
+Dit zou de uitvoer moeten zijn:
+
+```
+Alle taken klaar, dit zijn de resultaten
+Taak 1 klaar
+Taak 2 klaar
 ```
 
 ex}}
@@ -491,22 +544,9 @@ note}}
 
 {{youtube "8aGhZQkoFbQ"}}
 
-{{todo 
-
-Flink wat oefenen met node's ingebouwde asynchronous functions. Zeker nog een oefening met die done parameter. EN NATUURLIJK in de les die err parameter behandelen.
-
-todo}}
-
 {{todo
 
 En natuutlijk een oefening met setTimeOUt in een for loop waarbij je de index uit de loop gaat printen.
-
-todo}}
-
-{{todo 
-
-In de les aandacht besteden aan het teruggeven van fouten in async
-functies.
 
 todo}}
 
