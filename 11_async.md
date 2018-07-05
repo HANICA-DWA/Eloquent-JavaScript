@@ -616,40 +616,49 @@ resolve it.
 {{index "storage function"}}
 
 This is how you'd create a promise-based interface for the
-`readStorage` function.
+`readStorage` function. [De asynchrone functies is de meeste libraries retourneren inmiddles promises, dus het is niet vaak nodig om een dit soor interfaces om asynchrone functies te schrijven]{aside "promise-based interface"}
 
-```{includeCode: "top_lines: 5"}
+```javascript
 function storage(nest, name) {
   return new Promise(resolve => {
     nest.readStorage(name, result => resolve(result));
   });
 }
-
-storage(bigOak, "enemies")
-  .then(value => console.log("Got", value));
 ```
 
-{{note 
+And this is how you use the newly created promise-based interface. [Dit is wat meestal doet als je met Promises bezig bent]{aside gebruik}
 
-Deze manier van een Promise construeren heb je alleen nodig als je een 
-asynchrone functie hebt die zelf geen promise retourneert. Bijvoorbeeld
-`readfile`.
+```
+storage(bigOak, "enemies").then(value => {
+  console.log("Got", value)
+});
+```
 
-Tegenwoordig retourneren de asynchrone functies uit meeste libraries wel een Promise, dus kom je bovenstaande promise-constructie niet zo vaak meer tegen in je eigen code.s
+{{note
+
+Hieronder zie je een voorbeeld van een promised-based interface voor `setTimeOut` die we voor de gelegenheid `setTimeOutP` hebben genoemd. Daaronder zie je hoe deze functie gebruikt kan worden.
+
+```javascript
+function setTimeoutP(delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, delay)
+    });
+}
+
+setTimeoutP(500).then(() => {
+    console.log('klaar');
+});
+```
 
 note}}
 
 {{ex
 
-Laten we toch even oefenen. Twee belangrijke functies `setTimout` en`readfile` retourneren geen promise. Fix dit.
+Waarom krijgt de `then`-callback van `setTimeoutP` geen parameter mee, terwijl de `then`-callback van `storage` the parameter `value` meekrijgt.
 
 ex}}
-
-{{todo
-
-Als bovenstaande oefening niet gelukt is gebruik dan voor de volgende oefeningen de implemtenaties die zijn meegegeven.
-
-todo}}
 
 This asynchronous function returns a meaningful value. This is the
 main advantage of promises—they simplify the use of asynchronous
@@ -657,6 +666,45 @@ functions. Instead of having to pass around callbacks, promise-based
 functions look similar to regular ones: they take input as arguments
 and return their output. The only difference is that the output may
 not be available yet.
+
+{{ex
+
+Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een promise-based interface te maken voor een bestaande asynchrone functie die dit nog niet heeft. Op die manier zie je hoe de `value`-parameter van de `then`-callback samenhangt met de `resolve`- callback uit de promise-based interface. 
+
+De functie `fs.readFile` retourneert geen promise. Hieronder zie je al een begin van een promise-based interface voor deze functie die `readFileP` heet. Maak deze definitie af. 
+
+Besteed hier niet te veel tijd aan. Als je er niet uitkomt dan kun je het antwoord vinden in de repo.
+
+```javascript
+const fs = require('fs');
+
+//Promise-based interface definitie
+function readFileP(file) {
+    return new Promise((resolve, reject) => {
+        /* 
+        
+        
+        
+        */
+    });
+}
+
+//Gebruik van de functie
+readFileP('test.txt').then(value => {
+    console.log(value.toString());
+}).catch(err => {
+    console.log(err.toString());
+});
+```
+
+ex}}
+
+{{note
+
+We gebruiken `readFileP` en `setTimeoutP`in de opaven hieronder.
+
+note}}
+
 
 ## Failure
 
