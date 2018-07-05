@@ -591,6 +591,12 @@ which resolves to the value that the handler function returns or, if
 that returns a promise, waits for that promise and then resolves to
 its result.
 
+{{todo
+
+Een voorbeeld met meerdere fetch-requests en meerdere thens.
+
+todo}}
+
 It is useful to think of promises as a device to move values into an
 asynchronous reality. A normal value is simply there. A promised value
 is a value that _might_ already be there or might appear at some point
@@ -627,15 +633,21 @@ storage(bigOak, "enemies")
 
 Deze manier van een Promise construeren heb je alleen nodig als je een 
 asynchrone functie hebt die zelf geen promise retourneert. Bijvoorbeeld
-readfile.
+`readfile`.
+
+Tegenwoordig retourneren de asynchrone functies uit meeste libraries wel een Promise, dus kom je bovenstaande promise-constructie niet zo vaak meer tegen in je eigen code.s
 
 note}}
 
-{{todo 
-## Exercise
+{{ex
 
-Maak een functie readFilePromise die dezelfde constructie gebruikt als 
-readStorage om een readFile een promnise te laten retourneren.
+Laten we toch even oefenen. Twee belangrijke functies `setTimout` en`readfile` retourneren geen promise. Fix dit.
+
+ex}}
+
+{{todo
+
+Als bovenstaande oefening niet gelukt is gebruik dan voor de volgende oefeningen de implemtenaties die zijn meegegeven.
 
 todo}}
 
@@ -705,6 +717,12 @@ an error, the new promise is also rejected.
 As a shorthand, `then` also accepts a rejection handler as second
 argument, so you can install both types of handlers in a single method
 call.
+
+{{todo
+
+Deze notatie zie je niet zoveel. Misschien even een voorbeeld laten zien.
+
+todo}}
 
 A function passed to the `Promise` constructor receives a second
 argument, alongside the resolve function, which it can use to reject
@@ -880,11 +898,15 @@ skip}}
 
 {{index "neighbors property", "ping request"}}
 
+{{skip
+
 Each nest computer keeps an array of other nests within transmission
 distance in its `neighbors` property. To check which of those are
 currently reachable, you could write a function that tries to send a
 `"ping"` request (a request that simply asks for a response) to each
 of them, and see which ones come back.
+
+skip}}
 
 {{index "Promise.all function"}}
 
@@ -894,6 +916,14 @@ waits for all of the promises in the array to resolve, and then
 resolves to an array of the values that these promises produced (in
 the same order as the original array). If any promise is rejected, the
 result of `Promise.all` is itself rejected.
+
+{{todo
+
+Een opgave maken om `Promise.all` te oefenen. Daarin zou het bebruik van `map` natuurlijk helemaal goed uitkomen.
+
+todo}}
+
+{{skip
 
 ```{includeCode: true}
 requestType("ping", () => "pong");
@@ -1144,7 +1174,17 @@ reliable—abstractions built on top of them can help, but you can't
 abstract away network failure. So network programming is typically
 very much about anticipating and dealing with failures.
 
+skip}}
+
 ## Async functions
+
+{{todo
+
+een tekst invoegen die aysnc iets makkelijker uitlegt, dan het stuk hieronder. En dit stuk misschien bewaren voor in de les.
+
+todo}}
+
+{{skip
 
 To store important information, ((crow))s are known to duplicate it
 across nests. That way, when a hawk destroys a nest, the information
@@ -1352,6 +1392,8 @@ rejected when it throws an exception. Whenever it yields (awaits) a
 promise, the result of that promise (value or thrown exception) is the
 result of the `await` expression.
 
+skip}}
+
 ## The event loop
 
 {{index "asynchronous programming", scheduling, "event loop", timeline}}
@@ -1428,6 +1470,8 @@ console.log("Me first!");
 
 In later chapters we'll see various other types of events that run on
 the event loop.
+
+{{skip
 
 ## Asynchronous bugs
 
@@ -1528,6 +1572,8 @@ and you should be aware of where the gaps in your code occur. An
 advantage of JavaScript's _explicit_ asynchronicity (whether through
 callbacks, promises, or `await`) is that spotting these gaps is
 relatively easy.
+
+skip}}
 
 ## Summary
 
