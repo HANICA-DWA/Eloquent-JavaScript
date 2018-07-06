@@ -671,9 +671,9 @@ not be available yet.
 
 Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een promise-based interface te maken voor een bestaande asynchrone functie die dit nog niet heeft. Op die manier zie je hoe de `value`-parameter van de `then`-callback samenhangt met de `resolve`- callback uit de promise-based interface. 
 
-De functie `fs.readFile` retourneert geen promise. Hieronder zie je al een begin van een promise-based interface voor deze functie die `readFileP` heet. Maak deze definitie af. 
+De functie `fs.readFile` retourneert geen promise. Hieronder zie je al een begin van een promise-based interface voor deze functie die `readFileP` heet. Maak deze definitie af. Probeer daarbij zelf te bedenken wanneer je de functie moet aanroepen die in de `reject`-parameter zit. 
 
-Besteed hier niet te veel tijd aan. Als je er niet uitkomt dan kun je het antwoord vinden in de repo.
+Besteed hier echter niet te veel tijd aan. Als je er niet uitkomt dan kun je het antwoord vinden in de repo.
 
 ```javascript
 const fs = require('fs');
@@ -705,6 +705,22 @@ We gebruiken `readFileP` en `setTimeoutP`in de opaven hieronder.
 
 note}}
 
+{{todo
+
+Een exercise over een promise chain en de timing. 
+
+Een promise chain lijkt een beetje op synchroon.
+
+Kun je waardes vinden die tot de onderstaande output leiden?
+
+todo}}
+
+{{todo
+
+een korte uitleg over een promise chain
+
+todo}}
+
 
 ## Failure
 
@@ -730,6 +746,12 @@ functions they call, are caught and given to the right function.
 
 {{index "rejecting (a promise)", "resolving (a promise)", "then method"}}
 
+{{todo
+
+voorbeeld van de `readFile`
+
+todo}}
+
 Promises make this easier. They can be either resolved (the action
 finished successfully) or rejected (it failed). Resolve handlers (as
 registered with `then`) are called only when the action is successful,
@@ -750,6 +772,12 @@ promise that is rejected, that rejection flows into the next promise.
 There's a `Promise.reject` function that creates a new,
 immediately rejected promise.
 
+{{todo
+
+Verwijzing naar `readFileP` 
+
+todo}}
+
 {{index "catch method"}}
 
 To explicitly handle such rejections, promises have a `catch` method
@@ -759,6 +787,14 @@ much like `then` in that it returns a new promise, which resolves to
 the original promise's value if it resolves normally, and to the
 result of the `catch` handler otherwise. If a `catch` handler throws
 an error, the new promise is also rejected.
+
+{{todo
+
+en nu een voorbeeld met `readFileP` met een parse json en een tweede aanroep naar `readFileP`
+
+en noemen dat die then-handlers leuk zijn omdat ze de fout kunnen vangen die parse json levert en de `readFileP`
+
+todo}}
 
 {{index "then method"}}
 
@@ -968,6 +1004,8 @@ result of `Promise.all` is itself rejected.
 {{todo
 
 Een opgave maken om `Promise.all` te oefenen. Daarin zou het bebruik van `map` natuurlijk helemaal goed uitkomen.
+
+Bijvoorbeeld: alle files lezen met readFileP.
 
 todo}}
 
