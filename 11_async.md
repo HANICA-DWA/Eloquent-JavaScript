@@ -597,6 +597,8 @@ Een voorbeeld met meerdere fetch-requests en meerdere thens.
 
 todo}}
 
+[Een rij van van meerdere `then`s wordt vaak een promise chain genoemd.]{aside "promise chain"}
+
 It is useful to think of promises as a device to move values into an
 asynchronous reality. A normal value is simply there. A promised value
 is a value that _might_ already be there or might appear at some point
@@ -705,15 +707,66 @@ We gebruiken `readFileP` en `setTimeoutP`in de opaven hieronder.
 
 note}}
 
-{{todo
+{{ex
 
-Een exercise over een promise chain en de timing. 
+Het werken met promises lijkt een beetje op synchroon programmeren, maar het is niet helemaal hetzelfde. Deze opgave illustreert dit.
 
-Een promise chain lijkt een beetje op synchroon.
+Hieronder zie je twee promise chains gemaakt met `setTimeoutP`. 
 
-Kun je waardes vinden die tot de onderstaande output leiden?
+```javascript
+/* Promise chain A */
+setTimeoutP(10).then(() => {
+    console.log('A - 1');
+    return setTimeoutP(20);
+}).then(() => {
+    console.log('A - 2');
+});
 
-todo}}
+/* Promise chain B */
+setTimeoutP(100).then(() => {
+    console.log('B - 1');
+    return setTimeoutP(150);
+}).then(() => {
+    console.log('B - 2');
+});
+```
+
+Op dit moment is de uitvoer van deze code:
+
+```
+A - 1
+A - 2
+B - 1
+B - 2
+```
+
+Hierin zie je dat de chain A en chain B netjes na elkaar worden uitgevoerd. Dit ligt echter aan de getallen die gekozen zijn voor de vier aanroepen van `setTimeoutP`.
+
+#### A
+
+Verander deze vier getallen zodanig dat je de volgende uitvoer krijgt:
+
+```
+A - 1
+B - 1
+A - 2
+B - 2
+```
+
+#### B
+
+Kun je de getallen ook zo veranderen dat je deze uitvoer krijgt:
+
+```
+A - 2
+B - 2
+A - 1
+B - 1
+```
+
+Zo niet, waarom niet?
+
+ex}}
 
 {{todo
 
