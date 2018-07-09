@@ -795,7 +795,7 @@ functions they call, are caught and given to the right function.
 
 {{note
 
-Hieronder zie het voorbeeld uit de vorige opgave. Het onhandige is dat je nu op drie verschillende punten een mogelijke error moet afhandelen en ook nog op een verschillende manier.
+Hieronder zie het voorbeeld uit de vorige opgave. 
 
 ```javascript
 fs.readdir('./food_caches', (err, fileList) => {
@@ -814,13 +814,9 @@ fs.readdir('./food_caches', (err, fileList) => {
 });
 ```
 
+Het onhandige is dat je nu op drie verschillende punten een mogelijke error moet afhandelen. Daarnaast moet je de synchrone en asynchrone errors die kunnen optreden ook nog op een ander afhandelen.
+
 note}}
-
-{{todo
-
-waarom werkt try catch niet? Of was dat in de les.
-
-todo}}
 
 Promises make this easier. They can be either resolved (the action
 finished successfully) or rejected (it failed). Resolve handlers (as
@@ -858,25 +854,30 @@ the original promise's value if it resolves normally, and to the
 result of the `catch` handler otherwise. If a `catch` handler throws
 an error, the new promise is also rejected.
 
-{{todo
+{{note
 
-en nu een voorbeeld met `readFileP` met een parse json en een tweede aanroep naar `readFileP`
+Hieronder zie je een het hetzelfde voorbeeld als hierboven, maar dan met promises.
 
-en noemen dat die then-handlers leuk zijn omdat ze de fout kunnen vangen die parse json levert en de `readFileP`
+```javascript
+readdirP('./food_caches').then(fileList => {
+    return readFileP(`./food_caches/${fileList[0]}`)
+}).then(fileContents => {
+    const cacheInfo = JSON.parse(fileContents);
+    //handle succes
+}).catch(err => {
+    //handle error
+});
+```
 
-todo}}
+Het handige is dat je nu alle errors op één plek kunt afhandelen en op dezelfde manier.
+
+note}}
 
 {{index "then method"}}
 
 As a shorthand, `then` also accepts a rejection handler as second
 argument, so you can install both types of handlers in a single method
-call.
-
-{{todo
-
-Deze notatie zie je niet zoveel. Misschien even een voorbeeld laten zien.
-
-todo}}
+call. [Deze notatie zie je bijna nooit]{aside ""}
 
 A function passed to the `Promise` constructor receives a second
 argument, alongside the resolve function, which it can use to reject
