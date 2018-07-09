@@ -253,7 +253,7 @@ note}}
 
 {{ex
 
-We schrijven asynchrone code om dingen tegelijkertijd te doen. Hoewel dat makkelijker is, dan werken met meerdere threads is het complexer dan werken met synchrone code. Daarom onderstaande oefening. 
+We schrijven asynchrone code om taken naast elkaar te kunnen doen (in plaats van na elkaar zoals hierboven). Hoewel dat makkelijker is dan werken met meerdere threads, is het complexer dan werken met synchrone code. Daarom onderstaande oefening. 
 
 Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitgevoerd. Om te simuleren dat je geen controle hebt over de duur van een taak (wat in werkelijkheid ook zo is), gebruiken we `Math.random() * 1000` om de tijdsduur van `setTimeout` te bepalen. 
 
@@ -768,12 +768,6 @@ Zo niet, waarom niet?
 
 ex}}
 
-{{todo
-
-een korte uitleg over een promise chain
-
-todo}}
-
 
 ## Failure
 
@@ -799,9 +793,32 @@ functions they call, are caught and given to the right function.
 
 {{index "rejecting (a promise)", "resolving (a promise)", "then method"}}
 
+{{note
+
+Hieronder zie het voorbeeld uit de vorige opgave. Het onhandige is dat je nu op drie verschillende punten een mogelijke error moet afhandelen en ook nog op een verschillende manier.
+
+```javascript
+fs.readdir('./food_caches', (err, fileList) => {
+    if (err) //handle error
+
+    fs.readFile(`./food_caches/${fileList[0]}`, (err, fileContents) => {
+        if (err) //handle error
+
+        try {
+            const data = JSON.parse(fileContents);
+            //handle succes
+        } catch (err) {
+            //handle error
+        }
+    });
+});
+```
+
+note}}
+
 {{todo
 
-voorbeeld van de `readFile`
+waarom werkt try catch niet? Of was dat in de les.
 
 todo}}
 
