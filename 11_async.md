@@ -707,8 +707,6 @@ function readFileP(file) {
 //Gebruik van de functie
 readFileP('test.txt').then(value => {
     console.log(value.toString());
-}).catch(err => {
-    console.log(err.toString());
 });
 ```
 
@@ -929,7 +927,23 @@ immediately rejected promise.
 
 {{todo
 
-Verwijzing naar `readFileP` 
+Ter illustratie zie je hieronder de promise-based api voor `readFile`. Als er een error optreedt bij het lezen van de file dan wordt de functie `reject` uitgevoerd die het error-object in de meekrijgt.
+
+```javascript
+readFileP = (file) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+```
+
+Deze implementatie zorgt ervoor een promise chain waarin `readFileP` gebruikt wordt, eventuele errors elegant kan afhandelen zoals hieronder te lezen is.  
 
 todo}}
 
