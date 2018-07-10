@@ -605,8 +605,6 @@ fetch('http://example.ica.han/users').then(response => {
     return response.json();
 }).then(user => {
     console.log(user);
-}).catch(err => {
-    console.log(err.message);
 });
 ```
 
