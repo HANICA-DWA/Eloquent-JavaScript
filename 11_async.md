@@ -591,11 +591,30 @@ which resolves to the value that the handler function returns or, if
 that returns a promise, waits for that promise and then resolves to
 its result.
 
-{{todo
+{{note
 
-Een voorbeeld met meerdere fetch-requests en meerdere thens.
+Ter illustratie zie je hieronder een voorbeeld van een rij promises. Het idee achter deze code is dat we een lijst gebruikers van de een server willen halen en vervolgens alle gegevens van de eerste gebruiker willen hebben van diezelfde server.
 
-todo}}
+```javascript
+fetch('http://example.ica.han/users').then(response => {
+    return response.json(); 
+}).then(usernames => {
+    let firstUsername = usernames[0];
+    return fetch(`http://example.ica.han/users/${firstUsername}`)
+}).then(response => {
+    return response.json();
+}).then(user => {
+    console.log(user);
+}).catch(err => {
+    console.log(err.message);
+});
+```
+
+We gebruiken hier de  methode `fetch` om de gegevens van de server te halen. Deze methode is te vergelijken met BLABALABA, maar retourneert een promise die uiteindelijk de response van de server bevat. 
+
+Uit de response die we van de server terugkrijgen, halen we de data met de functie `response.json`. Deze functie retourneert ook een promise die uiteindelijk de json-data bevat die we willen hebben.
+
+note}}
 
 [Een rij van van meerdere `then`s wordt vaak een promise chain genoemd.]{aside "promise chain"}
 
@@ -706,6 +725,12 @@ ex}}
 We gebruiken `readFileP` en `setTimeoutP`in de opaven hieronder.
 
 note}}
+
+{{todo
+
+Een opgave over de magie van then en wat er gebeurt als je return vergeet.
+
+todo}}
 
 {{ex
 
