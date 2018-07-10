@@ -925,28 +925,6 @@ promise that is rejected, that rejection flows into the next promise.
 There's a `Promise.reject` function that creates a new,
 immediately rejected promise.
 
-{{todo
-
-Ter illustratie zie je hieronder de promise-based api voor `readFile`. Als er een error optreedt bij het lezen van de file dan wordt de functie `reject` uitgevoerd die het error-object in de meekrijgt.
-
-```javascript
-readFileP = (file) => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(file, 'utf8', (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
-        });
-    });
-};
-```
-
-Deze implementatie zorgt ervoor een promise chain waarin `readFileP` gebruikt wordt, eventuele errors elegant kan afhandelen zoals hieronder te lezen is.  
-
-todo}}
-
 {{index "catch method"}}
 
 To explicitly handle such rejections, promises have a `catch` method
@@ -985,6 +963,28 @@ call. [Deze notatie zie je bijna nooit]{aside ""}
 A function passed to the `Promise` constructor receives a second
 argument, alongside the resolve function, which it can use to reject
 the new promise.
+
+{{note
+
+Ter illustratie zie je hieronder de promise-based api voor `readFile`. Als er een error optreedt bij het lezen van de file dan wordt de functie `reject` uitgevoerd die het error-object in de meekrijgt.
+
+```javascript
+readFileP = (file) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+};
+```
+
+Deze implementatie zorgt ervoor een promise chain waarin `readFileP` gebruikt wordt, eventuele errors elegant kan afvangen met een functie in een `catch.  
+
+note}}
 
 The chains of promise values created by calls to `then` and `catch`
 can be seen as a pipeline through which asynchronous values or
