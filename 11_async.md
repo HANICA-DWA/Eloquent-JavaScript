@@ -764,7 +764,7 @@ Voorbeeld 3
 
 `thenA` levert een promise op die als revolve waarde 10 heeft. Deze waarde wordt meegegeven aan de functie van `thenB` in de parameter `value` .
 
-In JavaScript retourneert een functie zonder expliciete return waarde de waarde `undefined` . Dat betekent dat een bijbehorende `then` een nieuwe promise maakt met als resolve waarde `undifened` zoals hieronder te zien.
+In JavaScript retourneert een functie zonder expliciete return waarde de waarde `undefined` . Dat betekent dat een bijbehorende `then` een nieuwe promise maakt met als resolve waarde `undefined` zoals hieronder te zien.
 
 Voorbeeld 4
 
@@ -776,7 +776,7 @@ Voorbeeld 4
 //...
 ```
 
-De waarde van de paramter `value` is nu `undifined`.
+De waarde van de paramter `value` is nu `undefined`.
 
 note}}
 
