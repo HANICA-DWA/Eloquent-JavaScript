@@ -748,9 +748,9 @@ Voorbeeld 2
 //...
 ```
 
-Hiervoor geldt hetzelfde als voor voorbeeld 1. Omdat `readFileP` een promise teruggeeft die de inhoud van de file als resolve value heeft, wordt deze inhoud meegegeven aan de functie van `thenB` (in de `value`-parameter).
+Hiervoor geldt hetzelfde als voor voorbeeld 1. Omdat `readFileP` een promise teruggeeft die de inhoud van de file als resolve-waarde heeft, wordt deze inhoud meegegeven aan de functie van `thenB` (in de `value`-parameter).
 
-Wanneer de functie in een then een waarde teruggeeft, dan wordt er een nieuwe promise gemaakt die de geretourneerde waarde als resolve waarde heeft. 
+Wanneer de functie in een then een waarde teruggeeft, dan wordt er een nieuwe promise gemaakt die de geretourneerde waarde als resolve-waarde heeft. 
 
 Voorbeeld 3
 
@@ -762,9 +762,9 @@ Voorbeeld 3
 //...
 ```
 
-`thenA` levert een promise op die als revolve waarde 10 heeft. Deze waarde wordt meegegeven aan de functie van `thenB` in de parameter `value` .
+`thenA` levert een promise op die als revolve-waarde 10 heeft. Deze waarde wordt meegegeven aan de functie van `thenB` in de parameter `value` .
 
-In JavaScript retourneert een functie zonder expliciete return waarde de waarde `undefined` . Dat betekent dat een bijbehorende `then` een nieuwe promise maakt met als resolve waarde `undefined` zoals hieronder te zien.
+In JavaScript retourneert een functie zonder expliciete return-waarde de waarde `undefined` . Dat betekent dat een bijbehorende `then` een nieuwe promise maakt met als resolve-waarde `undefined` zoals hieronder te zien.
 
 Voorbeeld 4
 
@@ -776,7 +776,7 @@ Voorbeeld 4
 //...
 ```
 
-De waarde van de paramter `value` is nu `undefined`.
+De inhoud van de paramter `value` is nu `undefined`.
 
 note}}
 
