@@ -1072,13 +1072,69 @@ resolves to an array of the values that these promises produced (in
 the same order as the original array). If any promise is rejected, the
 result of `Promise.all` is itself rejected.
 
-{{todo
+{{ex
 
-Een opgave maken om `Promise.all` te oefenen. Daarin zou het bebruik van `map` natuurlijk helemaal goed uitkomen.
+In deze opgave bouwen we stap voor stap een promise chain op, waarmee we gebruikersgegevens lezen en wegschrijven naar bestanden.
 
-Bijvoorbeeld: alle files lezen met readFileP.
+De functie `writeFileP(fileName, data)` schrijft de gegevens uit de paramater `data`  naar een bestand met de naam `fileName` en retourneert een promise. Hieronder zie je een voorbeeld waarin de username "ASH" naar een file wordt geschreven met de naam "ashlee_waters" en als dit gelukt is wordt er "done" op de console getoond.
 
-todo}}
+```javascript
+const pw = require('../../promise-wrappers');
+
+const user = {
+    "account": "ashlee_waters",
+    "username": "ASH"
+};
+
+pw.writeFileP(`${user.account}`, user.username).then(() => {
+    console.log('done');
+}).catch(err => {
+    console.log(err.message);
+});
+```
+
+#### A) 
+
+In plaats van het wegschrijven van één gebruiker, willen we een hele array van gebruikers kunnen wegschrijven, waarbij we de `username` van elke gebruiker in een eigen file willen stoppen met de naam van het `account` .
+
+Onderstaande array zou dus de drie files moeten: 'ashlee_waters', 'hilario_muller' en 'serena_klein' moeten opleveren.
+
+```javascript
+const pw = require('../../promise-wrappers');
+
+users = [
+    {
+        "account": "ashlee_waters",
+        "username": "ASH"
+    },
+    {
+        "account": "hilario_muller",
+        "username": "Hilario_Muller29"
+    },
+    {
+        "account": "serena_klein",
+        "username": "Serena.Klein"
+    }
+];
+```
+
+Pas de meegegeven code zo aan dat je voor elke gebruiker uit de `users` array `writeFileP` aanroept.
+
+Gebruik `Promise.all` om 'done' naar de console te schrijven als alle gebruikers zijn weggeschreven.
+
+Zorg er ook voor dat je met een `catch` eventuele errors naar de console te schrijven.
+
+_Hint:_ `writeFileP` retourneert een promise, dus stop deze promise in een array en gebruik deze array als input voor `Promise.all`. 
+
+#### B)
+
+We willen nu de gegevens van de gebruikers uit het bestand 'users.json' halen in plaats van uit de variabele `users`. 
+
+Begin de promise-chain die je bij opgave A) hebt gemaakt nu met een aanroep van `readFileP` waarmee je de gegevens uit 'users.json' haalt. Als de gegevens zijn gelezen, kun je beginnen met het wegschrijven van alle gebruikers zoals je bij opgave A) doet. 
+
+Zorg er ook nu voor dat je alle eventuele errors naar de console logt met een `catch` in de promise chain.
+
+ex}}
 
 {{skip
 
