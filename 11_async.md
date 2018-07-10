@@ -478,8 +478,6 @@ Alle taken klaar
 nu gaan we andere dingen doen
 ```
 
-
-
 #### C) 
 
 Hieronder staat de code van  `doAllTasks2` . Deze functie simuleert een situatie waarbij we het resultaat van een asynchrone actie in een lijst stoppen (`completedTasks`).
@@ -498,8 +496,6 @@ let doAllTasks2 = (/* Pas hier de code aan */) => {
     }, Math.random() * 100);    
 };
 ```
-
-
 
 #### D)
 
@@ -724,11 +720,81 @@ We gebruiken `readFileP` en `setTimeoutP`in de opaven hieronder.
 
 note}}
 
-{{todo
+{{note
 
-Een opgave over de magie van then en wat er gebeurt als je return vergeet.
+De `then` functie retourneert altijd een nieuwe promise (waardoor het mogelijk wordt een promise chain te maken). De promise die `then` retourneert is afhankelijk van de return waarde van de functie die je aan `then` meegeeft.
 
-todo}}
+Als deze functie een promise retourneert, dan is dit ook de promise die de bijbehorende `then` retourneert. De functie in de eventuele daaropvolgende `then` wordt uitgevoerd op het moment dat deze promise is resolved. 
+
+Voorbeeld 1
+
+```javascript
+/...
+)}.then(() => { //thenA
+    return setTimeoutP(100);
+}).then(()) => {// thenB
+//...
+```
+
+De return-waarde van `thenA` is de promise die `setTimeoutP` retourneert. The functie in `thenB` wordt uitgevoerd als de promise van `setTimeoutP` is resolved. 
+
+Voorbeeld 2
+
+```javascript
+/...
+)}.then(() => { //thenA
+    return readFileP('myFile.txt');
+}).then((value)) => {// thenB
+//...
+```
+
+Hiervoor geldt hetzelfde als voor voorbeeld 1. Omdat `readFileP` een promise teruggeeft die de inhoud van de file als resolve value heeft, wordt deze inhoud meegegeven aan de functie van `thenB` (in de `value`-parameter).
+
+Wanneer de functie in een then een waarde teruggeeft, dan wordt er een nieuwe promise gemaakt die de geretourneerde waarde als resolve waarde heeft. 
+
+Voorbeeld 3
+
+```javascript
+/...
+)}.then(() => { //thenA
+    return 10;
+}).then((value)) => {// thenB
+//...
+```
+
+`thenA` levert een promise op die als revolve waarde 10 heeft. Deze waarde wordt meegegeven aan de functie van `thenB` in de parameter `value` .
+
+In JavaScript retourneert een functie zonder expliciete return waarde de waarde `undefined` . Dat betekent dat een bijbehorende `then` een nieuwe promise maakt met als resolve waarde `undifened` zoals hieronder te zien.
+
+Voorbeeld 4
+
+```javascript
+/...
+)}.then(() => { //thenA
+    console.log('test');
+}).then((value)) => {// thenB
+//...
+```
+
+De waarde van de paramter `value` is nu `undifined`.
+
+note}}
+
+{{ex
+
+Wat is de output van de `console.log` in de functie van de `thenB`. Leg je antwoord (kort) uit.
+
+```javascript
+/...
+)}.then(() => { //thenA
+	readFileP('myFile.txt');
+}).then((fileContents)) => {// thenB
+	console.log(fileContents);
+});
+/...
+```
+
+ex}}
 
 {{ex
 
@@ -765,7 +831,7 @@ B - 2
 
 Hierin zie je dat de chain A en chain B netjes na elkaar worden uitgevoerd. Dit ligt echter aan de getallen die gekozen zijn voor de vier aanroepen van `setTimeoutP`.
 
-#### A
+#### A)
 
 Verander deze vier getallen zodanig dat je de volgende uitvoer krijgt:
 
@@ -776,7 +842,7 @@ A - 2
 B - 2
 ```
 
-#### B
+#### B)
 
 Kun je de getallen ook zo veranderen dat je deze uitvoer krijgt:
 
@@ -837,7 +903,7 @@ fs.readdir('./food_caches', (err, fileList) => {
 });
 ```
 
-Het onhandige is dat je nu op drie verschillende punten een mogelijke error moet afhandelen. Daarnaast moet je de synchrone en asynchrone errors die kunnen optreden ook nog op een ander afhandelen.
+Het onhandige is dat je nu op drie verschillende punten een mogelijke error moet afhandelen. Daarnaast moet je de synchrone en asynchrone errors die kunnen optreden ook nog op een ander manier behandelen.
 
 note}}
 
