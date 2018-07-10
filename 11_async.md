@@ -585,7 +585,7 @@ the promise has already _resolved_ (finished).
 But that's not all the `then` method does. It returns another promise,
 which resolves to the value that the handler function returns or, if
 that returns a promise, waits for that promise and then resolves to
-its result.
+its result. [Een rij van van meerdere `then`s wordt vaak een promise chain genoemd.]{aside "promise chain"}
 
 {{note
 
@@ -604,13 +604,11 @@ fetch('http://example.ica.han/users').then(response => {
 });
 ```
 
-We gebruiken hier de  methode `fetch` om de gegevens van de server te halen. Deze methode is te vergelijken met BLABALABA, maar retourneert een promise die uiteindelijk de response van de server bevat. 
+We gebruiken voor het ophalen van data van de server de  functie `fetch`, die te vergelijken is met de functie`get` uit de NodeJS-module `http`. Het handige van `fetch` is dat deze, anders dan `get`, een promise retourneert. [De functie `fetch` wordt standaard ondersteund in browsers, en om `fetch` in NodeJS te gebruiken kun je de package node-fetch gebruiken]{aside "fetch api"} 
 
 Uit de response die we van de server terugkrijgen, halen we de data met de functie `response.json`. Deze functie retourneert ook een promise die uiteindelijk de json-data bevat die we willen hebben.
 
 note}}
-
-[Een rij van van meerdere `then`s wordt vaak een promise chain genoemd.]{aside "promise chain"}
 
 It is useful to think of promises as a device to move values into an
 asynchronous reality. A normal value is simply there. A promised value
@@ -631,7 +629,7 @@ resolve it.
 {{index "storage function"}}
 
 This is how you'd create a promise-based interface for the
-`readStorage` function. [De asynchrone functies is de meeste libraries retourneren inmiddles promises, dus het is niet vaak nodig om een dit soor interfaces om asynchrone functies te schrijven]{aside "promise-based interface"}
+`readStorage` function. [De asynchrone functies in de meeste libraries retourneren inmiddels promises, dus het is niet vaak nodig om een dit soort interfaces om asynchrone functies te schrijven.]{aside "promise-based interface"}
 
 ```javascript
 function storage(nest, name) {
@@ -641,7 +639,7 @@ function storage(nest, name) {
 }
 ```
 
-And this is how you use the newly created promise-based interface. [Dit is wat meestal doet als je met Promises bezig bent]{aside gebruik}
+And this is how you use the newly created promise-based interface.
 
 ```
 storage(bigOak, "enemies").then(value => {
@@ -714,7 +712,7 @@ ex}}
 
 {{note
 
-We gebruiken `readFileP` en `setTimeoutP`in de opaven hieronder.
+We gebruiken `readFileP` en `setTimeoutP`in de notities en opgaven hieronder. Je kunt deze functies vinden in de file promise-wrappers.js die je kunt importeren in je eigen code.
 
 note}}
 
@@ -1490,17 +1488,7 @@ reliable—abstractions built on top of them can help, but you can't
 abstract away network failure. So network programming is typically
 very much about anticipating and dealing with failures.
 
-skip}}
-
 ## Async functions
-
-{{todo
-
-een tekst invoegen die aysnc iets makkelijker uitlegt, dan het stuk hieronder. En dit stuk misschien bewaren voor in de les.
-
-todo}}
-
-{{skip
 
 To store important information, ((crow))s are known to duplicate it
 across nests. That way, when a hawk destroys a nest, the information
