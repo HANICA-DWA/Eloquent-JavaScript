@@ -343,7 +343,7 @@ note}}
 
 De functies`readStorag`en `readCache` krijgen als laatste parameter de asynchrone callback functie, terwijl `setTimeout` deze als eerste parameter krijgt.  
 
-Bijna alle functies die we later gaan tegenkomen zul je zien dat de asynchrone callback als laatste parameter meegegeven moet worden. WAAROM EIGENLIJK? LEESBAARHEID
+Bijna alle functies die we later gaan tegenkomen zul je zien dat de asynchrone callback als laatste parameter meegegeven moet worden. 
 
 note}}
 
@@ -435,6 +435,8 @@ another ((callback function))—to signal when a response is available.
 
 {{ex 
 
+#### A) 
+
 De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd. 
 
 ```javascript
@@ -443,13 +445,11 @@ let doAllTasks = (/* Pas hier de code aan */) => {
         console.log('Taak 1 klaar');
         setTimeout(() => {
             console.log('Taak 2 klaar');
-            /* Pas hier de code aan */
+            /* A) Plaats je aanpassing op deze regel */
         }, Math.random() * 100);
     }, Math.random() * 100);    
 };
 ```
-
-#### A)
 
 Pas deze functie aan, zodat je een willekeurige asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven. 
 
@@ -465,8 +465,7 @@ let printWhenFinished = () => {
     console.log('nu gaan we andere dingen doen');
 };
 
-//Pas deze aanroep aan
-doAllTasks(/* Pas hier de code aan */);
+doAllTasks(/* B) Pas hier de code aan */);
 ```
 
 Dit zou de uitvoer moeten zijn:
@@ -491,7 +490,7 @@ let doAllTasks2 = (/* Pas hier de code aan */) => {
         completedTasks.push('Taak 1 klaar');
         setTimeout(() => {
             completedTasks.push('Taak 2 klaar');
-            /* Pas hier de code aan */
+            /* C) Plaats je aanpassing op deze regel */
         }, Math.random() * 100);
     }, Math.random() * 100);    
 };
@@ -508,11 +507,10 @@ let printResults = (resultList) => {
     console.log('Alle taken klaar, dit zijn de resultaten');
     resultList.forEach((result) => {
         console.log(result);
-    })
+    });
 };
 
-//Pas deze aanroep aan
-doAllTasks2(/* Pas hier de code aan */);
+doAllTasks2(/* D) Pas hier de code aan */);
 ```
 
 Dit zou de uitvoer moeten zijn:
@@ -540,11 +538,43 @@ note}}
 
 {{youtube "8aGhZQkoFbQ"}}
 
-{{todo
+{{ex
 
-En natuutlijk een oefening met setTimeOUt in een for loop waarbij je de index uit de loop gaat printen.
+#### A)
 
-todo}}
+Wat is de uitvoer van de volgende code.
+
+```javascript
+const numbers = [2, 1, 0];
+
+numbers.forEach(number => {
+    console.log('A');
+    setTimeout(() => {
+        console.log(number);
+    }, number * 100);
+    console.log('B');
+});
+console.log('C');
+```
+
+#### B)
+
+Wat is de uitvoer van de volgende code.
+
+```javascript
+var i;
+
+for (i = 0; i < 3; i++) {
+    console.log('A');
+    setTimeout(() => {
+        console.log(i);
+    }, i * 100);
+    console.log('B');
+}
+console.log('C');
+```
+
+ex}}
 
 ## Promises
 
