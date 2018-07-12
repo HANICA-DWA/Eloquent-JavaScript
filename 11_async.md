@@ -207,6 +207,8 @@ note}}
 
 {{ex
 
+#### Order
+
 Gegeven onderstaande code
 
 ```javascript
@@ -252,6 +254,8 @@ In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst 
 note}}
 
 {{ex
+
+#### ?????
 
 We schrijven asynchrone code om taken naast elkaar te kunnen doen (in plaats van na elkaar zoals hierboven). Hoewel dat makkelijker is dan werken met meerdere threads, is het complexer dan werken met synchrone code. Daarom onderstaande oefening. 
 
@@ -361,11 +365,11 @@ note}}
 
 {{ex
 
-### readir readfile
+#### Account Management
 
 De de bestanden readDirExample.js en readFileExample.js zie je een voorbeeld van hoe je `readdir` en `readfile` kunt gebruiken.
 
-Gebruik deze voorbeelden om de inhoud van de folder 'food_caches' te lezen en vervolgens de inhoud van het laatste bestand uit deze lijst naar de console te loggen. In het 
+Gebruik deze voorbeelden om de inhoud van de folder 'accounts' te lezen en vervolgens de inhoud van het laatste bestand uit deze lijst  ('serena_klein') naar de console te loggen. In het 
 
 ex}}
 
@@ -434,6 +438,8 @@ completes. So we need some asynchronous mechanism—in this case,
 another ((callback function))—to signal when a response is available.
 
 {{ex 
+
+#### DoAllTasks
 
 #### A) 
 
