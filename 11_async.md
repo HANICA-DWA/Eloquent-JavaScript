@@ -207,7 +207,7 @@ note}}
 
 {{ex
 
-#### Order
+### Order
 
 Gegeven onderstaande code
 
@@ -255,13 +255,15 @@ note}}
 
 {{ex
 
-#### ?????
+### Parallel
 
 We schrijven asynchrone code om taken naast elkaar te kunnen doen (in plaats van na elkaar zoals hierboven). Hoewel dat makkelijker is dan werken met meerdere threads, is het complexer dan werken met synchrone code. Daarom onderstaande oefening. 
 
 Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitgevoerd. Om te simuleren dat je geen controle hebt over de duur van een taak (wat in werkelijkheid ook zo is), gebruiken we `Math.random() * 1000` om de tijdsduur van `setTimeout` te bepalen. 
 
 ```javascript
+//Pas hier de code aan
+
 setTimeout(() => {
     console.log('Klaar met taak A');
     //Pas hier de code aan
@@ -365,7 +367,7 @@ note}}
 
 {{ex
 
-#### Account Management
+### Account Management
 
 De de bestanden readDirExample.js en readFileExample.js zie je een voorbeeld van hoe je `readdir` en `readfile` kunt gebruiken.
 
