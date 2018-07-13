@@ -548,7 +548,7 @@ note}}
 
 {{ex
 
-### TimeoutFor
+### Timeout Loops
 
 #### A)
 
@@ -709,6 +709,8 @@ note}}
 
 {{ex
 
+### Parameter
+
 Waarom krijgt de `then`-callback van `setTimeoutP` geen parameter mee, terwijl de `then`-callback van `storage` the parameter `value` meekrijgt.
 
 ex}}
@@ -721,6 +723,8 @@ and return their output. The only difference is that the output may
 not be available yet.
 
 {{ex
+
+### Promise-based Interface
 
 Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een promise-based interface te maken voor een bestaande asynchrone functie die dit nog niet heeft. Op die manier zie je hoe de `value`-parameter van de `then`-callback samenhangt met de `resolve`- callback uit de promise-based interface. 
 
@@ -818,7 +822,9 @@ note}}
 
 {{ex
 
-Wat is de output van de `console.log` in de functie van de `thenB`. Leg je antwoord (kort) uit.
+### No Return
+
+Hieronder zie je een veelgemaakte fout bij het schrijven van een promise chain. Wat is de output van de `console.log` in de functie van de `thenB`. Leg je antwoord (kort) uit.
 
 ```javascript
 /...
@@ -833,6 +839,8 @@ Wat is de output van de `console.log` in de functie van de `thenB`. Leg je antwo
 ex}}
 
 {{ex
+
+### Timeout Chains
 
 Het werken met promises lijkt een beetje op synchroon programmeren, maar het is niet helemaal hetzelfde. Deze opgave illustreert dit.
 
@@ -1214,6 +1222,8 @@ the same order as the original array). If any promise is rejected, the
 result of `Promise.all` is itself rejected.
 
 {{ex
+
+### Account Management Again
 
 In deze opgave bouwen we stap voor stap een promise chain op, waarmee we gebruikersgegevens lezen en wegschrijven naar bestanden.
 
@@ -1934,6 +1944,8 @@ represent actions that might complete in the future, and `async`
 functions, which allow you to write an asynchronous program as if it
 is synchronous.
 
+{{skip
+
 ## Exercises
 
 ### Tracking the scalpel
@@ -2097,3 +2109,5 @@ argument to `then` so that a failure in one of them triggers the
 rejection of the whole wrapper promise.
 
 hint}}
+
+skip}}
