@@ -134,18 +134,25 @@ console.log(mood);
 {{index [binding, "model of"], "tentacle (analogy)"}}
 
 You should imagine bindings as tentacles, rather than boxes. They do
-not _contain_ values; they _grasp_ them—two bindings can refer to the
+not _contain_ values [Bij DWA gebruiken we juist wel de doos-metafoor en we kunnen ons voorstellen dat de waarde in een doos zit. De naam van de binding kunnen we ons voorstellen als het label dat op die doos staat.]{aside "doos-metafoor"}; they _grasp_ them—two bindings can refer to the
 same value. A program can access only the values that it still has a
 reference to. When you need to remember something, you grow a tentacle
 to hold on to it or you reattach one of your existing tentacles to it.
 
-{{todo 
+{{note 
 
-Opmerking over dat we bij DWA toch aan doosjes denken.
+Bij DWA gebruiken we de doos-metafoor voor alle primitieven: 
 
-en voorbeeld geven.
+* Boolean datatype
+* Null datatype
+* Undefined datatype
+* Number datatype
+* String datatype
+* Symbol datatype
 
-todo}}
+Zie ook [JavaScript data types and data structures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type)  uit de MDN web docs voor een overzicht en beschrijving van de datatypes in JavaScript.
+
+note}}
 
 Let's look at another example. To remember the number of dollars that
 Luigi still owes you, you create a binding. And then when he pays back
@@ -164,19 +171,21 @@ When you define a binding without giving it a value, the tentacle has
 nothing to grasp, so it ends in thin air. If you ask for the value of
 an empty binding, you'll get the value `undefined`.
 
-{{todo 
+{{note 
 
-Beshrijven dat we het anders doen dan die tentacles
+Bij DWA gebruiken we ook geheugenmodellen om de huidige toestand van het programma weer te geven. We kunnen ons voorstellen dat de NodeJS runtime (of de Browser) een lijst van alle variabelen bijhoudt met de bijbehorende waarde. 
+
+Als de runtime net regel 1 heeft uitgevoerd van bovenstaand programma, dan ziet het geheugenmodel er zo uit:
 
 {{figure {url: "img/memory_model/chap02/luigis_debt_01.svg", alt: ""}}}
 
-todo}}
-
-{{todo 
+En na regel 2 is dit het geheugenmodel:
 
 {{figure {url: "img/memory_model/chap02/luigis_debt_02.svg", alt: ""}}}
 
-todo}}
+Dit geheugenmodel wordt in de loop van de tekst verder uitgebreid.
+
+note}}
 
 {{index "let keyword"}}
 
@@ -216,17 +225,17 @@ easily refer to it later.
 
 {{note
 
-Beshrijving erbij
+Het geheugenmodel van bovenstaand programma nadat regel 2 is uitgevoerd, ziet er zo uit:
 
 {{figure {url: "img/memory_model/chap02/hello_ada.svg", alt: ""}}}
 
 note}}
 
-{{todo
+{{note
 
-opmerken dat bindings ook consts zijn, en variabelen daar dus een subcategorie van zijn.
+Het woord 'binding' komt je misschien wat minder bekent voor dan het woord 'variabele', maar in deze tekst word altijd het woord 'binding' gebruikt. 'Binding' is een wat exacter woord voor een koppeling tussen een naam en een waarde dan een 'variabele'.  Strikt genomen is een `const` bijvoorbeeld geen variabele, maar wel een binding (hoewel je vaak genoeg mensen hoort spreken van een 'constante variabele'). 
 
-todo}}
+note}}
 
 ## Binding names
 
@@ -257,13 +266,28 @@ Don't worry about memorizing this list. When creating a binding produces
 an unexpected ((syntax error)), see whether you're trying to define a
 reserved word.
 
-{{todo
+{{ex
 
-#### leesvraag: 
+### Is Name Allowed
 
- naar correcte namen w/o $, undefined, __pipo
+Bekijk onderstaand programma. Geef per regel aan of de binding declaratie in dit programma is toegestaan, of niet.
 
-todo}}
+```
+let $;
+let __school;
+let ica;
+var han;
+let _undefined;
+var han; //Declaratie van een bestaande binding
+let x_*_y; 
+let let$; 
+let class_22;
+let x&y;
+let _;
+let ica; //Declaratie van een bestaande binding
+```
+
+ex}}
 
 ## The environment
 
@@ -338,15 +362,17 @@ Tools or similar.
 
 todo}}
 
-{{todo 
+{{note 
 
-uitleg over docs (MDN en Node)
+In de loop der jaren is de MDN web docs een gezaghebbende bron geworden voor de API documentatie van JavaScript. Zie hier: [JavaScript op MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
-todo}}
+Node.js heeft zijn eigen API documentatie en die kun je hier vinden [Node.js API](https://nodejs.org/api/index.html).
+
+note}}
 
 {{todo
 
-opdracht zoek console.error en console.dir uit
+Zoek in 
 
 todo}}
 
@@ -372,13 +398,11 @@ simple binding. It is actually an expression that retrieves the `log`
 ((property)) from the value held by the `console` binding. We'll
 find out exactly what this means in [Chapter ?](data#properties).
 
-{{todo
+{{note
 
-opmerking: control structs, comments, assignment operators en naamgevingsconventies zijn zelfde tussen JS en Java
+Controle structuren (if, while, for, switch, etc), `++`, `+=`, naamgevings- en layoutconventies en kommentaar (`//` `/* */`) in JavaScript en Java zijn gelijk. 
 
-todo}}
-
-
+note}}
 
 {{skip
 
@@ -984,12 +1008,109 @@ vingeroefingen over controlstructs
 
 todo}}
 
-{{todo
+{{ex
 ## 💪 Exercise: Scoping rules `let` and `var`
 
-[Exercise link](https://github.com/HANICA-DWA/swd_v2/blob/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten/YOUR_ANSWERS.md#-exercise-scoping-rules-let-and-var)
+For each of the functions below write down the expected output of console.log at 'YOUR ANSWER'
 
-todo}}
+##### A1 
+
+```js
+console.log(a1); 
+
+let a1 = 'hello';
+
+```
+
+##### Example Answer
+
+```
+Exception
+```
+
+#### A2
+
+```js
+console.log(a2); 
+
+var a2 = 'hello';
+```
+
+#### B1
+
+```js
+if (true) {
+
+    let b1 = 10;   
+
+}
+
+console.log(b1);
+```
+
+#### B2
+
+```js
+if (true) {
+
+    var b2 = 10;   
+
+}
+
+console.log(b2);
+```
+
+ #### C1 
+
+```js
+for (let c1 = 0; c1 < 4; c1++) {
+
+    console.log('in the for');
+
+}
+
+console.log(c1);
+```
+
+ #### C2
+
+```js
+for (var c2 = 0; c2 < 4; c2++) {
+
+    console.log('in the for');
+
+}
+
+console.log(c2); 
+```
+
+#### D1
+
+```js
+function test() {
+
+    let d1 = 'local?';
+
+}
+
+console.log(d1);
+```
+
+#### D2
+
+```js
+function test() {
+
+    var d2 = 'local?';
+
+}
+
+console.log(d2);
+```
+
+ ex}}
+
+{{skip
 
 ## Exercises
 
@@ -1168,3 +1289,5 @@ Terminating a line by adding a newline character must happen after the
 line has been built up, so do this after the inner loop but inside the outer loop.
 
 hint}}
+
+skip}}
