@@ -283,7 +283,7 @@ instance of the same idea.
 Gegeven de volgende code
 
 ```js
-let sequence = [1, 2, 3]; 
+let sequence = [1, 2, 3];
 
 sequence.sum = () => {
     const theSum = 0;
@@ -291,10 +291,10 @@ sequence.sum = () => {
     return theSum;
 }
 
-sequence.push(5); 
+sequence.push(5);
 console.log(sequence.sum()) // 11
 
-sequence.push(10); 
+sequence.push(10);
 console.log(sequence.sum()); // 21
 ```
 
@@ -562,7 +562,7 @@ operation built into JavaScript, which compares objects by contents,
 but it is possible to write it yourself (which is one of the
 [exercises](data#exercise_deep_compare) at the end of this chapter).
 
-{{todo 
+{{todo
 
 ## Exercise
 
@@ -686,7 +686,7 @@ html}[[$\sqrt{340000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈
 0.069, which is tiny. Eating ((pizza)) does not appear to have
 influence on the transformations.
 
-{{todo 
+{{todo
 
 Iets over correlation vertellen??? Iets over dat je ook events kan combineren, bijvoorbeeld pizza en pinda's.
 
@@ -838,13 +838,19 @@ definition, it will loop over the elements of the value given after
 other data structures. We'll discuss _how_ it works in [Chapter
 ?](object).
 
-{{todo 
+{{todo
 
 Vergelijk met for each in JAVA
 
 todo}}
 
 {{id analysis}}
+
+{{todo
+
+  Video te vervanging van the final analysis, inclusief dramatische geluideffecten.
+
+}}
 
 ## The final analysis
 
@@ -1377,6 +1383,20 @@ console.log(name);
 Note that if you try to destructure `null` or `undefined`, you get an
 error, much as you would if you directly try to access a property
 of those values.
+
+{{note
+
+  De sectie over JSON hoef je niet te lezen voor de SWD les over hoofdstuk 4.
+
+  Maar in de CWD les over hoofstuk 5 zullen we je vragen om dit stukje alsnog even te lezen.
+
+note}}
+
+{{todo
+
+  generator uitbreiden dat onderstaande sectie gemarkeerd wordt als horende bij andere les.
+
+todo}}
 
 ## JSON
 
