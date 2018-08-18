@@ -33,13 +33,40 @@ bla bla bla [a small remark that fits in the margin]{aside "title"} bla bla bla
 For asides, the title is optional, and inline-level markdown (bold, italic etc.) will work in the remark text.
 
 #### exercises
+
+There are three kinds of exercises: short, long and code. All exercises
+_require two parameters_: A title for the user, that can be changed without upsetting the
+database, and a database key. Changing the key makes the exercise a different exercise, losing
+any answers that students have already submitted. The user-facing title can be changed at any time.
+
+
 ```
-{{ex
+{{exShort "user facing title" "database key"
 
 Text of the exercise.
 
-ex}}
+exShort}}
 ```
+A question for which a short answer is expected (1 line at most).
+
+```
+{{exLong "user facing title" "database key"
+
+Text of the exercise.
+
+exLong}}
+```
+A question for which a multi-line answer is expected. Users can user markdown for their answers.
+
+```
+{{exCode "user facing title" "database key"
+
+Text of the exercise.
+
+exCode}}
+```
+A question for which a short piece of code is expected.
+
 
 #### not required reading
 ```
@@ -55,15 +82,6 @@ Skip annotations will gray-out the enclosed part of the book and inform students
 
 HTML tags will no longer be filtered out. Don't know if <BLINK> works, though...
 
-#### live reloading
-
-From the command-line execute:
-```sh
-npm run watch
-```
-to automatically generate HTML when a markdown file is saved.
-
-The HTML-files will try, once per second, to reload the page if anything has changed. (There is no option, yet, to turn this off).
 
 #### notes while developing
 ```
@@ -80,12 +98,32 @@ bla bla bla [a problem description that fits in the margin]{fixme "title"} bla b
 ```
 Fixme-items are like asides: the live in the margin, but have a distinct color. Like todos, they are meant for the team, and should not appear in versions that students see. The title is optional.
 
+#### live reloading
+
+Live reloading had to be disabled because Firebase.
+
+
 ## Building
 
     npm install
-    make html
+    touch \*.md; make html
 
-To build the PDF file:
+## Firebase
 
-    apt-get install texlive texlive-xetex fonts-inconsolata fonts-symbola texlive-lang-chinese inkscape
-    make book.pdf
+Testing the app locally, or deploying it requires the `firebase` command line tool. It is a dev-dependency of the project (use `npm install` if you haven't got it yet), so the binary is in the node_modules folder.
+
+You need a Google account, and the permissions, to manage the Firebase project called `dwa-forms`. Get the permissions from Robert. If your account is able to access the Firebase project, then these are the commands you use to test or deploy:
+
+    ./node_modules/.bin/firebase login
+
+You have to log in with the command line tool before testing or deploying.
+
+    ./node_modules/.bin/firebase serve
+
+`firebase serve` starts a local HTTP server at localhost:5000. You can no longer use other http servers, because Firebase :-/  
+
+Any changes to the DB will go to the production DB online, not to a (local) test DB.
+
+    ./node_modules/.bin/firebase deploy
+
+`firebase deploy` bundles up the html-directory and sends it to the server at https://dwa-forms.firebaseapp.com.
