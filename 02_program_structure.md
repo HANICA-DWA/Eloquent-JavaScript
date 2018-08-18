@@ -139,9 +139,9 @@ same value. A program can access only the values that it still has a
 reference to. When you need to remember something, you grow a tentacle
 to hold on to it or you reattach one of your existing tentacles to it.
 
-{{note 
+{{note
 
-Bij DWA gebruiken we de doos-metafoor voor alle primitieven: 
+Bij DWA gebruiken we de doos-metafoor voor alle primitieven:
 
 * Boolean datatype
 * Null datatype
@@ -171,9 +171,9 @@ When you define a binding without giving it a value, the tentacle has
 nothing to grasp, so it ends in thin air. If you ask for the value of
 an empty binding, you'll get the value `undefined`.
 
-{{note 
+{{note
 
-Bij DWA gebruiken we ook geheugenmodellen om de huidige toestand van het programma weer te geven. We kunnen ons voorstellen dat de NodeJS runtime (of de Browser) een lijst van alle variabelen bijhoudt met de bijbehorende waarde. 
+Bij DWA gebruiken we ook geheugenmodellen om de huidige toestand van het programma weer te geven. We kunnen ons voorstellen dat de NodeJS runtime (of de Browser) een lijst van alle variabelen bijhoudt met de bijbehorende waarde.
 
 Als de runtime net regel 1 heeft uitgevoerd van bovenstaand programma, dan ziet het geheugenmodel er zo uit:
 
@@ -233,7 +233,7 @@ note}}
 
 {{note
 
-Het woord 'binding' komt je misschien wat minder bekent voor dan het woord 'variabele', maar in deze tekst word altijd het woord 'binding' gebruikt. 'Binding' is een wat exacter woord voor een koppeling tussen een naam en een waarde dan een 'variabele'.  Strikt genomen is een `const` bijvoorbeeld geen variabele, maar wel een binding (hoewel je vaak genoeg mensen hoort spreken van een 'constante variabele'). 
+Het woord 'binding' komt je misschien wat minder bekent voor dan het woord 'variabele', maar in deze tekst word altijd het woord 'binding' gebruikt. 'Binding' is een wat exacter woord voor een koppeling tussen een naam en een waarde dan een 'variabele'.  Strikt genomen is een `const` bijvoorbeeld geen variabele, maar wel een binding (hoewel je vaak genoeg mensen hoort spreken van een 'constante variabele').
 
 note}}
 
@@ -266,9 +266,7 @@ Don't worry about memorizing this list. When creating a binding produces
 an unexpected ((syntax error)), see whether you're trying to define a
 reserved word.
 
-{{ex
-
-### Is Name Allowed
+{{ex "Is Name Allowed" "Is Name Allowed"
 
 Bekijk onderstaand programma. Geef per regel aan of de binding declaratie in dit programma is toegestaan, of niet.
 
@@ -279,8 +277,8 @@ let ica;
 var han;
 let _undefined;
 var han; //Declaratie van een bestaande binding
-let x_*_y; 
-let let$; 
+let x_*_y;
+let let$;
 let class_22;
 let x&y;
 let _;
@@ -362,7 +360,7 @@ Tools or similar.
 
 todo}}
 
-{{note 
+{{note
 
 In de loop der jaren is de MDN web docs een gezaghebbende bron geworden voor de API documentatie van JavaScript. Zie hier: [JavaScript op MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
@@ -372,7 +370,7 @@ note}}
 
 {{todo
 
-Zoek in 
+Zoek in
 
 todo}}
 
@@ -400,7 +398,7 @@ find out exactly what this means in [Chapter ?](data#properties).
 
 {{note
 
-Controle structuren (if, while, for, switch, etc), `++`, `+=`, naamgevings- en layoutconventies en kommentaar (`//` `/* */`) in JavaScript en Java zijn gelijk. 
+Controle structuren (if, while, for, switch, etc), `++`, `+=`, naamgevings- en layoutconventies en kommentaar (`//` `/* */`) in JavaScript en Java zijn gelijk.
 
 note}}
 
@@ -1001,21 +999,20 @@ Functions are special values that encapsulate a piece of program. You
 can invoke them by writing `functionName(argument1, argument2)`. Such
 a function call is an expression and may produce a value.
 
-{{todo 
+{{todo
 
-vingeroefingen over controlstructs 
+vingeroefingen over controlstructs
 
 todo}}
 
-{{ex
-## 💪 Exercise: Scoping rules `let` and `var`
+{{ex "💪 Scoping rules let and var" "Scoping rules"
 
 For each of the functions below write down the expected output of console.log at 'YOUR ANSWER'
 
-##### A1 
+##### A1
 
 ```js
-console.log(a1); 
+console.log(a1);
 
 let a1 = 'hello';
 
@@ -1030,7 +1027,7 @@ Exception
 #### A2
 
 ```js
-console.log(a2); 
+console.log(a2);
 
 var a2 = 'hello';
 ```
@@ -1059,7 +1056,7 @@ if (true) {
 console.log(b2);
 ```
 
- #### C1 
+ #### C1
 
 ```js
 for (let c1 = 0; c1 < 4; c1++) {
@@ -1080,7 +1077,7 @@ for (var c2 = 0; c2 < 4; c2++) {
 
 }
 
-console.log(c2); 
+console.log(c2);
 ```
 
 #### D1

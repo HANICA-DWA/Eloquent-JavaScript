@@ -1,6 +1,9 @@
 {{meta {load_files: ["code/scripts.js", "code/chapter/05_higher_order.js", "code/intro.js", "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js", "code/loadLodash.js"], zip: "node/html"}}}
 
+
+
 # Higher-Order Functions
+
 
 {{if interactive
 
@@ -215,15 +218,15 @@ brace _and_ closing parenthesis. In cases like this example, where the
 body is a single small expression, you could also omit the
 braces and write the loop on a single line.
 
-{{ex
+{{exShort "identiek, of vrije keuze?" "HOF: parameter name"
   In de definitie van de repeat(...) functie hierboven, gebruikt de auteur een loop-variabele met de naam "`i`".
   In de aanroep met de arrow-functie gebruikt de auteur _ook_ "`i`", dit keer als parameter-naam.
 
-  Is dat nodig? Dat de variabele die de repeat-functie gebruikt, en de variabele die de action functie gebruikt _identiek_ zijn?
+  Is dat nodig? Dat de variabele die de repeat-functie gebruikt, en de variabele die de action functie gebruikt _identiek_ zijn? Of zou je ook verschillende namen mogen kiezen?
 
-ex}}
+exShort}}
 
-{{ex
+{{exCode "iffy" "iffy: if as a higher order function"
 Schrijf een Javascript functie, genaamd "`iffy`", die drie parameters accepteert:
 * een boolean waarde, met de parameternaam "`condition`";
 * een functie, met de parameternaam "`then`" (deze functie heeft zelf geen parameters nodig);
@@ -248,12 +251,12 @@ let fieldColor = iffy( password.length < 8,
   }
 )  
 ```
-ex}}
+exCode}}
 
-{{ex
+{{exLong "iffy ⇔ if" "iffy: main diff from normal if"
 Wat is, qua werking, het belangrijkste verschil tussen de `iffy` functie uit de vorige oefening, en het gewone `if`-statement in Javascript?
 
-ex}}
+exLong}}
 
 ## Higher-order functions
 
@@ -901,7 +904,7 @@ Write a higher-order function `loop` that provides something like a
 `for` loop statement. It takes a value, a test function, an update
 function, and a body function. Each iteration, it first runs the test
 function on the current loop value and stops if that returns false.
-Then it calls the body function, giving it the current value. 
+Then it calls the body function, giving it the current value.
 Finally, it calls the update function to create a new value and
 starts from the beginning.
 

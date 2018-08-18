@@ -3,11 +3,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><<t $in.title>> :: Eloquent JavaScript</title>
-  <link rel=stylesheet href="js/node_modules/codemirror/lib/codemirror.css">
+  <link rel=stylesheet href="css/codemirror.css">
   <script src="js/acorn_codemirror.js"></script>
   <link rel=stylesheet href="css/ejs.css">
   <script src="js/sandbox.js"></script>
   <script src="js/ejs.js"></script>
+  <link rel="stylesheet" href="css/simplemde.css">
   <<if $in.chap_num || $in.load_files>>
   <script>
     <<if $in.chap_num>>var chapNum = <<h $in.chap_num>>;<</if>>
@@ -37,6 +38,21 @@
   <a href="index.html" title="cover">◆</a>
   <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
 </nav>
+<div id="sign-out-ui" class="hidden">
+  <button id="sign-out-btn">Log uit</button>
+</div>
 </article>
-<script src="js/move-asides.js"></script>
-<script src="js/live.js"></script>
+<!-- firebase api -->
+<script src="/__/firebase/5.3.0/firebase-app.js"></script> <!-- firebase core -->
+<script src="/__/firebase/5.3.0/firebase-auth.js"></script> <!-- authentication facilities -->
+<script src="/__/firebase/5.3.0/firebase-database.js"></script> <!-- realtime database, not the cloud store -->
+
+<script src="js/simplemde.js"></script>
+
+<script src="js/move-asides.js"></script> <!-- dwa hack to move asides to the right margin -->
+<script src="js/escape-html.js"></script>
+
+<script src="js/serverConnections.js"></script> <!-- dwa code to work with fiebase and github -->
+<script>
+window.onload = initChapterPage
+</script>

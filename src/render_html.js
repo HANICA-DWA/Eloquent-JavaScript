@@ -6,6 +6,7 @@ require("codemirror/mode/javascript/javascript.js")
 require("codemirror/mode/xml/xml.js")
 require("codemirror/mode/css/css.js")
 require("codemirror/mode/htmlmixed/htmlmixed.js")
+const slugify = require("./firebaseSlugify")
 
 let file, epub = false
 for (let arg of process.argv.slice(2)) {
@@ -30,6 +31,18 @@ let chapters = fs.readdirSync(__dirname + "/..")
     .sort()
     .map(file => /^\d{2}_(\w+)\.md$/.exec(file)[1])
 if (epub) chapters.push("hints")
+
+/* DWA additions start */
+let chapterNumber = null;
+let subChapterNumber = 0;
+let exerciseNumber = 0;
+if (chapter) {
+  chapterNumber = chapters.indexOf(chapter[1])
+  if(chapterNumber == -1){
+    chapterNumber=null;
+  }
+}
+/* DWA additions end */
 
 function escapeChar(ch) {
   return ch == "<" ? "&lt;" : ch == ">" ? "&gt;" : ch == "&" ? "&amp;" : "&quot;"
@@ -97,8 +110,26 @@ let renderer = {
   paragraph_open(token) { return `\n\n<p${attrs(token)}>${anchor(token)}` },
   paragraph_close() { return "</p>" },
 
-  heading_open(token) { return `\n\n<${token.tag}${attrs(token)}>${anchor(token)}` },
-  heading_close(token) { return `</${token.tag}>` },
+  /* DWA additions start */
+  heading_open(token) {
+    let numbering = "";
+    if(token.tag == "h2") {
+      subChapterNumber++;
+      exerciseNumber = 0;
+      numbering = chapterNumber + "." + subChapterNumber + " "
+      return `\n\n<div class="dwa-heading"><div class="numbering">${numbering}</div><div class="heading"><${token.tag}${attrs(token)}>${anchor(token)}`
+    } else {
+      return `\n\n<${token.tag}${attrs(token)}>${anchor(token)}${numbering}`
+    }
+  },
+  heading_close(token) {
+    if(token.tag == "h2") {
+      return `</div></div></${token.tag}>`
+    } else {
+      return `</${token.tag}>`
+    }
+  },
+  /* DWA additions end */
 
   bullet_list_open(token) { return `\n\n<ul${attrs(token)}>` },
   bullet_list_close() { return `</ul>` },
@@ -190,11 +221,50 @@ let renderer = {
   meta_note_close(token) {
       return `\n\n</div>`
   },
-  meta_ex_open(token) {
-    return `\n\n<div class="exercise dwa-addition"><header>oefening</header>`
+
+  meta_exShort_open(token) {
+    return renderer.meta_ex_open(token, "Short")
   },
-  meta_ex_close(token) {
-      return `\n\n</div>`
+  meta_exShort_close(token) {
+    return renderer.meta_ex_close(token, "Short")
+  },
+
+  meta_exLong_open(token) {
+    return renderer.meta_ex_open(token, "Long")
+  },
+  meta_exLong_close(token) {
+    return renderer.meta_ex_close(token, "Long")
+  },
+
+  meta_exCode_open(token) {
+    return renderer.meta_ex_open(token, "Code")
+  },
+  meta_exCode_close(token) {
+    return renderer.meta_ex_close(token, "Code")
+  },
+
+  meta_exCommit_open(token) {
+    return renderer.meta_ex_open(token, "Commit")
+  },
+  meta_exCommit_close(token) {
+    return renderer.meta_ex_close(token, "Commit")
+  },
+
+  meta_ex_open(token, exerciseType="Long") {
+    exerciseNumber++
+    const slug = slugify(token.args[1])
+    const title = token.args[0]
+    if( !title && !slug) {
+      errorMsg = `Exercise ${chapterNumber}.${subChapterNumber}.${exerciseNumber} needs both a title and an internal name.`
+      console.error("ERROR:",errorMsg);
+      return `\n\n<div class="dwa-addition error-msg">INTERNAL BOOK ERROR: ${errorMsg}</div>`
+    }
+    return `\n\n<div class="exercise dwa-addition"><div class="exercise-content"><header>oefening ${chapterNumber}.${subChapterNumber}.${exerciseNumber}: ${title}</header>`
+  },
+  meta_ex_close(token, exerciseType="Long") {
+    const slug = slugify(token.args[1])
+    const exNumber = `${chapterNumber}.${subChapterNumber}.${exerciseNumber}`
+    return `</div>\n\n<div class="sign-in"><button class="sign-in-btn">Log in</button> met je Github account om antwoorden in te sturen.</div><div class="dwa-exercise-submit" data-exercise_number="${exNumber}" data-exercise_slug="${slug}" data-exercise_type="${exerciseType}"></div></div>`
   },
 
   meta_todo_open(token) {
@@ -242,7 +312,6 @@ let renderer = {
 
   // allow html iside markdown:
   html_inline(token) {
-    console.error("TOKEN", token);
     return token.content
   }
 

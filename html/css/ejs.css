@@ -3,7 +3,7 @@
   font-family: 'Fira Mono';
   font-style: normal;
   font-weight: 400;
-  src: url('../font/fira-mono-v6-latin-500.woff2') format('woff2');
+  src: url('../font/fira-mono-v6-latin_latin-ext-500.woff2') format('woff2');
 }
 
 
@@ -194,7 +194,7 @@ code {
   color: #666;
 }
 
-h1, h2, h3 {
+h1, h3, table.dwa-heading-table {
   font-family: 'Rubik', Georgia, serif;
   font-weight: 700;
   margin: 3rem 0 1rem 0;
@@ -208,17 +208,30 @@ h1 {
 }
 h2 {
   font-size: 150%;
-  position: relative;
-  counter-reset: exerciseCount;
+  margin: 0;
+  padding-left: 1px;
 }
-article.chapter > h2::before {
-  content: counter(level1Count) "." counter(level2Count) " ";
+div.dwa-heading {
+  margin-left: -110px;
+  margin-top: 40px;
+  width: calc( 100% + 110px);
+  display: flex;
+  align-items: baseline;
+  font-family: Rubik;
+}
+div.dwa-heading div.heading {
+  padding-left: 1px;
+  padding-top: 0px;
+  flex-grow: 1;
+}
+
+div.dwa-heading div.numbering {
+  font-size: 150%;
   color: #aaa;
   font-weight: normal;
-  counter-increment: level2Count;
-  display: inline-block;
-  position: absolute;
-  left: -1.8em;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
 }
 h3 {
   font-size: 120%;
@@ -613,15 +626,12 @@ sup {
   background-color: #d8e9d7;
   border-color: #b2d1b0;
 }
-.dwa-addition.exercise > header {
+.exercise-content > header {
   font-family: "Rubik";
-  position:relative;
-  top: 8px;
-}
-
-.dwa-addition.exercise > header::after {
-  counter-increment: exerciseCount;
-  content: " " counter(level1Count) "." counter(level2Count) "." counter(exerciseCount,lower-alpha);
+  padding-top: 8px;
+  font-size: 85%;
+  font-weight: bold;
+  color: #508b4c;
 }
 
 .note p {
@@ -722,9 +732,229 @@ sup {
   padding: 10px 20px;
 }
 
-
-.exercise {
+#sign-out-ui {
+  position: fixed;
+  right: 30px;
+  bottom: 0px;
+  padding: 8px;
+  height: 30px;
+  border-radius: 3pt 3pt 0 0;
+  background-color: #b2d1b0;
+  transition: transform 0.5s;
+  transform: translate3d(0,0,0);
+}
+#sign-out-ui.hidden {
+  transform: translate3d(0,60px,0);
 }
 
-.question {
+.exercise .sign-in button, #sign-out-btn, #sign-in-btn {
+  border: 1px solid rgb(76, 144, 71);
+  background-color: rgb(107, 162, 103);
+  color: rgb(255, 255, 255);
+  padding: 3px;
+  font-weight: bold;
+  font-family: Rubik;
+}
+.exercise .dwa-exercise-submit, .exercise .sign-in {
+  display: none;  /* this will be shown when JS code determines a user has logged in */
+  background-color: #b2d1b0;
+  position: relative;
+  left: -13px;
+  top: 1px;
+  padding: 10px 10px 10px 13px;
+  font-family: "Rubik";
+  /* font-size: 80%; */
+  width: calc(100% );
+}
+.dwa-exercise-submit {
+  width: 90%;
+}
+.code-exercise {
+  border-top: 1px solid rgb(107, 162, 103);
+  border-bottom: 1px solid rgb(107, 162, 103);
+  background-color: white;
+}
+
+.dwa-exercise-submit .editor-wrap, .dwa-exercise-submit pre {
+  margin: 0;
+}
+.dwa-exercise-submit pre.code-exercise {
+  border-top: 1px solid rgb(107, 162, 103);
+  border-bottom: 1px solid rgb(107, 162, 103);
+  border-left: none;
+  border-right: none;
+  background-color: rgb(194, 217, 193);
+  min-height: 2.5em;
+}
+.dwa-exercise-submit input[type="text"] {
+  font-family: "Rubik";
+  font-size: 100%;
+  padding: 6px;
+  border-top: 1px solid rgb(107, 162, 103);
+  border-bottom: 1px solid rgb(107, 162, 103);
+  border-left: none;
+  border-right: none;
+  width: 95%;
+  background-color: rgb(194, 217, 193);
+}
+.dwa-exercise-submit input[type="text"]:focus {
+  background-color: white;
+}
+.dwa-exercise-submit .CodeMirror {
+  background-color: rgb(194, 217, 193);
+  min-height: 2.5em;
+}
+.dwa-exercise-submit .CodeMirror-focused {
+  background-color: white;
+}
+
+.dwa-exercise-submit[data-exercise_type="Long"] .CodeMirror {
+  font-family: "Rubik";
+  border-top: 1px solid rgb(107, 162, 103);
+  border-bottom: 1px solid rgb(107, 162, 103);
+}
+
+.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar {
+  border: none;
+  opacity: 0.3;
+}
+.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar:hover {
+  border: none;
+  opacity: 1.0;
+}
+.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar::after {
+  content: none;
+}
+.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar::before {
+  margin: 0;
+}
+
+
+.dwa-exercise-submit[data-exercise_type="Long"] .editor-statusbar {
+  display: none;
+}
+
+.exercise-prompt {
+  font-family: "Rubik";
+  color: #397635;
+  font-size: 80%;
+}
+
+.results-page #sign-in-ui.hidden {
+  display: none;
+}
+.results-page #sign-in-ui {
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px;
+  border: 2px solid rgb(107, 162, 103);
+  border-radius: 10px;
+  background-color: #b2d1b0;
+  width: 50%;
+  text-align: center;
+  font-family: Rubik;
+}
+.results-page #sign-in-ui h2 {
+  font-weight: normal;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.results-page #sign-in-btn {
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.results-page #results-ui {
+  margin-left: auto;
+  margin-right: auto;
+  max-width:1000px;
+}
+.results-page #results-ui.hidden {
+  display: none;
+}
+
+.results-page {
+  font-family: Rubik;
+}
+
+.result-row {
+  vertical-align: top;
+}
+.result-row.unkown {
+  color: purple;
+}
+.result-row.no-answer {
+  color: red;
+}
+
+.results-table {
+  width: 100%;
+}
+
+.result-row td {
+  padding: 6px 12px;
+}
+.result-row:nth-child(odd) {
+  background-color: #eee;
+}
+.result-row:nth-child(even) {
+  background-color: #ddd;
+}
+
+.result-row:nth-child(odd) .result-content {
+  background-color: rgb(219, 237, 218);
+}
+.result-row:nth-child(even) .result-content {
+  background-color: rgb(194, 217, 193);
+}
+.result-row.no-answer:nth-child(odd) .result-content {
+  background-color: #fee;
+}
+.result-row.no-answer:nth-child(even) .result-content {
+  background-color: #fff0f0;
+}
+.result-row.unkown:nth-child(odd) .result-content {
+  background-color: rgb(241, 223, 241);
+}
+.result-row.unkown:nth-child(even) .result-content {
+  background-color: rgb(233, 204, 233);
+}
+.result-content.code pre {
+  margin: 0;
+  padding: 0;
+}
+.result-row td.result-photo {
+  width: 50px;
+  padding: 0;
+}
+.result-photo img {
+  width: 50px;
+  height: 50px;
+}
+.result-row td.result-author {
+  width: 13em;
+}
+.result-author h3 {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+.result-author h4 {
+  font-size: 12px;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}
+
+.results-link a {
+    color: black;
+}
+.results-link a:visited {
+    color: black;
+}
+.results-link a[target="_blank"] {
+    color: black;
+    font-size: 70%;
 }

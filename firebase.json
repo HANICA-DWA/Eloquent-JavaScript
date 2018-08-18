@@ -1,0 +1,17 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "html",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "Eloquent_JavaScript.epub",
+      "Eloquent_JavaScript.mobi",
+      "Eloquent_JavaScript.pdf",
+      "Eloquent_JavaScript_small.pdf"
+    ]
+  }
+}

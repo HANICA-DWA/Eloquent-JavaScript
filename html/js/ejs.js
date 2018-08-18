@@ -77,6 +77,7 @@ window.addEventListener("load", () => {
   let article = document.getElementsByTagName("article")[0]
 
   function activateCode(node, e, lang) {
+
     if (sandboxHint) {
       sandboxHint.parentNode.removeChild(sandboxHint)
       sandboxHint = null
@@ -103,7 +104,13 @@ window.addEventListener("load", () => {
       clearTimeout(pollingScroll)
       pollingScroll = setTimeout(pollScroll, 500)
     })
-    wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
+    if( ! node.isExercise ) {  // if-statement and else branch are dwa additions
+      wrap.style.marginLeft = wrap.style.marginRight = -Math.min(article.offsetLeft, 100) + "px"
+    } else {
+      if(node.onEditorActivated) {
+        node.onEditorActivated(editor,() => closeCode({orig:node, wrap:wrap, isHTML:false, sandbox:null, meta:null}));
+      }
+    }
     setTimeout(() => editor.refresh(), 600)
     if (e) {
       editor.setCursor(editor.coordsChar({left: e.clientX, top: e.clientY}, "client"))
@@ -170,6 +177,9 @@ window.addEventListener("load", () => {
   function closeCode(data) {
     if (data.isHTML && data.sandbox) return
     data.wrap.parentNode.removeChild(data.wrap)
+    if(data.orig.isExercise && data.orig.onEditorDeactivated) {  // dwa addition
+      data.orig.onEditorDeactivated();
+    }
     data.orig.style.display = ""
   }
 

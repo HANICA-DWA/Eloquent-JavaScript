@@ -168,7 +168,7 @@ something is taking longer than a given amount of ((time)).[Daarnaast is `setTim
 
 {{note
 
-De belangrijkste eigenschap van een asynchrone callback is dat deze pas kan worden gestart wanneer er op dat moment geen andere JavaScript code meer wordt uitgevoerd. 
+De belangrijkste eigenschap van een asynchrone callback is dat deze pas kan worden gestart wanneer er op dat moment geen andere JavaScript code meer wordt uitgevoerd.
 
 ```javascript
 setTimeout(() => {
@@ -178,7 +178,7 @@ setTimeout(() => {
 console.log('B');
 ```
 
-De bovenstaande code heeft daarom als uitvoer: 
+De bovenstaande code heeft daarom als uitvoer:
 
 ```
 B
@@ -194,20 +194,18 @@ Dit betekent ook dat JavaScript code die erg traag is, de performance van het he
 In het onderstaande voorbeeld wel "A" nooit op de console worden getoond.
 
 ```javascript
-setTimeout(() => { 
-  console.log('A'); 
-}, 500); 
+setTimeout(() => {
+  console.log('A');
+}, 500);
 
-while (true) { 
+while (true) {
   console.log('B');
 }
 ```
 
 note}}
 
-{{ex
-
-### Order
+{{ex "Wat is de volgorde?" "Order of execution"
 
 Gegeven onderstaande code
 
@@ -235,7 +233,7 @@ means that you have to keep passing new functions to handle the
 
 {{note
 
-Hieronder zie je een voorbeeld van de ellende die je krijgt wanneer je meerdere aynchrone functies na elkaar wilt uitvoeren. In dit geval voeren we drie setTimeouts na elkaar uit waarbij de nieuwe timeout pas wordt gestart als de vorige timeout klaar is. 
+Hieronder zie je een voorbeeld van de ellende die je krijgt wanneer je meerdere aynchrone functies na elkaar wilt uitvoeren. In dit geval voeren we drie setTimeouts na elkaar uit waarbij de nieuwe timeout pas wordt gestart als de vorige timeout klaar is.
 
 ```javascript
 setTimeout(() => { //definitie van callback 1
@@ -249,17 +247,15 @@ setTimeout(() => { //definitie van callback 1
 }, 500);
 ```
 
-In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wannee we uit meerder 'tabellen' gegevens nodig hebben. 
+In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wannee we uit meerder 'tabellen' gegevens nodig hebben.
 
 note}}
 
-{{ex
+{{ex "Parallel" "Parallel"
 
-### Parallel
+We schrijven asynchrone code om taken naast elkaar te kunnen doen (in plaats van na elkaar zoals hierboven). Hoewel dat makkelijker is dan werken met meerdere threads, is het complexer dan werken met synchrone code. Daarom onderstaande oefening.
 
-We schrijven asynchrone code om taken naast elkaar te kunnen doen (in plaats van na elkaar zoals hierboven). Hoewel dat makkelijker is dan werken met meerdere threads, is het complexer dan werken met synchrone code. Daarom onderstaande oefening. 
-
-Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitgevoerd. Om te simuleren dat je geen controle hebt over de duur van een taak (wat in werkelijkheid ook zo is), gebruiken we `Math.random() * 1000` om de tijdsduur van `setTimeout` te bepalen. 
+Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitgevoerd. Om te simuleren dat je geen controle hebt over de duur van een taak (wat in werkelijkheid ook zo is), gebruiken we `Math.random() * 1000` om de tijdsduur van `setTimeout` te bepalen.
 
 ```javascript
 //Pas hier de code aan
@@ -282,9 +278,9 @@ setTimeout(() => {
 console.log('Klaar met alle taken');
 ```
 
-De tekst 'Klaar met alle taken ' wordt echter te vroeg getoond. 
+De tekst 'Klaar met alle taken ' wordt echter te vroeg getoond.
 
-Pas de code zo aan dat`console.log('Klaar met alle taken')`pas wordt uitgevoerd nadat de taken A, B en C afgerond zijn. 
+Pas de code zo aan dat`console.log('Klaar met alle taken')`pas wordt uitgevoerd nadat de taken A, B en C afgerond zijn.
 
 De drie taken moeten wel tegelijkertijd uitgevoerd worden, dus je mag de ene `setTimeout` niet in de callback van de andere `setTimeout` plaatsen.
 
@@ -348,7 +344,7 @@ note}}
 
 De functies`readStorag`en `readCache` krijgen als laatste parameter de asynchrone callback functie, terwijl `setTimeout` deze als eerste parameter krijgt.  
 
-Bijna alle functies die we later gaan tegenkomen zul je zien dat de asynchrone callback als laatste parameter meegegeven moet worden. 
+Bijna alle functies die we later gaan tegenkomen zul je zien dat de asynchrone callback als laatste parameter meegegeven moet worden.
 
 note}}
 
@@ -364,13 +360,11 @@ Node heeft zijn eigen methoden om dit voor elkaar te krijgen: respectievelijk `r
 
 note}}
 
-{{ex
-
-### Account Management
+{{ex "Account Management" "Account Management"
 
 De de bestanden readDirExample.js en readFileExample.js zie je een voorbeeld van hoe je `readdir` en `readfile` kunt gebruiken.
 
-Gebruik deze voorbeelden om de inhoud van de folder 'accounts' te lezen en vervolgens de inhoud van het laatste bestand uit deze lijst  ('serena_klein') naar de console te loggen. In het 
+Gebruik deze voorbeelden om de inhoud van de folder 'accounts' te lezen en vervolgens de inhoud van het laatste bestand uit deze lijst  ('serena_klein') naar de console te loggen. In het
 
 ex}}
 
@@ -438,13 +432,11 @@ is done, having arranged for a callback to be called when it
 completes. So we need some asynchronous mechanism—in this case,
 another ((callback function))—to signal when a response is available.
 
-{{ex 
+{{ex "DoAllTasks" "DoAllTasks"
 
-### DoAllTasks
+#### A)
 
-#### A) 
-
-De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd. 
+De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd.
 
 ```javascript
 let doAllTasks = (/* Pas hier de code aan */) => {
@@ -458,7 +450,7 @@ let doAllTasks = (/* Pas hier de code aan */) => {
 };
 ```
 
-Pas deze functie aan, zodat je een willekeurige asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven. 
+Pas deze functie aan, zodat je een willekeurige asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven.
 
 #### B)
 
@@ -484,7 +476,7 @@ Alle taken klaar
 nu gaan we andere dingen doen
 ```
 
-#### C) 
+#### C)
 
 Hieronder staat de code van  `doAllTasks2` . Deze functie simuleert een situatie waarbij we het resultaat van een asynchrone actie in een lijst stoppen (`completedTasks`).
 
@@ -545,9 +537,7 @@ note}}
 
 {{youtube "8aGhZQkoFbQ"}}
 
-{{ex
-
-### Timeout Loops
+{{ex "Timeout Loops" "Timeout Loops"
 
 #### A)
 
@@ -632,7 +622,7 @@ Ter illustratie zie je hieronder een voorbeeld van een rij promises. Het idee ac
 
 ```javascript
 fetch('http://example.ica.han/users').then(response => {
-    return response.json(); 
+    return response.json();
 }).then(usernames => {
     let firstUsername = usernames[0];
     return fetch(`http://example.ica.han/users/${firstUsername}`)
@@ -643,7 +633,7 @@ fetch('http://example.ica.han/users').then(response => {
 });
 ```
 
-We gebruiken voor het ophalen van data van de server de  functie `fetch`, die te vergelijken is met de functie`get` uit de NodeJS-module `http`. Het handige van `fetch` is dat deze, anders dan `get`, een promise retourneert. [De functie `fetch` wordt standaard ondersteund in browsers, en om `fetch` in NodeJS te gebruiken kun je de package node-fetch gebruiken]{aside "fetch api"} 
+We gebruiken voor het ophalen van data van de server de  functie `fetch`, die te vergelijken is met de functie`get` uit de NodeJS-module `http`. Het handige van `fetch` is dat deze, anders dan `get`, een promise retourneert. [De functie `fetch` wordt standaard ondersteund in browsers, en om `fetch` in NodeJS te gebruiken kun je de package node-fetch gebruiken]{aside "fetch api"}
 
 Uit de response die we van de server terugkrijgen, halen we de data met de functie `response.json`. Deze functie retourneert ook een promise die uiteindelijk de json-data bevat die we willen hebben.
 
@@ -706,9 +696,7 @@ setTimeoutP(500).then(() => {
 
 note}}
 
-{{ex
-
-### Parameter
+{{ex "Parameter" "Parameter"
 
 Waarom krijgt de `then`-callback van `setTimeoutP` geen parameter mee, terwijl de `then`-callback van `storage` the parameter `value` meekrijgt.
 
@@ -721,13 +709,11 @@ functions look similar to regular ones: they take input as arguments
 and return their output. The only difference is that the output may
 not be available yet.
 
-{{ex
+{{ex "Promise-based Interface" "Promise-based Interface"
 
-### Promise-based Interface
+Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een promise-based interface te maken voor een bestaande asynchrone functie die dit nog niet heeft. Op die manier zie je hoe de `value`-parameter van de `then`-callback samenhangt met de `resolve`- callback uit de promise-based interface.
 
-Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een promise-based interface te maken voor een bestaande asynchrone functie die dit nog niet heeft. Op die manier zie je hoe de `value`-parameter van de `then`-callback samenhangt met de `resolve`- callback uit de promise-based interface. 
-
-De functie `fs.readFile` retourneert geen promise. Hieronder zie je al een begin van een promise-based interface voor deze functie die `readFileP` heet. Maak deze definitie af. Probeer daarbij zelf te bedenken wanneer je de functie moet aanroepen die in de `reject`-parameter zit. 
+De functie `fs.readFile` retourneert geen promise. Hieronder zie je al een begin van een promise-based interface voor deze functie die `readFileP` heet. Maak deze definitie af. Probeer daarbij zelf te bedenken wanneer je de functie moet aanroepen die in de `reject`-parameter zit.
 
 Besteed hier echter niet te veel tijd aan. Als je er niet uitkomt dan kun je het antwoord vinden in de repo.
 
@@ -737,10 +723,10 @@ const fs = require('fs');
 //Promise-based interface definitie
 function readFileP(file) {
     return new Promise((resolve, reject) => {
-        /* 
-        
-        
-        
+        /*
+
+
+
         */
     });
 }
@@ -763,7 +749,7 @@ note}}
 
 De `then` functie retourneert altijd een nieuwe promise (waardoor het mogelijk wordt een promise chain te maken). De promise die `then` retourneert is afhankelijk van de return waarde van de functie die je aan `then` meegeeft.
 
-Als deze functie een promise retourneert, dan is dit ook de promise die de bijbehorende `then` retourneert. De functie in de eventuele daaropvolgende `then` wordt uitgevoerd op het moment dat deze promise is resolved. 
+Als deze functie een promise retourneert, dan is dit ook de promise die de bijbehorende `then` retourneert. De functie in de eventuele daaropvolgende `then` wordt uitgevoerd op het moment dat deze promise is resolved.
 
 Voorbeeld 1
 
@@ -775,7 +761,7 @@ Voorbeeld 1
 //...
 ```
 
-De return-waarde van `thenA` is de promise die `setTimeoutP` retourneert. The functie in `thenB` wordt uitgevoerd als de promise van `setTimeoutP` is resolved. 
+De return-waarde van `thenA` is de promise die `setTimeoutP` retourneert. The functie in `thenB` wordt uitgevoerd als de promise van `setTimeoutP` is resolved.
 
 Voorbeeld 2
 
@@ -789,7 +775,7 @@ Voorbeeld 2
 
 Hiervoor geldt hetzelfde als voor voorbeeld 1. Omdat `readFileP` een promise teruggeeft die de inhoud van de file als resolve-waarde heeft, wordt deze inhoud meegegeven aan de functie van `thenB` (in de `value`-parameter).
 
-Wanneer de functie in een then een waarde teruggeeft, dan wordt er een nieuwe promise gemaakt die de geretourneerde waarde als resolve-waarde heeft. 
+Wanneer de functie in een then een waarde teruggeeft, dan wordt er een nieuwe promise gemaakt die de geretourneerde waarde als resolve-waarde heeft.
 
 Voorbeeld 3
 
@@ -819,9 +805,7 @@ De inhoud van de paramter `value` is nu `undefined`.
 
 note}}
 
-{{ex
-
-### No Return
+{{ex "No Return" "No Return"
 
 Hieronder zie je een veelgemaakte fout bij het schrijven van een promise chain. Wat is de output van de `console.log` in de functie van de `thenB`. Leg je antwoord (kort) uit.
 
@@ -837,13 +821,11 @@ Hieronder zie je een veelgemaakte fout bij het schrijven van een promise chain. 
 
 ex}}
 
-{{ex
-
-### Timeout Chains
+{{ex "Timeout Chains" "Timeout Chains"
 
 Het werken met promises lijkt een beetje op synchroon programmeren, maar het is niet helemaal hetzelfde. Deze opgave illustreert dit.
 
-Hieronder zie je twee promise chains gemaakt met `setTimeoutP`. 
+Hieronder zie je twee promise chains gemaakt met `setTimeoutP`.
 
 ```javascript
 /* Promise chain A */
@@ -927,7 +909,7 @@ functions they call, are caught and given to the right function.
 
 {{note
 
-Hieronder zie het voorbeeld uit de vorige opgave. 
+Hieronder zie het voorbeeld uit de vorige opgave.
 
 ```javascript
 fs.readdir('./food_caches', (err, fileList) => {
@@ -1220,9 +1202,7 @@ resolves to an array of the values that these promises produced (in
 the same order as the original array). If any promise is rejected, the
 result of `Promise.all` is itself rejected.
 
-{{ex
-
-### Account Management Again
+{{ex "Account Management Again" "Account Management Again"
 
 In deze opgave bouwen we stap voor stap een promise chain op, waarmee we gebruikersgegevens lezen en wegschrijven naar bestanden.
 
@@ -1243,7 +1223,7 @@ pw.writeFileP(`${user.account}`, user.username).then(() => {
 });
 ```
 
-#### A) 
+#### A)
 
 In plaats van het wegschrijven van één gebruiker, willen we een hele array van gebruikers kunnen wegschrijven, waarbij we de `username` van elke gebruiker in een eigen file willen stoppen met de naam van het `account` .
 
@@ -1274,13 +1254,13 @@ Gebruik `Promise.all` om 'done' naar de console te schrijven als alle gebruikers
 
 Zorg er ook voor dat je met een `catch` eventuele errors naar de console te schrijven.
 
-_Hint:_ `writeFileP` retourneert een promise, dus stop deze promise in een array en gebruik deze array als input voor `Promise.all`. 
+_Hint:_ `writeFileP` retourneert een promise, dus stop deze promise in een array en gebruik deze array als input voor `Promise.all`.
 
 #### B)
 
-We willen nu de gegevens van de gebruikers uit het bestand 'users.json' halen in plaats van uit de variabele `users`. 
+We willen nu de gegevens van de gebruikers uit het bestand 'users.json' halen in plaats van uit de variabele `users`.
 
-Begin de promise-chain die je bij opgave A) hebt gemaakt nu met een aanroep van `readFileP` waarmee je de gegevens uit 'users.json' haalt. Als de gegevens zijn gelezen, kun je beginnen met het wegschrijven van alle gebruikers zoals je bij opgave A) doet. 
+Begin de promise-chain die je bij opgave A) hebt gemaakt nu met een aanroep van `readFileP` waarmee je de gegevens uit 'users.json' haalt. Als de gegevens zijn gelezen, kun je beginnen met het wegschrijven van alle gebruikers zoals je bij opgave A) doet.
 
 Zorg er ook nu voor dat je alle eventuele errors naar de console logt met een `catch` in de promise chain.
 

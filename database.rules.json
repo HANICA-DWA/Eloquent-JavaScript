@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "exercises": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'"
+    },
+    "answers": {
+      ".read":  "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      "$githubName": {
+        ".read":  "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName"
+      }
+    },
+    "users": {
+      ".read":  "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      "$uid": {
+        ".read":  "auth != null && auth.uid == $uid",
+        ".write":  "auth != null && auth.uid == $uid"
+      }
+    }
+  }
+}

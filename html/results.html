@@ -1,0 +1,30 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Results</title>
+  <link rel=stylesheet href="css/ejs.css">
+</head>
+<body class="results-page">
+  <div id="sign-in-ui" class="hidden">
+    <h2>Je moet ingelogd zijn, als docent, om resultaten te kunnen bekijken</h2>
+    <button id="sign-in-btn">Log in</button>
+  </div>
+  <div id="results-ui" class="hidden">
+    <div id="results-header"></div>
+    <div id="results-container"></div>
+  </div>
+  <div id="sign-out-ui" class="hidden">
+    <button id="sign-out-btn">Log uit</button>
+  </div>
+</body>
+<!-- firebase api -->
+<script src="/__/firebase/5.3.0/firebase-app.js"></script> <!-- firebase core -->
+<script src="/__/firebase/5.3.0/firebase-auth.js"></script> <!-- authentication facilities -->
+<script src="/__/firebase/5.3.0/firebase-database.js"></script> <!-- realtime database, not the cloud store -->
+<script src="js/escape-html.js"></script>
+<script src="js/marked.min.js"></script>
+<script src="js/serverConnections.js"></script> <!-- dwa code to work with fiebase and github -->
+<script>
+window.onload = initResultsPage
+</script>
