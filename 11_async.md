@@ -360,13 +360,13 @@ Node heeft zijn eigen methoden om dit voor elkaar te krijgen: respectievelijk `r
 
 note}}
 
-{{ex "Account Management" "Account Management"
+{{exCommit "Account Management" "Account Management"
 
 De de bestanden readDirExample.js en readFileExample.js zie je een voorbeeld van hoe je `readdir` en `readfile` kunt gebruiken.
 
 Gebruik deze voorbeelden om de inhoud van de folder 'accounts' te lezen en vervolgens de inhoud van het laatste bestand uit deze lijst  ('serena_klein') naar de console te loggen. In het
 
-ex}}
+exCommit}}
 
 This style of programming is workable, but the indentation level
 increases with each asynchronous action because you end up in another
@@ -432,7 +432,7 @@ is done, having arranged for a callback to be called when it
 completes. So we need some asynchronous mechanism—in this case,
 another ((callback function))—to signal when a response is available.
 
-{{ex "DoAllTasks (A)" "DoAllTasks A"
+{{exCommit "DoAllTasks (A)" "DoAllTasks A"
 
 De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd.
 
@@ -450,9 +450,9 @@ let doAllTasks = (/* Pas hier de code aan */) => {
 
 Pas deze functie aan, zodat je een willekeurige asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven.
 
-ex}}
+exCommit}}
 
-{{ex "DoAllTasks (B)" "DoAllTasks B"
+{{exCommit "DoAllTasks (B)" "DoAllTasks B"
 
 Test de implementatie van `doAllTasks` met de functie `printWhenFinished`
 
@@ -476,9 +476,9 @@ Alle taken klaar
 nu gaan we andere dingen doen
 ```
 
-ex}}
+exCommit}}
 
-{{ex "DoAllTasks (C)" "DoAllTasks C"
+{{exCommit "DoAllTasks (C)" "DoAllTasks C"
 
 Hieronder staat de code van  `doAllTasks2` . Deze functie simuleert een situatie waarbij we het resultaat van een asynchrone actie in een lijst stoppen (door strings in de array`completedTasks` te stoppen).
 
@@ -497,9 +497,9 @@ let doAllTasks2 = (/* Pas hier de code aan */) => {
 };
 ```
 
-ex}}
+exCommit}}
 
-{{ex "DoAllTasks (D)" "DoAllTasks D"
+{{exCommit "DoAllTasks (D)" "DoAllTasks D"
 
 Test de implementatie van `doAllTasks2` nu met de functie `printResults`.
 
@@ -524,7 +524,7 @@ Taak 1 klaar
 Taak 2 klaar
 ```
 
-ex}}
+exCommit}}
 
 In a way, asynchronicity is _contagious_. Any function that calls a
 function that works asynchronously must itself be asynchronous, using
@@ -713,7 +713,7 @@ functions look similar to regular ones: they take input as arguments
 and return their output. The only difference is that the output may
 not be available yet.
 
-{{ex "Promise-based Interface" "Promise-based Interface"
+{{exCommit "Promise-based Interface" "Promise-based Interface"
 
 Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een promise-based interface te maken voor een bestaande asynchrone functie die dit nog niet heeft. Op die manier zie je hoe de `value`-parameter van de `then`-callback samenhangt met de `resolve`- callback uit de promise-based interface.
 
@@ -741,7 +741,7 @@ readFileP('test.txt').then(value => {
 });
 ```
 
-ex}}
+exCommit}}
 
 {{note
 
@@ -1208,7 +1208,7 @@ resolves to an array of the values that these promises produced (in
 the same order as the original array). If any promise is rejected, the
 result of `Promise.all` is itself rejected.
 
-{{ex "Account Management Again (A)" "Account Management Again A"
+{{exCommit "Account Management Again (A)" "Account Management Again A"
 
 In deze opgave bouwen we stap voor stap een promise chain op, waarmee we gebruikersgegevens lezen en wegschrijven naar bestanden.
 
@@ -1260,9 +1260,9 @@ Zorg er ook voor dat je met een `catch` eventuele errors naar de console te schr
 
 _Hint:_ `writeFileP` retourneert een promise, dus stop deze promise in een array en gebruik deze array als input voor `Promise.all`.
 
-ex}}
+exCommit}}
 
-{{ex "Account Management Again (B)" "Account Management Again B"
+{{exCommit "Account Management Again (B)" "Account Management Again B"
 
 We willen nu de gegevens van de gebruikers uit het bestand 'users.json' halen in plaats van uit de variabele `users`.
 
@@ -1270,7 +1270,7 @@ Begin de promise-chain die je bij opgave A) hebt gemaakt nu met een aanroep van 
 
 Zorg er ook nu voor dat je alle eventuele errors naar de console logt met een `catch` in de promise chain.
 
-ex}}
+exCommit}}
 
 {{skip
 
