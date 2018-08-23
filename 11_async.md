@@ -1753,7 +1753,7 @@ scheduled it.
 {{index "Promise class", "catch keyword", "exception handling"}}
 
 Asynchronous behavior happens on its own empty function ((call
-stack)). This is one of the reasons that, without promises, managing
+stack)) [Deze zin lijkt een beetje te suggereren dat er een nieuwe call stack gemaakt wordt voor elke aynchrone callback. Wij gaan er echter vanuit dat er maar één call stack is en dat een asynchrone callback op die stack geplaatst wordt, zodra deze stack leeg is. Zie ook het filmpje over de event loop hierboven]{aside "Één stack"}. This is one of the reasons that, without promises, managing
 exceptions across asynchronous code is hard. Since each callback
 starts with a mostly empty stack, your `catch` handlers won't be on
 the stack when they throw an exception.
