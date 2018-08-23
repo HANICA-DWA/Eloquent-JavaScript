@@ -67,6 +67,14 @@ exCode}}
 ```
 A question for which a short piece of code is expected.
 
+```
+{{exCommit "user facing title" "database key"
+
+Text of the exercise.
+
+exCommit}}
+```
+A question for which the user has to commit code to GitHub, and leave the URL to the commit in the form.
 
 #### not required reading
 ```
