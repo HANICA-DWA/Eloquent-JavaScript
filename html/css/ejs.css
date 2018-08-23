@@ -814,26 +814,73 @@ sup {
   border-bottom: 1px solid rgb(107, 162, 103);
 }
 
-.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar {
+.dwa-addition .editor-toolbar {
   border: none;
   opacity: 0.3;
 }
-.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar:hover {
+.dwa-addition .editor-toolbar:hover {
   border: none;
   opacity: 1.0;
 }
-.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar::after {
+.dwa-addition .editor-toolbar::after {
   content: none;
 }
-.dwa-exercise-submit[data-exercise_type="Long"] .editor-toolbar::before {
+.dwa-addition .editor-toolbar::before {
   margin: 0;
 }
-
-
-.dwa-exercise-submit[data-exercise_type="Long"] .editor-statusbar {
+.dwa-addition .editor-toolbar a:before {
+  line-height: 20px;
+  font-size: 12px;
+}
+.dwa-addition .editor-toolbar a {
+  height: 22px;
+}
+.dwa-addition .editor-statusbar {
   display: none;
 }
+.dwa-addition .editor-toolbar i.separator {
+  border-left: none;
+  border-right: none;
+  margin: 0 20px;
+}
 
+.dwa-addition .editor-toolbar.disabled-for-preview a:not(.no-disable) {
+  pointer-events: none;
+  border-color: transparent;
+  opacity: 0;
+  background-color: none;
+}
+
+.dwa-addition .editor-toolbar a.fa-eye.active {
+    background-color: white;
+    border-color: #95a5a6;
+    color: black;
+    opacity: 1 !important;
+}
+
+.dwa-qna .prompt {
+  margin-bottom: 0px;
+  margin-top: 20px;
+  font-family: "Rubik";
+  font-size: 80%;
+  color: #6b4c89;
+}
+
+.dwa-qna .dwa-addition {
+  padding-bottom: 25px;
+  background-color: rgb(225, 215, 236);
+  border-left: 8pt solid #b9a2d0;
+}
+
+.dwa-qna .dwa-addition.optional {
+  padding-bottom: 25px;
+  background-color: rgb(229, 229, 229);
+  border-left: 8pt solid rgb(196, 196, 196);
+}
+
+.dwa-addition .CodeMirror, .dwa-addition .CodeMirror-scroll {
+  min-height: 100px;
+}
 .exercise-prompt {
   font-family: "Rubik";
   color: #397635;

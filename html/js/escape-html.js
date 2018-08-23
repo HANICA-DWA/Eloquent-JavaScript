@@ -15,7 +15,6 @@
  * @return {string}
  * @public
  */
-
 function escapeHtml(string) {
   var matchHtmlRegExp = /["'&<>]/;
 

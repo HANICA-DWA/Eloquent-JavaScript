@@ -250,16 +250,28 @@ let renderer = {
     return renderer.meta_ex_close(token, "Commit")
   },
 
+  meta_qna_open(token) {
+    const id = slugify(token.args[0])
+    const minimum = token.args[1]
+    console.error("MINMUM:", minimum, typeof minimum, id);
+    return `\n\n<div class="dwa-qna" data-qnaid="${id}" data-minimum="${minimum}">`;
+  },
+  meta_qna_close(token) {
+    return `\n\n</div><div class="sign-in"><button class="sign-in-btn">Log in</button> met je Github account om vragen in te sturen.</div>`;
+  },
+
+
   meta_ex_open(token, exerciseType="Long") {
     exerciseNumber++
     const slug = slugify(token.args[1])
-    const title = token.args[0]
+    let title = token.args[0]
     if( !title && !slug) {
       errorMsg = `Exercise ${chapterNumber}.${subChapterNumber}.${exerciseNumber} needs both a title and an internal name.`
       console.error("ERROR:",errorMsg);
       return `\n\n<div class="dwa-addition error-msg">INTERNAL BOOK ERROR: ${errorMsg}</div>`
     }
-    return `\n\n<div class="exercise dwa-addition"><div class="exercise-content"><header>oefening ${chapterNumber}.${subChapterNumber}.${exerciseNumber}: ${title}</header>`
+    title = `Oefening ${chapterNumber}.${subChapterNumber}.${exerciseNumber}: ${title}`
+    return `\n\n<div class="exercise dwa-addition"><div class="exercise-content"><header>${title}</header>`
   },
   meta_ex_close(token, exerciseType="Long") {
     const slug = slugify(token.args[1])

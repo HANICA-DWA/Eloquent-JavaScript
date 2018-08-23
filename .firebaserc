@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "dwa-forms"
+    "default": "dwa-forms",
+    "productie": "dwa-courses",
+    "develop": "dwa-develop"
   }
 }

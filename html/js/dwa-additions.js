@@ -1,21 +1,3 @@
-/*
-███████ ██ ██████  ███████ ██████   █████  ███████ ███████     ██ ███    ██ ██ ████████
-██      ██ ██   ██ ██      ██   ██ ██   ██ ██      ██          ██ ████   ██ ██    ██
-█████   ██ ██████  █████   ██████  ███████ ███████ █████       ██ ██ ██  ██ ██    ██
-██      ██ ██   ██ ██      ██   ██ ██   ██      ██ ██          ██ ██  ██ ██ ██    ██
-██      ██ ██   ██ ███████ ██████  ██   ██ ███████ ███████     ██ ██   ████ ██    ██
-*/
-
-
- var config = {
-  apiKey: "AIzaSyA3KTjz_rbbjCTDyPirfKjyM0Tu3bmcok0",
-  authDomain: "dwa-forms.firebaseapp.com",
-  databaseURL: "https://dwa-forms.firebaseio.com",
-  projectId: "dwa-forms",
-  storageBucket: "dwa-forms.appspot.com",
-  messagingSenderId: "651913726710"
-};
-firebase.initializeApp(config);
 
 /*
 ██   ██ ███████ ██      ██████  ███████ ██████  ███████
@@ -123,8 +105,8 @@ function makeHandleAuthStateChanged(afterSignIn, afterSignout) {
       gatherUserInfo().then( afterSignIn )
     } else {  /* user has left the building (sign out) */
       window.localStorage.removeItem("gitHubAccessToken");
-      delete window.userInfo;
       afterSignout && afterSignout();
+      delete window.userInfo;
     }
   }
 }
@@ -189,9 +171,13 @@ function initChapterPage() {
   // setup exercise UI's
   elementsByClass("dwa-exercise-submit").forEach(el=>{
     const exType = el.dataset.exercise_type;
-    exerciseClass = window.exerciseTypes[exType];
-    exercise = new exerciseClass(el);
+    const exerciseClass = window.exerciseTypes[exType];
+    const exercise = new exerciseClass(el);
   });
+
+  elementsByClass("dwa-qna").forEach(el=>{
+    const qnaForm = new QnAForm(el);
+  })
 };
 
 /*
@@ -210,7 +196,6 @@ class Exercise {
     this.slug       = element.dataset.exercise_slug;
     this.exNumber   = element.dataset.exercise_number;
     this.exType     = element.dataset.exercise_type;
-    this.ref        = null;
     this.fbCallback = null;
 
     allExercises[this.slug] = this
@@ -225,8 +210,12 @@ class Exercise {
     }
   }
 
+  createFormUI() {
+    // abstract
+  }
+
   createResultsLink() {
-    const url = `/results.html?group=${encodeURIComponent(window.userInfo.group)}&exercise=${encodeURIComponent(eh(this.slug))}`
+    const url = `/exercise-results.html?group=${encodeURIComponent(window.userInfo.group)}&exercise=${encodeURIComponent(this.slug)}`
     this.element.innerHTML = `<div class="results-link"><a href="${url}">Toon resultaten</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
   }
 
@@ -237,20 +226,18 @@ class Exercise {
   }
 
   destroyUI() {
-    // nothing
+    // abstract
   };
 
-  setupFirebaseSubscription() {
+  setupFirebaseSubscription(ref) {
     this.fbCallback = (snapshot)=>this.handleDBChange(snapshot)
-    this.ref = answerRef(this.slug)
-    this.ref.on('value',this.fbCallback)
-    this.storeExerciseToDB(this);
+    answerRef(this.slug).on('value',this.fbCallback)
+    this.storeExerciseToDB();
   }
 
   giveupFirebaseSubscription() {
-    if(this.ref) {
-      this.ref.off('value', this.fbCallback);
-      this.ref = null;
+    if(this.fbCallback) {
+      answerRef(this.slug).off('value', this.fbCallback);
       this.fbCallback = null;
     }
   }
@@ -319,6 +306,7 @@ class LongExercise extends Exercise {
       autosave: { enabled: false },
       forceSync: false,
       indentWithTabs: false,
+      toolbar: ["code","bold", "italic", "|", "heading", "quote", "unordered-list", "ordered-list", "|", "link", "image", "table", "|", "preview", "guide"],
       spellChecker: false,
     });
     this.mde.codemirror.on("change", (codemirrorInstance, changeObj) => {
@@ -338,7 +326,7 @@ class LongExercise extends Exercise {
     }
   }
 
-  handleDBChange(snapshot) {
+handleDBChange(snapshot) {
     if(snapshot.exists()) {
       const text = snapshot.val().answer;
       // console.log("handleExerciseDBChange", text);
@@ -444,16 +432,170 @@ function currentUserRef() {
 //   return str;
 // }
 
-
 /*
-██████  ███████ ███████ ██    ██ ██   ████████ ███████     ██████   █████   ██████  ███████
-██   ██ ██      ██      ██    ██ ██      ██    ██          ██   ██ ██   ██ ██       ██
-██████  █████   ███████ ██    ██ ██      ██    ███████     ██████  ███████ ██   ███ █████
-██   ██ ██           ██ ██    ██ ██      ██         ██     ██      ██   ██ ██    ██ ██
-██   ██ ███████ ███████  ██████  ███████ ██    ███████     ██      ██   ██  ██████  ███████
+ ██████       █████  ███    ██ ██████       █████
+██    ██     ██   ██ ████   ██ ██   ██     ██   ██
+██    ██     ███████ ██ ██  ██ ██   ██     ███████
+██ ▄▄ ██     ██   ██ ██  ██ ██ ██   ██     ██   ██
+ ██████      ██   ██ ██   ████ ██████      ██   ██
+    ▀▀
 */
 
-function initResultsPage() {
+function questionRef(qnaId, nr) {
+  if( ! window.userInfo ) {
+    throw new Error("cannot create questionRef without window.userInfo");
+  }
+  const user = window.userInfo.gitHubName
+  return firebase.database().ref(`questions/${user}/${qnaId}/${nr}`)
+}
+
+
+
+class QnAForm {  // similar to LongExercise, but having multiple fields
+                 // changes alomost all methods, and some datastructures
+  constructor(element) {
+    this.element    = element
+    this.qnaId      = element.dataset.qnaid;
+    this.minimum    = element.dataset.minimum;
+    this.fbCallback = []
+    this.mde        = []
+
+    allExercises[this.slug] = this
+    console.log("Constructor QnAForm", this.qnaId, this.minimum, this.element);
+  }
+
+  createResultsLink() {
+    const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qnaid=${encodeURIComponent(eh(this.qnaId))}`
+    this.element.innerHTML = `<div class="results-link"><a href="${url}">Toon resultaten</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
+  }
+
+  showUI() {
+    if(window.userInfo.status == "staff") {
+      this.createResultsLink();
+    } else {
+      this.createFormUI();
+      this.setupFirebaseSubscription();
+    }
+  }
+
+  hideUI() {
+    this.destroyUI();
+    this.giveupFirebaseSubscription();
+    this.element.innerHTML = "";
+  }
+
+  createFormUI() {
+
+    const block1 = document.createElement("div");
+    block1.classList.add("dwa-addition");
+    let i;
+    for(i=1;i<=this.minimum;i++) {
+      this.createQuestionUI(i, block1);
+    }
+    this.element.appendChild(block1)
+    const remark = document.createElement("p");
+    remark.innerHTML = `<i>Je hoeft niet meer dan ${this.minimum} ${this.minimum == 1 ? "vraag" : "vragen"} te beantwoorden. Het blok hieronder is dus <b>optioneel</b></i>.`
+    remark.classList.add("remark");
+    const block2 = document.createElement("div");
+    block2.classList.add("dwa-addition");
+    block2.classList.add("optional");
+    this.element.appendChild(remark);
+    this.createQuestionUI(i, block2, true);
+    this.createQuestionUI(i+1, block2, true);
+    this.element.appendChild(block2)
+  }
+
+  createQuestionUI(questionNr, parentElement,optional = false) {
+    const prompt = document.createElement("p")
+    prompt.classList.add("prompt");
+    prompt.innerHTML = optional ?
+        `Extra vraag:`
+      :
+        `Voer hier je ${questionNr}e vraag in:`;
+    parentElement.appendChild(prompt);
+    const textArea = document.createElement("textarea");
+    parentElement.appendChild(textArea);
+    this.mde[questionNr] = new SimpleMDE({ // make it a markdown editor
+      element: textArea,
+      autofocus: false,
+      autosave: { enabled: false },
+      forceSync: false,
+      indentWithTabs: false,
+      toolbar: ["code","bold", "italic", "|", "heading", "quote", "unordered-list", "ordered-list", "|", "link", "image", "table", "|", "preview", "guide"],
+      spellChecker: false,
+    });
+    this.mde[questionNr].codemirror.on("change", (codemirrorInstance, changeObj) => {
+      // console.log("MDE ON CHANGE", changeObj);
+      if(changeObj.origin == "setValue") {
+        return;
+      } else {
+        this.saveInput(this.mde[questionNr].value(), questionNr);
+      }
+    });
+  }
+
+  destroyUI() {
+    this.mde.forEach( editor => {
+      editor.toTextArea();
+    })
+    this.mde = [];
+  }
+
+  setupFirebaseSubscription(ref) {
+    for(let i = 1; i <= this.minimum+2; i++) {
+      this.fbCallback[i] = (snapshot)=>this.handleDBChange(snapshot,i)
+      questionRef(this.qnaId,i).on('value',this.fbCallback[i])
+    }
+    this.storeExerciseToDB();
+  }
+
+  giveupFirebaseSubscription() {
+      this.fbCallback.forEach( (cb,index) => {
+        questionRef(this.qnaId,index).off('value', cb);
+      })
+      this.fbCallback = [];
+  }
+
+  saveInput(text,questionNr) {
+      // console.log("setting text for", this.exNumber, this.slug, pr(text));
+      questionRef(this.qnaId,questionNr).set( {question:text, time:firebase.database.ServerValue.TIMESTAMP} )
+  }
+
+  handleDBChange(snapshot, questionNr) {
+    if(snapshot.exists()) {
+      const text = snapshot.val().question;
+      // console.log("handleExerciseDBChange", text);
+      if( text != this.mde[questionNr].value() ) {
+        // console.log("handleExerciseDBChange setting new value:", text);
+        this.mde[questionNr].value(text)
+      }
+    }
+  }
+
+  storeExerciseToDB() {
+    if(window.userInfo.status == "staff") {
+      qnaRef(this.slug).once('value', snapshot => {
+        const val = snapshot.val()
+        if( !val || val.minimum != this.minimum ) {
+          // console.log(`Setting new exercise info for: «${this.slug}»:`,this.exNumber,content);
+          qnaRef(this.slug).set({minimum: this.minimum})
+        }
+      })
+    }
+  }
+
+}
+
+/*
+███████ ██   ██ ███████ ██████   ██████ ██ ███████ ███████     ██████  ███████ ███████ ██    ██ ██   ████████ ███████
+██       ██ ██  ██      ██   ██ ██      ██ ██      ██          ██   ██ ██      ██      ██    ██ ██      ██    ██
+█████     ███   █████   ██████  ██      ██ ███████ █████       ██████  █████   ███████ ██    ██ ██      ██    ███████
+██       ██ ██  ██      ██   ██ ██      ██      ██ ██          ██   ██ ██           ██ ██    ██ ██      ██         ██
+███████ ██   ██ ███████ ██   ██  ██████ ██ ███████ ███████     ██   ██ ███████ ███████  ██████  ███████ ██    ███████
+*/
+
+
+function initExerciseResultsPage() {
 
   firebase.auth().onAuthStateChanged(makeHandleAuthStateChanged(showResultsDisplayUI,showResultsPageSigninUI));
 
@@ -497,9 +639,7 @@ async function renderResults() {
     if( s.status == "student" && (s.group == group || s.group == "UNKNOWN"))
     studentsByGithubName[s.gitHubName] = {...s, uid: snapshot.key }
   });
-  console.log("ST:", studentsByGithubName);
   exercise = exercise.val();
-  console.log("EX:",exercise);
 
   const allAnswerPromises = Object.values(studentsByGithubName).map( s =>
     firebase.database().ref(`answers/${s.gitHubName}/${exercise_slug}`).once('value')
@@ -510,10 +650,11 @@ async function renderResults() {
     return { ...a, ...studentsByGithubName[a.studentName] }
   })
 
-  allAnswers = allAnswers.filter( a => (a.group != "UNKOWN" || a.answer != undefined) )
+  allAnswers = allAnswers.filter( a => {
+    return (a.group != "UNKNOWN" || a.answer != undefined)
+  })
 
   allAnswers.sort( (a,b) => {
-    console.log("SS:", a.group, b.group, typeof(a.group),typeof(b.group));
     if(a.answer === undefined && b.answer !== undefined) {
       return -1
     } else if(a.answer !== undefined && b.answer === undefined) {

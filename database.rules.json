@@ -4,7 +4,19 @@
       ".read": "auth != null",
       ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'"
     },
+    "qnas": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'"
+    },
     "answers": {
+      ".read":  "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      "$githubName": {
+        ".read":  "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName"
+      }
+    },
+    "questions": {
       ".read":  "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
       ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
       "$githubName": {

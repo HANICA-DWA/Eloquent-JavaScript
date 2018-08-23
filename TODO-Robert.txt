@@ -1,0 +1,11 @@
+qna in db:
+
+
+
+questions/[student]/[qnaId]/[nr]/question:string
+                                /time:int
+                                /seqnr:float
+                                /category:string
+qna/[qnaId]/[closed]/[group]:bool
+                    /minimum:int
+                    /

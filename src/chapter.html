@@ -23,21 +23,24 @@
 </head>
 
 <article class="chapter">
-<nav>
-  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
-  <a href="index.html" title="cover">◆</a>
-  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
-</nav>
+<<if $in.chap_num>>
+  <nav>
+    <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
+    <a href="index.html" title="cover">◆</a>
+    <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
+  </nav>
 
-<h1<<if $in.id>> id="<<t $in.id>>"<</if>>><<if $in.chap_num>><span class=chap_num>Chapter <<t $in.chap_num>></span><</if>><<t $in.title>></h1>
-
+  <h1<<if $in.id>> id="<<t $in.id>>"<</if>>><span class=chap_num>Chapter <<t $in.chap_num>></span><<t $in.title>></h1>
+<</if>>
 <<h $in.content>>
 
-<nav>
-  <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
-  <a href="index.html" title="cover">◆</a>
-  <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
-</nav>
+<<if $in.chap_num>>
+  <nav>
+    <<if $in.prev_link>><a href="<<t $in.prev_link>>.html" title="previous chapter">◀</a> <</if>>
+    <a href="index.html" title="cover">◆</a>
+    <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
+  </nav>
+<</if>>
 <div id="sign-out-ui" class="hidden">
   <button id="sign-out-btn">Log uit</button>
 </div>
@@ -46,13 +49,14 @@
 <script src="/__/firebase/5.3.0/firebase-app.js"></script> <!-- firebase core -->
 <script src="/__/firebase/5.3.0/firebase-auth.js"></script> <!-- authentication facilities -->
 <script src="/__/firebase/5.3.0/firebase-database.js"></script> <!-- realtime database, not the cloud store -->
+<script src="/__/firebase/init.js"></script>
 
 <script src="js/simplemde.js"></script>
 
 <script src="js/move-asides.js"></script> <!-- dwa hack to move asides to the right margin -->
 <script src="js/escape-html.js"></script>
 
-<script src="js/serverConnections.js"></script> <!-- dwa code to work with fiebase and github -->
+<script src="js/dwa-additions.js"></script> <!-- dwa code to work with fiebase and github -->
 <script>
 window.onload = initChapterPage
 </script>

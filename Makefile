@@ -1,5 +1,9 @@
 CHAPTERS := $(basename $(shell ls [0-9][0-9]_*.md) .md)
 
+QnAs := $(basename $(shell ls QnA_*.md) .md)
+
+qnas: $(foreach QnA,$(QnAs),html/$(QnA).html)
+
 SVGS := $(wildcard img/*.svg)
 
 all: html book.pdf book_mobile.pdf book.epub book.mobi
