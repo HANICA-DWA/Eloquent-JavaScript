@@ -205,7 +205,7 @@ while (true) {
 
 note}}
 
-{{ex "Wat is de volgorde?" "Order of execution"
+{{exShort "Wat is de volgorde?" "Order of execution"
 
 Gegeven onderstaande code
 
@@ -225,7 +225,7 @@ console.log('D');
 
 Wat is de volgorde van de letters die op de console verschijnt?
 
-ex}}
+exShort}}
 
 Performing multiple asynchronous actions in a row using callbacks
 means that you have to keep passing new functions to handle the
@@ -251,28 +251,28 @@ In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst 
 
 note}}
 
-{{ex "Parallel" "Parallel"
+{{exCode "Parallel" "Parallel"
 
 We schrijven asynchrone code om taken naast elkaar te kunnen doen (in plaats van na elkaar zoals hierboven). Hoewel dat makkelijker is dan werken met meerdere threads, is het complexer dan werken met synchrone code. Daarom onderstaande oefening.
 
 Hieronder zie je een simulatie waarin drie taken parallel aan elkaar worden uitgevoerd. Om te simuleren dat je geen controle hebt over de duur van een taak (wat in werkelijkheid ook zo is), gebruiken we `Math.random() * 1000` om de tijdsduur van `setTimeout` te bepalen.
 
 ```javascript
-//Pas hier de code aan
+//Voeg hier code toe
 
 setTimeout(() => {
     console.log('Klaar met taak A');
-    //Pas hier de code aan
+    //Voeg hier code toe
 }, Math.random() * 1000);
 
 setTimeout(() => {
     console.log('Klaar met taak B');    
-    //Pas hier de code aan
+    //Voeg hier code toe
 }, Math.random() * 1000);
 
 setTimeout(() => {
     console.log('Klaar met taak C');
-    //Pas hier de code aan
+    //Voeg hier code toe
 }, Math.random() * 1000);
 
 console.log('Klaar met alle taken');
@@ -280,15 +280,15 @@ console.log('Klaar met alle taken');
 
 De tekst 'Klaar met alle taken ' wordt echter te vroeg getoond.
 
-Pas de code zo aan dat`console.log('Klaar met alle taken')`pas wordt uitgevoerd nadat de taken A, B en C afgerond zijn.
+Pas de code zo aan dat`console.log('Klaar met alle taken')`pas wordt uitgevoerd nadat de taken A, B en C afgerond zijn. De comments `//Voeg hier code toe` geven alle plaatsen aan waar je code moet toevoegen.
 
 De drie taken moeten wel tegelijkertijd uitgevoerd worden, dus je mag de ene `setTimeout` niet in de callback van de andere `setTimeout` plaatsen.
 
 Ook mag je de duur van elke taak niet aanpassen.
 
-Hint: om dit te bereiken moet je `console.log('Klaar met alle taken')` verplaatsen naar de callback van elke `setTimeout`
+Hint: om dit te bereiken moet je in ieder geval `console.log('Klaar met alle taken')` verplaatsen naar de callback van elke `setTimeout`
 
-ex}}
+exCode}}
 
 {{index "hard disk"}}
 
@@ -432,9 +432,7 @@ is done, having arranged for a callback to be called when it
 completes. So we need some asynchronous mechanism—in this case,
 another ((callback function))—to signal when a response is available.
 
-{{ex "DoAllTasks" "DoAllTasks"
-
-#### A)
+{{ex "DoAllTasks (A)" "DoAllTasks A"
 
 De functie `doAllTasks` die in de code hieronder staat, simuleert een situatie waarin er twee taken achter elkaar worden uitgevoerd.
 
@@ -452,7 +450,9 @@ let doAllTasks = (/* Pas hier de code aan */) => {
 
 Pas deze functie aan, zodat je een willekeurige asynchrone callback kan meegeven die wordt uitgevoerd nadat 'Taak 2 klaar' naar de console is geschreven.
 
-#### B)
+ex}}
+
+{{ex "DoAllTasks (B)" "DoAllTasks B"
 
 Test de implementatie van `doAllTasks` met de functie `printWhenFinished`
 
@@ -476,9 +476,11 @@ Alle taken klaar
 nu gaan we andere dingen doen
 ```
 
-#### C)
+ex}}
 
-Hieronder staat de code van  `doAllTasks2` . Deze functie simuleert een situatie waarbij we het resultaat van een asynchrone actie in een lijst stoppen (`completedTasks`).
+{{ex "DoAllTasks (C)" "DoAllTasks C"
+
+Hieronder staat de code van  `doAllTasks2` . Deze functie simuleert een situatie waarbij we het resultaat van een asynchrone actie in een lijst stoppen (door strings in de array`completedTasks` te stoppen).
 
 Pas deze functie zo aan dat er weer een asynchrone callback kan worden meegegeven die wordt uitgevoerd nadat alle taken klaar zijn en de lijst met resultaten meegeeft aan de asynchrone callback.
 
@@ -495,7 +497,9 @@ let doAllTasks2 = (/* Pas hier de code aan */) => {
 };
 ```
 
-#### D)
+ex}}
+
+{{ex "DoAllTasks (D)" "DoAllTasks D"
 
 Test de implementatie van `doAllTasks2` nu met de functie `printResults`.
 
@@ -537,9 +541,7 @@ note}}
 
 {{youtube "8aGhZQkoFbQ"}}
 
-{{ex "Timeout Loops" "Timeout Loops"
-
-#### A)
+{{exShort "Timeout Loops (A)" "Timeout Loops A"
 
 Wat is de uitvoer van de volgende code.
 
@@ -556,7 +558,9 @@ numbers.forEach(number => {
 console.log('C');
 ```
 
-#### B)
+exShort}}
+
+{{exShort "Timeout Loops (B)" "Timeout Loops B"
 
 Wat is de uitvoer van de volgende code.
 
@@ -573,7 +577,7 @@ for (i = 0; i < 3; i++) {
 console.log('C');
 ```
 
-ex}}
+exShort}}
 
 ## Promises
 
@@ -696,11 +700,11 @@ setTimeoutP(500).then(() => {
 
 note}}
 
-{{ex "Parameter" "Parameter"
+{{exLong "Parameter" "Parameter"
 
 Waarom krijgt de `then`-callback van `setTimeoutP` geen parameter mee, terwijl de `then`-callback van `storage` the parameter `value` meekrijgt.
 
-ex}}
+exLong}}
 
 This asynchronous function returns a meaningful value. This is the
 main advantage of promises—they simplify the use of asynchronous
@@ -715,7 +719,7 @@ Hoewel je het niet vaak hoeft te doen, kan het wel instructief zijn om zelf een 
 
 De functie `fs.readFile` retourneert geen promise. Hieronder zie je al een begin van een promise-based interface voor deze functie die `readFileP` heet. Maak deze definitie af. Probeer daarbij zelf te bedenken wanneer je de functie moet aanroepen die in de `reject`-parameter zit.
 
-Besteed hier echter niet te veel tijd aan. Als je er niet uitkomt dan kun je het antwoord vinden in de repo.
+Besteed hier echter niet te veel tijd aan. Als je er niet uitkomt dan kun je het antwoord vinden in de file promise-wrappers.js in de repo.
 
 ```javascript
 const fs = require('fs');
@@ -805,7 +809,7 @@ De inhoud van de paramter `value` is nu `undefined`.
 
 note}}
 
-{{ex "No Return" "No Return"
+{{exLong "No Return" "No Return"
 
 Hieronder zie je een veelgemaakte fout bij het schrijven van een promise chain. Wat is de output van de `console.log` in de functie van de `thenB`. Leg je antwoord (kort) uit.
 
@@ -819,9 +823,9 @@ Hieronder zie je een veelgemaakte fout bij het schrijven van een promise chain. 
 /...
 ```
 
-ex}}
+exLong}}
 
-{{ex "Timeout Chains" "Timeout Chains"
+{{exShort "Timeout Chains (A)" "Timeout Chains A"
 
 Het werken met promises lijkt een beetje op synchroon programmeren, maar het is niet helemaal hetzelfde. Deze opgave illustreert dit.
 
@@ -856,8 +860,6 @@ B - 2
 
 Hierin zie je dat de chain A en chain B netjes na elkaar worden uitgevoerd. Dit ligt echter aan de getallen die gekozen zijn voor de vier aanroepen van `setTimeoutP`.
 
-#### A)
-
 Verander deze vier getallen zodanig dat je de volgende uitvoer krijgt:
 
 ```
@@ -867,7 +869,11 @@ A - 2
 B - 2
 ```
 
-#### B)
+Noteer hieronder de vier getallen die je hebt gekozen.
+
+exShort}}
+
+{{exLong "Timeout Chains (B)" "Timeout Chains B"
 
 Kun je de getallen ook zo veranderen dat je deze uitvoer krijgt:
 
@@ -880,7 +886,7 @@ B - 1
 
 Zo niet, waarom niet?
 
-ex}}
+exLong}}
 
 
 ## Failure
@@ -1202,7 +1208,7 @@ resolves to an array of the values that these promises produced (in
 the same order as the original array). If any promise is rejected, the
 result of `Promise.all` is itself rejected.
 
-{{ex "Account Management Again" "Account Management Again"
+{{ex "Account Management Again (A)" "Account Management Again A"
 
 In deze opgave bouwen we stap voor stap een promise chain op, waarmee we gebruikersgegevens lezen en wegschrijven naar bestanden.
 
@@ -1222,8 +1228,6 @@ pw.writeFileP(`${user.account}`, user.username).then(() => {
     console.log(err.message);
 });
 ```
-
-#### A)
 
 In plaats van het wegschrijven van één gebruiker, willen we een hele array van gebruikers kunnen wegschrijven, waarbij we de `username` van elke gebruiker in een eigen file willen stoppen met de naam van het `account` .
 
@@ -1256,7 +1260,9 @@ Zorg er ook voor dat je met een `catch` eventuele errors naar de console te schr
 
 _Hint:_ `writeFileP` retourneert een promise, dus stop deze promise in een array en gebruik deze array als input voor `Promise.all`.
 
-#### B)
+ex}}
+
+{{ex "Account Management Again (B)" "Account Management Again B"
 
 We willen nu de gegevens van de gebruikers uit het bestand 'users.json' halen in plaats van uit de variabele `users`.
 
