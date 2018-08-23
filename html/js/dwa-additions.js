@@ -268,13 +268,19 @@ class ShortExercise extends Exercise {
   }
 
   createFormUI() {
-    this.element.innerHTML = '<div class="exercise-prompt">Geef een kort antwoord:</div>'
+    this.element.innerHTML = this.formPrompt()
     this.inputField = document.createElement('input');
     this.inputField.type = "text";
+    if(this.formPlaceholder) {
+      this.inputField.setAttribute('placeholder', this.formPlaceholder())
+    }
     this.element.appendChild(this.inputField);
     this.inputField.addEventListener('input', (evt)=>{
       this.saveInput(evt.target.value);
     })
+  }
+  formPrompt() {
+    return '<div class="exercise-prompt">Geef een kort antwoord:</div>'
   }
 
   handleDBChange(snapshot) {
@@ -289,6 +295,20 @@ class ShortExercise extends Exercise {
   }
 
 }  // end class ShortExercise
+
+class CommitExercise extends ShortExercise {
+  constructor(element) {
+    super(element);
+  }
+
+  formPrompt() {
+    return '<div class="exercise-prompt">Geef de <i>complete</i> <b>GitHub-URL naar de commit</b> van je uitwerking:</div>'
+  }
+  formPlaceholder() {
+    return "https://github.com/HANICA-DWA/jouw-repo/commit/78556e38000803fea6845eaf6ef43125eefa1940"
+  }
+
+}
 
 class LongExercise extends Exercise {
 
@@ -402,9 +422,10 @@ class CodeExercise extends Exercise {
 }// end class CodeExercise
 
 window.exerciseTypes = {
-  Short: ShortExercise,
-  Long: LongExercise,
-  Code: CodeExercise,
+  Short:  ShortExercise,
+  Long:   LongExercise,
+  Code:   CodeExercise,
+  Commit: CommitExercise,
 }
 
 function answerRef(slug) {
@@ -707,6 +728,9 @@ function renderLongContent( content ) {
 }
 function renderCodeContent( content ) {
   return '<pre><code>'+escapeHtml(content)+'</code></pre>';
+}
+function renderCommitContent( content ) {
+  return `<a href=${content}>${escapeHtml(content)}</a>`;
 }
 
 

@@ -800,6 +800,12 @@ sup {
 .dwa-exercise-submit input[type="text"]:focus {
   background-color: white;
 }
+.dwa-exercise-submit[data-exercise_type="Commit"] input[type="text"]::placeholder {
+  color: #888;
+  font-size: 80%;
+  letter-spacing: 0.1em;
+}
+
 .dwa-exercise-submit .CodeMirror {
   background-color: rgb(194, 217, 193);
   min-height: 2.5em;
