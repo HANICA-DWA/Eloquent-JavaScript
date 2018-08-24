@@ -451,23 +451,23 @@ There is a slightly shorter way to create a function binding. When the
 `function` keyword is used at the start of a statement, it works
 differently.
 
-​```{test: wrap}
+```{test: wrap}
 function square(x) {
   return x * x;
 }
 ```
-
-{{note 
-
-In diagrammen tekenen we functie-declaraties op dezelfde manier als functie-expressies.
-
-note}}
 
 {{index future, "execution order"}}
 
 This is a function _declaration_. The statement defines the binding
 `square` and points it at the given function. It is slightly easier
 to write and doesn't require a semicolon after the function.
+
+{{note 
+
+In diagrammen tekenen we functie-declaraties op dezelfde manier als functie-expressies.
+
+note}}
 
 There is one subtlety with this form of function definition.
 
@@ -497,7 +497,7 @@ from the others. Instead of the `function` keyword, it uses an arrow
 confused with the greater-than-or-equal operator, which is written
 `>=`).
 
-​```{test: wrap}
+```{test: wrap}
 const power = (base, exponent) => {
   let result = 1;
   for (let count = 0; count < exponent; count++) {
@@ -550,11 +550,98 @@ Arrow functions were added in 2015, mostly to make it possible to
 write small function expressions in a less verbose way. We'll be using
 them a lot in [Chapter ?](higher_order).
 
-{{todo 
+{{exShort "To Return (A)" "To Return A"
 
-Vingeroefening maken voor functies en returnwaarden
+Geef voor elk stuk code aan wat de return-waarde is van `square(10)`. 
+Maak daarbij de keuze uit `100`, `undefined`, of `error`.
 
-todo}}
+```js
+function square(x) {
+    return x * x;
+}
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (B)" "To Return B"
+
+```js
+function square(x) {
+    x * x;
+}
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (C)" "To Return C"
+
+```js
+function square(x) {
+    return console.log(x * x);
+}
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (D)" "To Return D"
+
+```js
+const square = x => {
+    return x * x;
+}
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (E)" "To Return E"
+
+```js
+const square = x => {
+    x * x;
+}
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (F)" "To Return F"
+
+```js
+const square = x => x * x;
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (G)" "To Return G"
+
+```js
+const square = x => return x * x;
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
+
+{{exShort "To Return (H)" "To Return H"
+
+```js
+const square = x => console.log(x * x);
+
+square(10); //Wat is de return-waarde van dit statement?
+```
+
+exShort}}
 
 {{id stack}}
 
@@ -643,7 +730,7 @@ note}}
 
 Nog een voorbeeld van een geheugenmodel. 
 
-```javascript
+```js
 const hummus = function(factor) {
   const ingredient = function(amount, unit, name) {
     let ingredientAmount = amount * factor; //<- 3
@@ -1213,11 +1300,131 @@ are often useful. There'd be no way to write a pure version of
 operations are also easier to express in an efficient way when we use
 side effects, so computing speed can be a reason to avoid purity.
 
-{{todo
+{{exShort "Pure or not Pure (A)" "Pure or not Pure A"
 
-Paar voorbeelden van functies en vragen of er een side-effect is.
+Hieronder zie je steeds een andere definitie van de functie `pureOrNot`. 
+Geef bij elke situatie hieronder aan of de functie `puur`, of 
+`niet puur` is.
 
-todo}}
+```js
+function pureOrNot(name) {
+    console.log(`hello ${name}`);
+}
+pureOrNot('han');
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (B)" "Pure or not Pure B"
+
+```js
+function pureOrNot() {
+    return console;
+}
+pureOrNot();
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (C)" "Pure or not Pure C"
+
+```js
+function pureOrNot(name) {
+    return `hello ${name}`;
+}
+pureOrNot('han');
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (D)" "Pure or not Pure D"
+
+```js
+let name = 'han'
+function pureOrNot(name) {
+    return `hello ${name}`;
+}
+pureOrNot(name);
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (E)" "Pure or not Pure E"
+
+```js
+let name = 'han';
+function pureOrNot() {
+    return `hello ${name}`;
+}
+pureOrNot();
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (F)" "Pure or not Pure F"
+
+```js
+function pureOrNot(name) {
+    let greeting = `hello ${name}`;
+    return greeting;
+}
+pureOrNot('han');
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (G)" "Pure or not Pure G"
+
+```js
+function pureOrNot(name) {
+    return `hello ${name.toUpperCase()}`;
+}
+pureOrNot('han');
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (H)" "Pure or not Pure H"
+
+```js
+let greeting = ''
+function pureOrNot(name) {
+    greeting = `hello ${name.toUpperCase()}`
+    return greeting;
+}
+pureOrNot('han');
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (I)" "Pure or not Pure I"
+
+```js
+let name = ''
+function pureOrNot(name) {
+    name = name.toUpperCase();
+    return `hello ${name}`;
+    
+}
+pureOrNot('han');
+```
+
+exShort}}
+
+{{exShort "Pure or not Pure (J)" "Pure or not Pure J"
+
+```js
+function getHan() {
+    return 'han';
+}
+
+function pureOrNot(nameGetter) {
+    return `hello ${nameGetter()}`;
+}
+pureOrNot(getHan);
+```
+
+exShort}}
 
 ## Summary
 
@@ -1253,36 +1460,39 @@ helpful. You won't have to repeat yourself as much, and functions can
 help organize a program by grouping code into pieces that do specific
 things.
 
-{{todo
+{{exCode "Execute Multiple Times" "Execute Multiple Times"
 
-### ✏️ Assignment: Passing a function (DIT MOET DE LAATSTE OPGAVE WORDEN)
+Plak onderstaande code in het antwoordveld en implementeer de definitie van 
+`executeNrOfTimes` volgens de specificatie die erboven staat.
 
-Please implement this function below according to the specification.
+Je kunt de implementatie testen met de code eronder.
 
-You use [TODO LINK TO CODE](LINK TO THE CODE) to implement and test your solution
-
-Your Answer
+_LET OP:_ de implementatie van `executeNrOfTimes` moet wel onafhankelijk 
+blijven van de code waarmee je deze test. Dus je mag `sayHello` zelf niet
+in de definitie van `executeNrOfTimes` gebruiken.
 
 ```js
 /**
-
  * Exexutes the provided function the given number of times
-
- * @param {Number} nrTimes: the number of times the given function is executed
-
+ * @param {Number} nrTimes: the number of times the given function 
+ *   is executed
  * @param {Function} func: the function that is executed
-
  */
 
 const executeNrOfTimes = (nrTimes, func) => {
-
-    //PASTE YOUR ANSWER HERE
-
+    // Maak hier je implementatie
 }
+
+//Testcode voor executeNrOfTimes
+const sayHello = () => {
+  console.log('hello');
+}
+
+executeNrOfTimes(5, sayHello); 
 
 ```
 
-todo}}
+exCode}}
 
 {{skip
 
