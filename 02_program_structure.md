@@ -173,7 +173,7 @@ an empty binding, you'll get the value `undefined`.
 
 {{note
 
-Bij DWA gebruiken we ook geheugenmodellen om de huidige toestand van het programma weer te geven. We kunnen ons voorstellen dat de NodeJS runtime (of de Browser) een lijst van alle variabelen bijhoudt met de bijbehorende waarde.
+Bij DWA gebruiken we ook geheugenmodellen om de huidige toestand van het programma weer te geven. We kunnen ons voorstellen dat de JavaScript runtime (Node.js, of de Browser) een lijst van alle variabelen bijhoudt met de bijbehorende waarde.
 
 Als de runtime net regel 1 heeft uitgevoerd van bovenstaand programma, dan ziet het geheugenmodel er zo uit:
 
@@ -183,7 +183,7 @@ En na regel 2 is dit het geheugenmodel:
 
 {{figure {url: "img/memory_model/chap02/luigis_debt_02.svg", alt: ""}}}
 
-Dit geheugenmodel wordt in de loop van de tekst verder uitgebreid.
+Het geheugenmodel wordt in de loop van de tekst verder uitgebreid.
 
 note}}
 
@@ -1004,107 +1004,6 @@ a function call is an expression and may produce a value.
 vingeroefingen over controlstructs
 
 todo}}
-
-{{ex "💪 Scoping rules let and var" "Scoping rules"
-
-For each of the functions below write down the expected output of console.log at 'YOUR ANSWER'
-
-##### A1
-
-```js
-console.log(a1);
-
-let a1 = 'hello';
-
-```
-
-##### Example Answer
-
-```
-Exception
-```
-
-#### A2
-
-```js
-console.log(a2);
-
-var a2 = 'hello';
-```
-
-#### B1
-
-```js
-if (true) {
-
-    let b1 = 10;   
-
-}
-
-console.log(b1);
-```
-
-#### B2
-
-```js
-if (true) {
-
-    var b2 = 10;   
-
-}
-
-console.log(b2);
-```
-
- #### C1
-
-```js
-for (let c1 = 0; c1 < 4; c1++) {
-
-    console.log('in the for');
-
-}
-
-console.log(c1);
-```
-
- #### C2
-
-```js
-for (var c2 = 0; c2 < 4; c2++) {
-
-    console.log('in the for');
-
-}
-
-console.log(c2);
-```
-
-#### D1
-
-```js
-function test() {
-
-    let d1 = 'local?';
-
-}
-
-console.log(d1);
-```
-
-#### D2
-
-```js
-function test() {
-
-    var d2 = 'local?';
-
-}
-
-console.log(d2);
-```
-
- ex}}
 
 {{skip
 

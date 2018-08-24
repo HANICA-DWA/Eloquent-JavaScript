@@ -198,11 +198,97 @@ console.log(n);
 // → 10
 ```
 
-{{todo
+{{exShort "Scoping rules let and var (A)" "Scoping rules A"
 
-Verplaats de vingeroefening over life-time van let en var naar hier
+Schrijf voor elk van de onderstaande stukken code de output op van console.log.
 
-todo}}
+**Voorbeeld: code**  
+
+```js
+console.log(a1);
+let a1 = 'hello';
+```
+
+**Voorbeeld: antwoord**
+
+```
+Exception
+```
+
+**De oefening**
+
+```js
+console.log(a2);
+var a2 = 'hello';
+```
+
+exShort}}
+
+{{exShort "Scoping rules let and var (B1)" "Scoping rules B1"
+
+```js
+if (true) {
+    let b1 = 10;   
+}
+console.log(b1);
+```
+
+exShort}}
+
+{{exShort "Scoping rules let and var (B2)" "Scoping rules B2"
+
+```js
+if (true) {
+    var b2 = 10;   
+}
+console.log(b2);
+```
+
+exShort}}
+
+{{exShort "Scoping rules let and var (C1)" "Scoping rules C1"
+
+```js
+for (let c1 = 0; c1 < 4; c1++) {
+    console.log('in the for');
+}
+console.log(c1);
+```
+
+exShort}}
+
+{{exShort "Scoping rules let and var (C2)" "Scoping rules C2"
+
+```js
+for (var c2 = 0; c2 < 4; c2++) {
+    console.log('in the for');
+}
+console.log(c2);
+```
+
+exShort}}
+
+{{exShort "Scoping rules let and var (D1)" "Scoping rules D1"
+
+```js
+function test() {
+    let d1 = 'local?';
+}
+console.log(d1);
+```
+
+exShort}}
+
+{{exShort "Scoping rules let and var (D2)" "Scoping rules D2"
+
+```js
+function test() {
+    var d2 = 'local?';
+}
+console.log(d2);
+```
+
+exShort}}
 
 {{id scoping}}
 
@@ -285,9 +371,7 @@ Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijv
 
 note}}
 
-{{todo
-
-## Begripsvraag
+{{exLong "Function and Variable" "Function and Variable"
 
 Gegeven onderstaande code
 
@@ -300,15 +384,63 @@ const x = testFunction;
 x(); //Werkt dit? Waarom wel, of waarom niet.
 ```
 
-todo}}
+exLong}}
 
-{{todo
+{{exShort "Value and Type (A)" "Value and Type A"
 
-## 💪 Exercise Functions with and without()
+Gegeven is onderstaande functie:
 
-[Exercise link](https://github.com/HANICA-DWA/swd_v2/blob/master/unit01%20-%20JavaScript%20Basics/session1-1/studenten/YOUR_ANSWERS.md#-exercise-function-with-and-without-)
+```js
+createGreeting = function(name) {
+    return `hello ${name}`;
+}
+```
 
-todo}}
+Geef bij elke onderstaande expressie de waarde en het datatype die deze expressie oplevert.
+
+**Voorbeeld: code**
+
+```js
+createGreeting(10);
+```
+
+**Voorbeeld: antwoord**
+
+```
+waarde: hello 10,  datatype: string
+```
+
+**Opgave**
+
+```js
+createGreeting('han'); 
+```
+
+exShort}}
+
+{{exShort "Value and Type (B)" "Value and Type B"
+
+```js
+createGreeting(); 
+```
+
+exShort}}
+
+{{exShort "Value and Type (C)" "Value and Type C"
+
+```js
+createGreeting; 
+```
+
+exShort}}
+
+{{exShort "Value and Type (D)" "Value and Type D"
+
+```js
+createGreeting.toString(); 
+```
+
+exShort}}
 
 
 ## Declaration notation
@@ -319,7 +451,7 @@ There is a slightly shorter way to create a function binding. When the
 `function` keyword is used at the start of a statement, it works
 differently.
 
-```{test: wrap}
+​```{test: wrap}
 function square(x) {
   return x * x;
 }
@@ -365,7 +497,7 @@ from the others. Instead of the `function` keyword, it uses an arrow
 confused with the greater-than-or-equal operator, which is written
 `>=`).
 
-```{test: wrap}
+​```{test: wrap}
 const power = (base, exponent) => {
   let result = 1;
   for (let count = 0; count < exponent; count++) {
@@ -1121,6 +1253,8 @@ helpful. You won't have to repeat yourself as much, and functions can
 help organize a program by grouping code into pieces that do specific
 things.
 
+{{skip
+
 ## Exercises
 
 ### Minimum
@@ -1268,3 +1402,5 @@ Take care to make all the bindings used in the function _local_ to the
 function by properly declaring them with the `let` or `const` keyword.
 
 hint}}
+
+skip}}
