@@ -1253,6 +1253,37 @@ helpful. You won't have to repeat yourself as much, and functions can
 help organize a program by grouping code into pieces that do specific
 things.
 
+{{todo
+
+### ✏️ Assignment: Passing a function (DIT MOET DE LAATSTE OPGAVE WORDEN)
+
+Please implement this function below according to the specification.
+
+You use [TODO LINK TO CODE](LINK TO THE CODE) to implement and test your solution
+
+Your Answer
+
+```js
+/**
+
+ * Exexutes the provided function the given number of times
+
+ * @param {Number} nrTimes: the number of times the given function is executed
+
+ * @param {Function} func: the function that is executed
+
+ */
+
+const executeNrOfTimes = (nrTimes, func) => {
+
+    //PASTE YOUR ANSWER HERE
+
+}
+
+```
+
+todo}}
+
 {{skip
 
 ## Exercises
