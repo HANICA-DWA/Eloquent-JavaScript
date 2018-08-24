@@ -342,7 +342,7 @@ note}}
 
 {{note
 
-De functies`readStorag`en `readCache` krijgen als laatste parameter de asynchrone callback functie, terwijl `setTimeout` deze als eerste parameter krijgt.  
+De functies`readStorage`en `readCache` krijgen als laatste parameter de asynchrone callback functie, terwijl `setTimeout` deze als eerste parameter krijgt.
 
 Bijna alle functies die we later gaan tegenkomen zul je zien dat de asynchrone callback als laatste parameter meegegeven moet worden.
 
