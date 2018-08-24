@@ -276,32 +276,6 @@ These are common in programming—you might remember the function ((call
 stack)) from [the previous chapter](functions#stack), which is an
 instance of the same idea.
 
-{{todo
-
-## Exercise
-
-Gegeven de volgende code
-
-```js
-let sequence = [1, 2, 3];
-
-sequence.sum = () => {
-    const theSum = 0;
-    //YOUR ANSWER
-    return theSum;
-}
-
-sequence.push(5);
-console.log(sequence.sum()) // 11
-
-sequence.push(10);
-console.log(sequence.sum()); // 21
-```
-
-Implementeer de methode sum. MISSCHIEN MOET DEZE BIJ DE ASSIGNMENT. Als je een item oppakt, kun je checken hoeveel je al draagt ETC. OF NIET> WAT WIL IK PRECIES MET DEZE EXERCISE
-
-todo}}
-
 ## Objects
 
 {{index journal, "weresquirrel example", array, record}}
@@ -562,14 +536,6 @@ operation built into JavaScript, which compares objects by contents,
 but it is possible to write it yourself (which is one of the
 [exercises](data#exercise_deep_compare) at the end of this chapter).
 
-{{todo
-
-## Exercise
-
-geeft == true of false met een object.Assign
-
-todo}}
-
 ## The lycanthrope's log
 
 {{index "weresquirrel example", lycanthropy, "addEntry function"}}
@@ -685,12 +651,6 @@ divisor) would be the square root of 5×85×10×80, or [√340000]{if
 html}[[$\sqrt{340000}$]{latex}]{if tex}. This comes out to _ϕ_ ≈
 0.069, which is tiny. Eating ((pizza)) does not appear to have
 influence on the transformations.
-
-{{todo
-
-Iets over correlation vertellen??? Iets over dat je ook events kan combineren, bijvoorbeeld pizza en pinda's.
-
-todo}}
 
 ## Computing correlation
 
@@ -838,23 +798,69 @@ definition, it will loop over the elements of the value given after
 other data structures. We'll discuss _how_ it works in [Chapter
 ?](object).
 
+{{exCode "Your Sum (A)" "Your Sum A"
+
+Maak de functie `sequence.sum` in onderstaande code af met een 
+`for...of`-lus
+
+```js
+let sequence = [40, 25, 20];
+
+sequence.sum = function() {
+    let theSum = 0;
+    //De code van de lus hier
+    return theSum;
+}
+
+sequence.push(5);
+console.log(sequence.sum()) 
+//--> 90
+
+sequence.push(10);
+console.log(sequence.sum()); 
+// --> 100
+```
+
+exCode}}
+
+{{exLong "Your Sum (B)" "Your Sum B"
+
+Is de functie `sum`, die je net gemaakt hebt, een pure functie, of niet? 
+Leg je antwoord uit.
+
+exLong}}
+
+{{exLong "Your Sum (C)" "Your Sum C"
+
+Is de functie `push`, die twee keer wordt aangeroepen, een pure functie, of niet? 
+Leg je antwoord uit.
+
+exLong}}
+
 {{todo
 
-Vergelijk met for each in JAVA
+Misschien de opgave afmaken die ik heb gemaakt. Over Iterable en Enumarable
 
 todo}}
 
 {{id analysis}}
 
-{{todo
-
-  Video te vervanging van the final analysis, inclusief dramatische geluideffecten.
-
-todo}}
-
 ## The final analysis
 
+{{note 
+
+In het stuk hieronder wordt op een interessante manier met de code gespeeld
+om de correlatie tussen 'events' en 'squirrel' te vinden. Omdat deze code zelf 
+geen nieuwe theorie bevat en misschien teveel moeite kost om snel te 
+doorgronden, kun je de tekst overslaan. 
+
+Scan de tekst als je wel wilt weten waardoor Jacques in een eekhoorn verandert.
+
+note}}
+
 {{index journal, "weresquirrel example", "journalEvents function"}}
+
+{{skip 
 
 We need to compute a correlation for every type of event that occurs
 in the data set. To do that, we first need to _find_ every type of
@@ -941,12 +947,6 @@ eats ((peanuts)) and fails to brush his teeth. If only he weren't such
 a slob about dental hygiene, he'd have never even noticed his
 affliction.
 
-{{todo
-
-Een vraag maken over of de bovenstaande code de variabel JOURNAL aanpast.
-
-todo}}
-
 Knowing this, Jacques stops eating peanuts altogether and finds that
 his transformations don't come back.
 
@@ -961,6 +961,8 @@ stuffing his mouth with peanut butter before every show.
 One day, fed up with this pitiful existence, Jacques fails to change
 back into his human form, hops through a crack in the circus tent, and
 vanishes into the forest. He is never seen again.
+
+skip}}
 
 {{skip
 
@@ -1218,6 +1220,41 @@ console.log(["will", ...words, "understand"]);
 // → ["will", "never", "fully", "understand"]
 ```
 
+{{exCode "Spread Object" "Spread Object"
+
+Gebruik de spread syntax om de een nieuw object te maken die alle
+properties van `student` en `results` bevat.
+
+```js
+const student = {name: 'han'};
+const result = {course: 'cwd', results: [5.5, 8.9, 6.0]};
+
+const studentResult = //Code op deze plek
+
+console.log(studentResults);
+//--> {name: 'han' course: 'cwd', results: [5.5, 8.9, 6.0]};
+```
+
+exCode}}
+
+{{exCommit "Blab" "Blab"
+
+De spread syntax kun je ook gebruiken om een object te kopiëren zoals hieronder
+te zien is:
+
+```js
+person1 = {name: 'han', scores: [5.5, 8.9]};
+
+person2 = {...person1};
+person2.name = 'ica'
+
+console.log(person1.name)
+//--> han
+
+```
+
+exCommit}}
+
 {{skip
 
 ## The Math object
@@ -1378,6 +1415,35 @@ console.log(name);
 // → Faraji
 ```
 
+{{exShort "Destructure Person" "Destructure Person"
+
+Werk onderstaande code ook, of geeft dit een fout?
+
+```js
+let person = {name: "Faraji", age: 23};
+let {name} = person;
+console.log(name);
+// → Faraji
+```
+
+exShort}}
+
+{{exCode "Destructure All" "Destructure All"
+
+Gebruik 'destructuring' om ook de variabele `age` uit het object te vissen.
+Probeer de code zo compact mogelijk te houden.
+
+```js
+let {name} = {name: "Faraji", age: 23};
+
+console.log(name);
+// → Faraji
+console.log(age)
+// → 23
+```
+
+exCode}}
+
 {{index null, undefined}}
 
 Note that if you try to destructure `null` or `undefined`, you get an
@@ -1481,6 +1547,8 @@ number of methods. Methods are functions that live in properties and
 
 You can iterate over arrays using a special kind of `for` loop—`for
 (let element of array)`.
+
+{{skip
 
 ## Exercises
 
@@ -1806,3 +1874,5 @@ immediately returning false when a mismatch is found and returning
 true at the end of the function.
 
 hint}}
+
+skip}}
