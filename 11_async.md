@@ -233,7 +233,7 @@ means that you have to keep passing new functions to handle the
 
 {{note
 
-Hieronder zie je een voorbeeld van de ellende die je krijgt wanneer je meerdere aynchrone functies na elkaar wilt uitvoeren. In dit geval voeren we drie setTimeouts na elkaar uit waarbij de nieuwe timeout pas wordt gestart als de vorige timeout klaar is.
+Hieronder zie je een voorbeeld van de ellende die je krijgt wanneer je meerdere asynchrone functies na elkaar wilt uitvoeren. In dit geval voeren we drie setTimeouts na elkaar uit waarbij de nieuwe timeout pas wordt gestart als de vorige timeout klaar is.
 
 ```javascript
 setTimeout(() => { //definitie van callback 1
