@@ -229,18 +229,6 @@ arguments, the function somehow has access to the string `"Doh"`, the
 value whose property we called. How this works is described in
 [Chapter ?](object#obj_methods).
 
-{{todo
-
-Toch alvast een voorzet. Elke functie in javascript heeft een lokale binding die this heet. Als een functie wordt aangeroepen als methode van een object, dan wordt er een referentie naar dit object aan this gegeven zoals in onderstaande geheugemodel te zien is
-
-GEHEUGENMODEL MAKEN
-
-Dit lijkt wel wat op hoe het in Java gaat.
-
-IK DENK TOCH DAT IK DIT NIET WIL, WANT HET HOOFDSTUK IS AL MOEILIJK GENOEG
-
-todo}}
-
 Properties that contain functions are generally called _methods_ of
 the value they belong to, as in "`toUpperCase` is a method of a
 string".
@@ -430,6 +418,35 @@ let journal = [
   /* and so on... */
 ];
 ```
+
+{{exCode "Journal Memory Model" "Journal Memory Model"
+
+Hieronder is het begin gemaakt van een geheugenmodel van onderstaande 
+datastructuur
+
+```js
+let journal = [
+  {
+    events: ["touched tree", "brushed teeth"],
+    squirrel: false
+  },
+  {
+    events: ["peanuts","beer"],
+    squirrel: true
+  }
+]
+```
+
+{{figure {url: "img/memory_model/chap04/journal_memory_model.svg", alt: ""}}}
+
+Maak het geheugenmodel af. Het kan zijn dat je niet alle vakjes hoeft vullen.
+
+Je kunt het bestand vinden in je persoonlijke repo. Plaats de ingevulde versie 
+ook daar.
+
+exCode}}
+
+
 
 ## Mutability
 
@@ -654,12 +671,6 @@ influence on the transformations.
 
 ## Computing correlation
 
-{{todo
-
-De voorbeeldcode voor het bepalen van correlaties staat in de persoonlijke repo bij BLABAALBA 
-
-todo}}
-
 {{index [array, "as table"], [nesting, "of arrays"]}}
 
 We can represent a two-by-two ((table)) in JavaScript with a
@@ -736,12 +747,6 @@ function tableFor(event, journal) {
 console.log(tableFor("pizza", JOURNAL));
 // → [76, 9, 4, 1]
 ```
-
-{{todo
-
-JavaScriptDOC. Zie de code 
-
-todo}}
 
 {{index [array, searching], "includes method"}}
 
@@ -837,11 +842,46 @@ Leg je antwoord uit.
 
 exLong}}
 
-{{todo
+{{exCode "for...of or for...in (A)" "for of or for in A"
 
-Misschien de opgave afmaken die ik heb gemaakt. Over Iterable en Enumarable
+Om alle properties uit een object te krijgen werkt de `for...of` standaard niet.
+Met de `for...in`-lus lukt dit wel.
 
-todo}}
+Hieronder zie je een object waarbij per functie het aantal medewerkers is gegeven.
+
+```js
+let staffCount = {
+    teachers: 150,
+    administration: 20,
+    management: 2
+};
+```
+
+Schrijf een `for...in`-lus waarmee je op op basis van dit object de onderstaande uitvoer 
+produceert.
+
+```
+teachers: 150
+administration: 20
+management: 2
+```
+
+Gebruik eventueel de [MDN Documentatie over `for...in`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
+als hulpmiddel.  
+
+exCode}}
+
+{{exShort "for...of or for...in (B)" "for of or for in B"
+
+Pas de `for...in`-lus ook toe op de onderstaande array en bekijk de uitvoer.
+
+```js
+let OWEs = ['DWA', 'OOSE', 'Stage', 'NoTS', 'Minor', 'Afstuderen'];
+```
+
+Waarover itereert de `for...in`-lus in het geval van een array?
+
+exShort}}
 
 {{id analysis}}
 
@@ -964,9 +1004,20 @@ vanishes into the forest. He is never seen again.
 
 skip}}
 
-{{skip
-
 ## Further arrayology
+
+{{note
+
+De onderstaande tekst behandelt een paar handige methodes van arrays.
+Het is goed om van het bestaan van deze methodes te weten, maar je hoeft
+ze niet uit je hoofd te kennen.
+
+Voor een uitgebreid overzicht van alle properties en methodes van Array,
+[zie `Array` in de MDN documentatie](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
+note}}
+
+{{skip
 
 {{index [array, methods], method}}
 
@@ -1237,13 +1288,13 @@ console.log(studentResults);
 
 exCode}}
 
-{{exCommit "Blab" "Blab"
+{{exCommit "Spread Copy (A)" "Spread Copy A"
 
 De spread syntax kun je ook gebruiken om een object te kopiëren zoals hieronder
 te zien is:
 
 ```js
-person1 = {name: 'han', scores: [5.5, 8.9]};
+person1 = {name: 'han', scores: [5.4, 8.9]};
 
 person2 = {...person1};
 person2.name = 'ica'
@@ -1251,9 +1302,43 @@ person2.name = 'ica'
 console.log(person1.name)
 //--> han
 
+console.log(person2.name);
+//--> ica
 ```
 
+Wanneer je de lijst met scores van `person2` aanpast, blijkt echter dat de
+scores van `person1` ook aangepast zijn:
+
+```js
+person1 = {name: 'han', scores: [5.4, 8.9]};
+
+person2 = {...person1};
+person2.name = 'ica'
+
+person2.scores[0] = 5.5;
+
+console.log(person1.scores)
+//--> [ 5.5, 8.9 ]
+
+console.log(person2.scores);
+//--> [ 5.5, 8.9 ]
+```
+
+Maak een geheugenmodel van de bovenstaande code. Gebruik de onderstaande sjabloon die
+je in de repo kunt vinden waarbij het weer kan zijn dat je niet alle blokken 
+hoeft in te vullen.
+
+{{figure {url: "img/memory_model/chap04/spread_copy.svg", alt: ""}}}
+
 exCommit}}
+
+{{exLong "Spread Copy (B)" "Spread Copy B"
+
+Leg aan de hand van het geheugenmodel uit waardoor de `name` property van 
+`person1` en `person2` wel verschillend zijn, maar de `scores` property 
+niet
+
+exLong}}
 
 {{skip
 
