@@ -214,7 +214,7 @@ const lijst = ['A', 'B'];
 
 setTimeout(() => {
     console.log('C');
-});
+}, 0);
 
 lijst.forEach((item) => {
     console.log(item);
@@ -285,8 +285,6 @@ Pas de code zo aan dat`console.log('Klaar met alle taken')`pas wordt uitgevoerd 
 De drie taken moeten wel tegelijkertijd uitgevoerd worden, dus je mag de ene `setTimeout` niet in de callback van de andere `setTimeout` plaatsen.
 
 Ook mag je de duur van elke taak niet aanpassen.
-
-Hint: om dit te bereiken moet je in ieder geval `console.log('Klaar met alle taken')` verplaatsen naar de callback van elke `setTimeout`
 
 exCode}}
 
