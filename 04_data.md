@@ -327,7 +327,82 @@ It is possible to assign a value to a property expression with the `=`
 operator. This will replace the property's value if it already existed
 or create a new property on the object if it didn't.
 
+{{exShort "Get A Property (A)" "Get A Property A"
+
+Gegeven onderstaand object
+
+```js
+let value = {
+    fill: 'green'
+};
+```
+
+Geef voor elke onderstaande code, de uitvoer van de laatste expressie.
+Kies daarbij uit `green`, `undefined`, of `error` 
+
+```js
+value.fill;
+```
+
+exShort}}
+
+{{exShort "Get A Property (B)" "Get A Property B"
+
+```js
+value['fill'];
+```
+
+exShort}}
+
+{{exShort "Get A Property (C)" "Get A Property C"
+
+```js
+value[fill];
+```
+
+exShort}}
+
+{{exShort "Get A Property (D)" "Get A Property D"
+
+```js
+value[0];
+```
+
+exShort}}
+
+{{exShort "Get A Property (E)" "Get A Property E"
+
+```js
+const x = 'fill';
+value[x];
+```
+
+exShort}}
+
+{{exShort "Get A Property (F)" "Get A Property F"
+
+```js
+value[y];
+```
+
+exShort}}
+
+{{exShort "Get A Property (G)" "Get A Property G"
+
+```js
+value.stroke = 'green';
+value.stroke;
+```
+
+exShort}}
+
 {{index "tentacle (analogy)", [property, "model of"]}}
+
+To briefly return to our tentacle model of ((binding))s—property
+bindings are similar. They _grasp_ values, but other bindings and
+properties might be holding onto those same values. You may think of
+objects as octopuses with any number of tentacles, each of which has a
+name tattooed on it. [Bij DWA doen we dit toch een beetje anders. In de meeste gevallen kunnen we een property zien als een doosje met een waarde erin. Alleen als property naar een object, array, of functie wijst, kun je je voorstellen dat er in het doosje een tentakel zit die het object, de array, of de functie vastgrijpt]{aside "octopussen"}
 
 {{note
 
@@ -336,12 +411,6 @@ Ook objecten zijn op de heap te vinden zoals hieronder te zien is.
 {{figure {url: "img/memory_model/chap04/descriptions.svg", alt: ""}}}
 
 note}}
-
-To briefly return to our tentacle model of ((binding))s—property
-bindings are similar. They _grasp_ values, but other bindings and
-properties might be holding onto those same values. You may think of
-objects as octopuses with any number of tentacles, each of which has a
-name tattooed on it. [Bij DWA doen we dit toch een beetje anders. In de meeste gevallen kunnen we een property zien als een doosje met een waarde erin. Alleen als property naar een object, array, of functie wijst, kun je je voorstellen dat er in het doosje een tentakel zit die het object, de array, of de functie vastgrijpt]{aside "octopussen"}
 
 {{index "delete operator", [property, deletion]}}
 
@@ -419,7 +488,7 @@ let journal = [
 ];
 ```
 
-{{exCode "Journal Memory Model" "Journal Memory Model"
+{{exCommit "Journal Memory Model" "Journal Memory Model"
 
 Hieronder is het begin gemaakt van een geheugenmodel van onderstaande 
 datastructuur
@@ -444,7 +513,7 @@ Maak het geheugenmodel af. Het kan zijn dat je niet alle vakjes hoeft vullen.
 Je kunt het bestand vinden in je persoonlijke repo. Plaats de ingevulde versie 
 ook daar.
 
-exCode}}
+exCommit}}
 
 
 
