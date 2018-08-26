@@ -1359,8 +1359,8 @@ exCode}}
 
 {{exCommit "Spread Copy (A)" "Spread Copy A"
 
-De spread syntax kun je ook gebruiken om een object te kopiëren zoals hieronder
-te zien is:
+De spread syntax kun je ook gebruiken om alleen een object te kopiëren 
+als alternatief voor `Object.assign`. Dit is hieronder te zien:
 
 ```js
 person1 = {name: 'han', scores: [5.4, 8.9]};
