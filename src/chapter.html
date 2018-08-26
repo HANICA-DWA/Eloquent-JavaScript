@@ -29,8 +29,15 @@
     <a href="index.html" title="cover">◆</a>
     <<if $in.next_link>> <a href="<<t $in.next_link>>.html" title="next chapter">▶</a><</if>>
   </nav>
+<</if>>
 
-  <h1<<if $in.id>> id="<<t $in.id>>"<</if>>><span class=chap_num>Chapter <<t $in.chap_num>></span><<t $in.title>></h1>
+<<if $in.title>>
+  <h1 <<if $in.id>> id="<<t $in.id>>"<</if>> 
+    <<if $in.chap_num>>
+      <span class=chap_num>Chapter <<t $in.chap_num>></span>
+    <</if>>>
+    <<t $in.title>>
+  </h1>
 <</if>>
 <<h $in.content>>
 

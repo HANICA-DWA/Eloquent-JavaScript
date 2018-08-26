@@ -7,6 +7,77 @@
 ██   ██ ███████ ███████ ██      ███████ ██   ██ ███████
 */
 
+
+
+function ll(msg,...fs) {
+  let result
+  let toPrint = fs.reduce( (list,f,index) => {
+    if(index == 0) result = f;
+    if(typeof f !== "function") {
+      list.push(f)
+    } else {
+      const anonFunctionRegex = /^\s*\(\s*\)\s*=>\s*(.*)/
+      const match = anonFunctionRegex.exec(f.toString())
+      if(match) {
+        list.push(match[1] + " →")
+        list.push(f())
+        if(index<fs.length-1) list.push("|")
+        if(index == 0) result = f();
+      } else {
+        list.push(f)
+      }
+    }
+    return list
+  }, [])
+  console.log(ll.caller.name.toUpperCase(), msg + ":",...toPrint)
+  return result
+}
+
+
+function currentUserRef() {
+  const uid = firebase.auth().currentUser.uid
+  return firebase.database().ref(`users/${uid}`)
+}
+
+function answerRef(slug) {
+  if( ! window.userInfo ) {
+    throw new Error("cannot create answerRef without window.userInfo");
+  }
+  const user = window.userInfo.gitHubName
+  return firebase.database().ref(`answers/${user}/${slug}`)
+}
+
+function exerciseRef(slug) {
+  return firebase.database().ref(`exercises/${slug}`)
+}
+
+function questionRef(qnaId, nr) {
+  if( ! window.userInfo ) {
+    throw new Error("cannot create questionRef without window.userInfo");
+  }
+  const user = window.userInfo.gitHubName
+  if(nr) {
+    return firebase.database().ref(`questions/${user}/${qnaId}/${nr}`)
+  } else {
+    return firebase.database().ref(`questions/${user}/${qnaId}`)
+  }
+}
+
+
+
+function qnaRef(slug) {
+  return firebase.database().ref(`qnas/${slug}`)
+}
+
+
+// function pr(str) {
+//   str = str.replace(/\n/g,"\\n");
+//   str = str.replace(/\t/g,"\\t");
+//   str = str.replace(/ /g,"~");
+//   return str;
+// }
+
+
 async function doGitHubRequest( endpoint, method = "GET", data = null ){
   const token = localStorage.getItem("gitHubAccessToken")
   if( ! token ) {
@@ -101,6 +172,7 @@ async function gatherUserInfo() {
 
 function makeHandleAuthStateChanged(afterSignIn, afterSignout) {
   return function(user) {
+    console.log("USER:", user);
     if (user) {
       gatherUserInfo().then( afterSignIn )
     } else {  /* user has left the building (sign out) */
@@ -204,6 +276,7 @@ class Exercise {
   showUI() {
     if(window.userInfo.status == "staff") {
       this.createResultsLink();
+      this.storeExerciseToDB();
     } else {
       this.createFormUI();
       this.setupFirebaseSubscription();
@@ -232,7 +305,6 @@ class Exercise {
   setupFirebaseSubscription(ref) {
     this.fbCallback = (snapshot)=>this.handleDBChange(snapshot)
     answerRef(this.slug).on('value',this.fbCallback)
-    this.storeExerciseToDB();
   }
 
   giveupFirebaseSubscription() {
@@ -428,30 +500,6 @@ window.exerciseTypes = {
   Commit: CommitExercise,
 }
 
-function answerRef(slug) {
-  if( ! window.userInfo ) {
-    throw new Error("cannot create answerRef without window.userInfo");
-  }
-  const user = window.userInfo.gitHubName
-  return firebase.database().ref(`answers/${user}/${slug}`)
-}
-
-function exerciseRef(slug) {
-  return firebase.database().ref(`exercises/${slug}`)
-}
-
-
-function currentUserRef() {
-  const uid = firebase.auth().currentUser.uid
-  return firebase.database().ref(`users/${uid}`)
-}
-
-// function pr(str) {
-//   str = str.replace(/\n/g,"\\n");
-//   str = str.replace(/\t/g,"\\t");
-//   str = str.replace(/ /g,"~");
-//   return str;
-// }
 
 /*
  ██████       █████  ███    ██ ██████       █████
@@ -462,16 +510,6 @@ function currentUserRef() {
     ▀▀
 */
 
-function questionRef(qnaId, nr) {
-  if( ! window.userInfo ) {
-    throw new Error("cannot create questionRef without window.userInfo");
-  }
-  const user = window.userInfo.gitHubName
-  return firebase.database().ref(`questions/${user}/${qnaId}/${nr}`)
-}
-
-
-
 class QnAForm {  // similar to LongExercise, but having multiple fields
                  // changes alomost all methods, and some datastructures
   constructor(element) {
@@ -481,18 +519,18 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     this.fbCallback = []
     this.mde        = []
 
-    allExercises[this.slug] = this
-    console.log("Constructor QnAForm", this.qnaId, this.minimum, this.element);
+    allExercises[this.qnaId] = this
   }
 
   createResultsLink() {
-    const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qnaid=${encodeURIComponent(eh(this.qnaId))}`
+    const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qna=${encodeURIComponent(this.qnaId)}`
     this.element.innerHTML = `<div class="results-link"><a href="${url}">Toon resultaten</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
   }
 
   showUI() {
     if(window.userInfo.status == "staff") {
       this.createResultsLink();
+      this.storeQnAToDB();
     } else {
       this.createFormUI();
       this.setupFirebaseSubscription();
@@ -515,7 +553,7 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     }
     this.element.appendChild(block1)
     const remark = document.createElement("p");
-    remark.innerHTML = `<i>Je hoeft niet meer dan ${this.minimum} ${this.minimum == 1 ? "vraag" : "vragen"} te beantwoorden. Het blok hieronder is dus <b>optioneel</b></i>.`
+    remark.innerHTML = `<i>Je hoeft niet meer dan ${this.minimum} ${this.minimum == 1 ? "vraag/discussiepunt" : "vragen/discussiepunten"} in te sturen. Het blok hieronder is dus <b>optioneel</b></i>.`
     remark.classList.add("remark");
     const block2 = document.createElement("div");
     block2.classList.add("dwa-addition");
@@ -532,7 +570,7 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     prompt.innerHTML = optional ?
         `Extra vraag:`
       :
-        `Voer hier je ${questionNr}e vraag in:`;
+        `Voer hier je ${questionNr}e vraag/discussiepunt in:`;
     parentElement.appendChild(prompt);
     const textArea = document.createElement("textarea");
     parentElement.appendChild(textArea);
@@ -567,7 +605,6 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
       this.fbCallback[i] = (snapshot)=>this.handleDBChange(snapshot,i)
       questionRef(this.qnaId,i).on('value',this.fbCallback[i])
     }
-    this.storeExerciseToDB();
   }
 
   giveupFirebaseSubscription() {
@@ -578,7 +615,7 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
   }
 
   saveInput(text,questionNr) {
-      // console.log("setting text for", this.exNumber, this.slug, pr(text));
+      // console.log("setting text for", this.exNumber, this.qnaId, pr(text));
       questionRef(this.qnaId,questionNr).set( {question:text, time:firebase.database.ServerValue.TIMESTAMP} )
   }
 
@@ -593,13 +630,12 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     }
   }
 
-  storeExerciseToDB() {
+  storeQnAToDB() {
     if(window.userInfo.status == "staff") {
-      qnaRef(this.slug).once('value', snapshot => {
+      qnaRef(this.qnaId).once('value', snapshot => {
         const val = snapshot.val()
         if( !val || val.minimum != this.minimum ) {
-          // console.log(`Setting new exercise info for: «${this.slug}»:`,this.exNumber,content);
-          qnaRef(this.slug).set({minimum: this.minimum})
+          qnaRef(this.qnaId).set({minimum: this.minimum})
         }
       })
     }
@@ -615,42 +651,46 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
 ███████ ██   ██ ███████ ██   ██  ██████ ██ ███████ ███████     ██   ██ ███████ ███████  ██████  ███████ ██    ███████
 */
 
-
-function initExerciseResultsPage() {
-
-  firebase.auth().onAuthStateChanged(makeHandleAuthStateChanged(showResultsDisplayUI,showResultsPageSigninUI));
+function initResultsPage(pageType) {
+  firebase.auth().onAuthStateChanged(makeHandleAuthStateChanged(()=>showResultsDisplayUI(pageType),()=>showResultsPageSigninUI(pageType)));
 
   document.getElementById('sign-in-btn').addEventListener('click', doSignIn)
   document.getElementById("sign-out-btn").addEventListener("click", doSignOut);
-
 }
 
-function showResultsPageSigninUI() {
+function showResultsPageSigninUI(pageType) {
   document.getElementById('sign-in-ui').classList.remove("hidden")
   document.getElementById('sign-out-ui').classList.add("hidden")
   document.getElementById('results-ui').classList.add("hidden")
   setSignInButtonsDisabled(false);
 }
 
-function showResultsDisplayUI() {
+function showResultsDisplayUI(pageType) {
   if( window.userInfo.status != "staff") {
     doSignOut();
     return;
   }
-
   document.getElementById('sign-in-ui').classList.add("hidden")
   document.getElementById('sign-out-ui').classList.remove("hidden")
   document.getElementById('results-ui').classList.remove("hidden")
   setSignInButtonsDisabled(false);
 
-  renderResults();
+  switch(pageType) {
+    case "exercises": renderExerciseResults(); break;
+    case "qna":       renderQnAResults();      break;
+    default:          throw new Error("Unkown pageType for results page.");
+  }
 }
 
-async function renderResults() {
+async function renderExerciseResults() {
   const urlParams     = new URLSearchParams(window.location.search);
   const exercise_slug = urlParams.get('exercise') || 'iffy: main diff from normal if';
   const group         = urlParams.get('group') || 'B';
-  console.log("slug:",exercise_slug,group);
+  if( exercise_slug === undefined || group === undefined) {
+    const errMessage = 'Cannot show results without required querystring parameters "group" and "exercise"'
+    alert(errMessage)
+    throw new Error(errMessage);
+  }
   const studentsP = firebase.database().ref("users").once('value')
   const exerciseP = firebase.database().ref(`exercises/${exercise_slug}`).once('value')
   let [students, exercise] = await Promise.all([studentsP, exerciseP])
@@ -688,36 +728,126 @@ async function renderResults() {
       return a.time - b.time
     }
   })
-  console.log("answers", allAnswers);
   renderResultTable( allAnswers, exercise.exerciseType );
 }
 
-function renderResultTable( answers, exerciseType ) {
+function renderResultTable( results, exerciseType ) {
   let html = `<table class="results-table">`
-  answers.forEach( answer => {
-    const unkownClass = answer.group == "UNKNOWN" ? "unkown" : ""
-    const nothingClass = answer.answer == undefined ? "no-answer" : ""
+  results.forEach( result => {
     const typeClass = exerciseType.toLowerCase();
-    const time = answer.time ? " - " + new Date(answer.time).toLocaleString("nl-NL") : "";
-    let content;
-    if( answer.answer ) {
+    const time = result.time ? " - " + new Date(result.time).toLocaleString("nl-NL") : "";
+    let content = exerciseType == "QnA" ? result.question : result.answer
+    const nothingClass = content ? "" : "no-answer"
+    const unkownClass = result.group == "UNKNOWN" ? "unkown" : ""
+    if( content ) {
       switch (exerciseType) {
-        case "Short":  content = renderShortContent(answer.answer);  break;
-        case "Long":   content = renderLongContent(answer.answer);   break;
-        case "Code":   content = renderCodeContent(answer.answer);   break;
-        case "Commit": content = renderCommitContent(answer.answer); break;
+        case "Short":  content = renderShortContent(content);  break;
+        case "Long":   content = renderLongContent(content);   break;
+        case "QnA":    content = renderLongContent(content);   break;
+        case "Code":   content = renderCodeContent(content);   break;
+        case "Commit": content = renderCommitContent(content); break;
         default: throw new Error("Unkown exercise type: " + exerciseType)
       }
     }
     const eh = escapeHtml
     html += `<tr class="result-row ${typeClass} ${unkownClass} ${nothingClass}">`
-    html += `  <td class="result-photo ${typeClass}"><img src="${eh(answer.avatarURL)}"></td>`
-    html += `  <td class="result-author ${typeClass}"><h3>${eh(answer.studentName)}</h3><h4>${eh(answer.realName)}${time}</h4></td>`
+    html += `  <td class="result-photo ${typeClass}"><img src="${eh(result.avatarURL)}"></td>`
+    html += `  <td class="result-author ${typeClass}"><h3>${eh(result.studentName)}</h3><h4>${eh(result.realName)}${time}</h4></td>`
     html += `  <td class="result-content ${typeClass}">${content || "Geen antwoord gegeven :-("}</td>`
     html += `</tr>`
   })
   html += `</table>`
   document.getElementById('results-container').innerHTML = html;
+}
+
+async function renderQnAResults() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const qnaId  = urlParams.get('qna');
+  const group     = urlParams.get('group');
+  if( qnaId === undefined || group === undefined) {
+    const errMessage = 'Cannot show results without required querystring parameters "group" and "qna"'
+    alert(errMessage)
+    throw new Error(errMessage);
+  }
+  // get all users, and the selected qna info from DB
+  const studentsP = firebase.database().ref("users").once('value')
+  const exerciseP = firebase.database().ref(`qnas/${qnaId}`).once('value')
+  let [students, exercise] = await Promise.all([studentsP, exerciseP])
+
+  // convert set of users into mapping (githubLogin->studentinfo) of relevant students
+  const studentsByGithubName = {}
+  students.forEach( (snapshot) => {
+    const s = snapshot.val();
+    if( s.status == "student" && (s.group == group || s.group == "UNKNOWN"))
+    studentsByGithubName[s.gitHubName] = {...s, uid: snapshot.key }
+  });
+  exercise = exercise.val();
+
+  // get the answers given by the relevant students from FB
+  const allQuestionPromises = Object.values(studentsByGithubName).map( s => {
+    return firebase.database().ref(`questions/${s.gitHubName}/${qnaId}`).once('value')
+  })
+  let allQuestions = await Promise.all( allQuestionPromises )
+
+  // create a flat list of all questions, each question augmenten with student githubName
+
+  allQuestions = allQuestions.reduce( (list, snapshot,idx) => {
+    const studentName = snapshot.ref.parent.key
+    let studentQuestions = snapshot.val() || []
+    studentQuestions = studentQuestions.filter( q => q.question != "" );
+    if(studentQuestions.length == 0) {
+      list.push( {studentName} )  // students without questions should appear in list
+    } else {
+      Object.values(studentQuestions).forEach( question => {
+        list.push( {...question,studentName})
+      })
+    }
+    return list
+  }, [])
+
+  // add rest of student info to each question
+  allQuestions = allQuestions.map( a => {
+    return { ...a, ...studentsByGithubName[a.studentName] }
+  })
+
+  // don't show students without both qroup and answer.
+  allQuestions = allQuestions.filter( a => {
+    return (a.group != "UNKNOWN" || a.question != undefined)
+  })
+
+  // sorting:
+  //    first: students without questions
+  //   second: questions from students without group
+  //    third: questions from students of current group,
+  //           ordered by: time
+  allQuestions.sort( (a,b) => {
+
+    const byTime = (a,b) => {
+      if( a.time && b.time ) return a.time - b.time
+      if( a.time ) return 1
+      if( b.time ) return -1
+      return 0;
+    }
+
+    const byNameAndTime = (a,b) => {
+      const nameCompare = a.localeCompare(b, "nl-NL", {sensitivity:"base"})
+      return nameCompare || byTime(a,b)
+    }
+
+    if(a.question === undefined && b.question !== undefined) {
+      return -1
+    } else if(a.question !== undefined && b.question === undefined) {
+      return 1
+    } else if(a.group === "UNKNOWN" && b.group !== "UNKNOWN") {
+      return -1
+    } else if(a.group !== "UNKNOWN" && b.group === "UNKNOWN") {
+      return 1
+    } else {
+      return byTime(a,b)
+    }
+  })
+
+  renderResultTable( allQuestions, "QnA" );
 }
 
 function renderShortContent( content ) {
@@ -752,7 +882,7 @@ testDBdata = {
             {uid: "testUser_05", gitHubName: "testUser_05", group:"B",      status: "student", realName: "Student 05 (B)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_06", gitHubName: "testUser_06", group:"B",      status: "student", realName: "Student 06 (B)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_07", gitHubName: "testUser_07", group:"B",      status: "student", realName: "Student 07 (B)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
-            {uid: "testUser_08", gitHubName: "testUser_08", group:"UNKOWN", status: "student", realName: "Student 08 (UNKOWN)", email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
+            {uid: "testUser_08", gitHubName: "testUser_08", group:"UNKNOWN",status: "student", realName: "Student 08 (UNKOWN)", email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_09", gitHubName: "testUser_09", group:"A",      status: "student", realName: "Student 09 (A)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_10", gitHubName: "testUser_10", group:"A",      status: "student", realName: "Student 10 (A)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_11", gitHubName: "testUser_11", group:"A",      status: "student", realName: "Student 11 (A)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
@@ -766,13 +896,13 @@ testDBdata = {
             {uid: "testUser_19", gitHubName: "testUser_19", group:"A",      status: "student", realName: "Student 19 (A)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_20", gitHubName: "testUser_20", group:"A",      status: "student", realName: "Student 20 (A)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
             {uid: "testUser_21", gitHubName: "testUser_21", group:"A",      status: "student", realName: "Student 21 (A)",      email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
-            {uid: "testUser_22", gitHubName: "testUser_22", group:"UNKOWN", status: "student", realName: "Student 22 (UNKOWN)", email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
+            {uid: "testUser_22", gitHubName: "testUser_22", group:"UNKNOWN",status: "student", realName: "Student 22 (UNKOWN)", email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
          ],
   answers: [ {ex: "hof: parameter name",                 user: "testUser_01", answer: "some short answer by Teacher 1 (A)",                                                                                            time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_02", answer: "some short answer by Teacher 2 (B)",                                                                                            time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_03", answer: "some short answer by Student 03 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "hof: parameter name",                 user: "testUser_04", answer: "some short answer by Student 04 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "hof: parameter name",                 user: "testUser_05", answer: "some short answer by Student 05 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "hof: parameter name",                 user: "testUser_04", answer: "some short answer by Student 04 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "hof: parameter name",                 user: "testUser_05", answer: "some short answer by Student 05 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_06", answer: "some short answer by Student 06 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_07", answer: "some short answer by Student 07 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_08", answer: "some short answer by Student 08 (UNKOWN)",                                                                                      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
@@ -782,8 +912,8 @@ testDBdata = {
              {ex: "hof: parameter name",                 user: "testUser_12", answer: "some short answer by Student 12 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_13", answer: "some short answer by Student 13 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_14", answer: "some short answer by Student 14 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "hof: parameter name",                 user: "testUser_15", answer: "some short answer by Student 15 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "hof: parameter name",                 user: "testUser_16", answer: "some short answer by Student 16 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "hof: parameter name",                 user: "testUser_15", answer: "some short answer by Student 15 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "hof: parameter name",                 user: "testUser_16", answer: "some short answer by Student 16 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_17", answer: "some short answer by Student 17 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_18", answer: "some short answer by Student 18 (B)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "hof: parameter name",                 user: "testUser_19", answer: "some short answer by Student 19 (A)",                                                                                           time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
@@ -793,8 +923,8 @@ testDBdata = {
              {ex: "iffy: if as a higher order function", user: "testUser_01", answer: "// this is JS code by Teacher 1 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",       time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_02", answer: "// this is JS code by Teacher 2 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",       time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_03", answer: "// this is JS code by Student 03 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: if as a higher order function", user: "testUser_04", answer: "// this is JS code by Student 04 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: if as a higher order function", user: "testUser_05", answer: "// this is JS code by Student 05 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: if as a higher order function", user: "testUser_04", answer: "// this is JS code by Student 04 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: if as a higher order function", user: "testUser_05", answer: "// this is JS code by Student 05 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_06", answer: "// this is JS code by Student 06 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_07", answer: "// this is JS code by Student 07 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_08", answer: "// this is JS code by Student 08 (UNKOWN)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}", time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
@@ -804,65 +934,107 @@ testDBdata = {
              {ex: "iffy: if as a higher order function", user: "testUser_12", answer: "// this is JS code by Student 12 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_13", answer: "// this is JS code by Student 13 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_14", answer: "// this is JS code by Student 14 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: if as a higher order function", user: "testUser_15", answer: "// this is JS code by Student 15 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: if as a higher order function", user: "testUser_16", answer: "// this is JS code by Student 16 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: if as a higher order function", user: "testUser_15", answer: "// this is JS code by Student 15 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: if as a higher order function", user: "testUser_16", answer: "// this is JS code by Student 16 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_17", answer: "// this is JS code by Student 17 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_18", answer: "// this is JS code by Student 18 (B)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_19", answer: "// this is JS code by Student 19 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_20", answer: "// this is JS code by Student 20 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_21", answer: "// this is JS code by Student 21 (A)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}",      time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
              {ex: "iffy: if as a higher order function", user: "testUser_22", answer: "// this is JS code by Student 22 (UNKOWN)\nfunction(c,t,e) {\n  if(4<5) {\n    return t('true');\n  } else {\n    return e();\n  }\n}", time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_01", answer: "#### Markdown antwoord van Teacher 1 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                              time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_02", answer: "#### Markdown antwoord van Teacher 2 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                              time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_03", answer: "#### Markdown antwoord van Student 03 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: main diff from normal if",      user: "testUser_04", answer: "#### Markdown antwoord van Student 04 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: main diff from normal if",      user: "testUser_05", answer: "#### Markdown antwoord van Student 05 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_06", answer: "#### Markdown antwoord van Student 06 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_07", answer: "#### Markdown antwoord van Student 07 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_08", answer: "#### Markdown antwoord van Student 08 (UNKOWN)\nIk *snap* geen **bal** van deze opdracht!!",                                        time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_09", answer: "#### Markdown antwoord van Student 09 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_10", answer: "#### Markdown antwoord van Student 10 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_11", answer: "#### Markdown antwoord van Student 11 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_12", answer: "#### Markdown antwoord van Student 12 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_13", answer: "#### Markdown antwoord van Student 13 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_14", answer: "#### Markdown antwoord van Student 14 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: main diff from normal if",      user: "testUser_15", answer: "#### Markdown antwoord van Student 15 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             // {ex: "iffy: main diff from normal if",      user: "testUser_16", answer: "#### Markdown antwoord van Student 16 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_17", answer: "#### Markdown antwoord van Student 17 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_18", answer: "#### Markdown antwoord van Student 18 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_19", answer: "#### Markdown antwoord van Student 19 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_20", answer: "#### Markdown antwoord van Student 20 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_21", answer: "#### Markdown antwoord van Student 21 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                             time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
-             {ex: "iffy: main diff from normal if",      user: "testUser_22", answer: "#### Markdown antwoord van Student 22 (UNKOWN)\nIk *snap* geen **bal** van deze opdracht!!",                                        time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_01", answer: "#### Markdown antwoord van Teacher 1 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                  time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_02", answer: "#### Markdown antwoord van Teacher 2 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                  time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_03", answer: "#### Markdown antwoord van Student 03 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: main diff from normal if",      user: "testUser_04", answer: "#### Markdown antwoord van Student 04 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: main diff from normal if",      user: "testUser_05", answer: "#### Markdown antwoord van Student 05 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_06", answer: "#### Markdown antwoord van Student 06 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_07", answer: "#### Markdown antwoord van Student 07 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_08", answer: "#### Markdown antwoord van Student 08 (UNKOWN)\nIk *snap* geen **bal** van deze opdracht!!",                                            time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_09", answer: "#### Markdown antwoord van Student 09 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_10", answer: "#### Markdown antwoord van Student 10 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_11", answer: "#### Markdown antwoord van Student 11 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_12", answer: "#### Markdown antwoord van Student 12 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_13", answer: "#### Markdown antwoord van Student 13 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_14", answer: "#### Markdown antwoord van Student 14 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: main diff from normal if",      user: "testUser_15", answer: "#### Markdown antwoord van Student 15 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+          // {ex: "iffy: main diff from normal if",      user: "testUser_16", answer: "#### Markdown antwoord van Student 16 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_17", answer: "#### Markdown antwoord van Student 17 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_18", answer: "#### Markdown antwoord van Student 18 (B)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_19", answer: "#### Markdown antwoord van Student 19 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_20", answer: "#### Markdown antwoord van Student 20 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_21", answer: "#### Markdown antwoord van Student 21 (A)\nIk *snap* geen **bal** van deze opdracht!!",                                                 time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
+             {ex: "iffy: main diff from normal if",      user: "testUser_22", answer: "#### Markdown antwoord van Student 22 (UNKOWN)\nIk *snap* geen **bal** van deze opdracht!!",                                            time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) },
            ],
+    questions: [
+      { qna: "cwd-1-1", user: "testUser_01", questions: { [0]: {question: "hoe lang is een chinees?"                          ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_02", questions: { [1]: {question: "waarom zijn de *bananen* krom?"                    ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [2]: {question: "Mijn derde vraag", time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_03", questions: { [0]: {question: "ik snap het niet; kunt u het nog beter uitleggen?" ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [3]: {question: "Mijn vierde vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+   // { qna: "cwd-1-1", user: "testUser_04", questions: { [0]: {question: "kun je dit eten?"                                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+   // { qna: "cwd-1-1", user: "testUser_05", questions: { [0]: {question: "hoe duur kost dit?"                                ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_06", questions: { [0]: {question: "waar was je gisterenavond?"                        ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_07", questions: { [0]: {question: "**wie** heeft mijn melk opgedronken?"              ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_08", questions: { [0]: {question: "hoe lang is een chinees?"                          ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_09", questions: {}                                                                    ,                                                                                                                                                                    },
+      { qna: "cwd-1-1", user: "testUser_10", questions: { [0]: {question: "waarom zijn de bananen krom?"                      ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_11", questions: { [0]: {question: "ik snap het niet; kunt u het nog beter uitleggen?" ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_12", questions: { [0]: {question: ""                                                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: ""                 ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_13", questions: { [0]: {question: "hoe duur kost dit?"                                ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: ""                 ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_14", questions: { [0]: {question: ""                                                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+   // { qna: "cwd-1-1", user: "testUser_15", questions: { [0]: {question: "wie heeft mijn melk opgedronken?"                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+   // { qna: "cwd-1-1", user: "testUser_16", questions: { [0]: {question: "moet ik dit leren voor de toets?"                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_17", questions: { [0]: {question: "kun je dit eten?"                                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_18", questions: { [0]: {question: "hoe duur kost dit?"                                ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_19", questions: { [0]: {question: "waar was je gisterenavond?"                        ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_20", questions: { [0]: {question: "wie heeft mijn melk opgedronken?"                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_21", questions: { [0]: {question: "moet ik dit leren voor de toets?"                  ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+      { qna: "cwd-1-1", user: "testUser_22", questions: { [0]: {question: "ik snap het niet; kunt u het nog beter uitleggen?" ,time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7)}, [1]: {question: "Mijn tweede vraag",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, [3]: {question: "Ik wil graag meer weten. Kan dat?",time: Date.now() - Math.floor(Math.random()*1000*60*60*24*7) }, }},
+    ]
 }
 
-function setTestDBdata() {
+function __insertTestDBdata() {
   allFirebaseSetPromises = []
   for(const {uid,gitHubName,group,status,email,realName,avatarURL} of testDBdata.users) {
-    console.log("usert:", uid,gitHubName,group,status,email,realName,avatarURL);
     const promise = firebase.database().ref(`users/${uid}`).set( { gitHubName, group, status, realName, email, avatarURL })
     allFirebaseSetPromises.push(promise);
   }
   for(const {ex,user,answer,time} of testDBdata.answers) {
-    console.log("answert:", ex,user,answer,time);
     const promise = firebase.database().ref(`answers/${user}/${ex}`).set( { answer, time })
     allFirebaseSetPromises.push(promise);
   }
-  return Promise.all(allFirebaseSetPromises);
+  for(const {qna,user,questions} of testDBdata.questions) {
+    Object.entries(questions).forEach( ([num,{question,time}]) => {
+      const promise = firebase.database().ref(`questions/${user}/${qna}/${num}`).set( { question, time })
+      allFirebaseSetPromises.push(promise);
+    })
+  }
+  return Promise.all(allFirebaseSetPromises).then(results => {
+    console.log("insertTestDBdata: all inserts done.")
+    return results
+  });
 }
 
-function removeTestDBData() {
+function __deleteTestDBData() {
   allFirebaseRemovePromises = []
   for(const {uid} of testDBdata.users) {
-    console.log("remove usert:", uid);
     const promise = firebase.database().ref(`users/${uid}`).remove();
     allFirebaseRemovePromises.push(promise);
   }
   for(const {ex,user} of testDBdata.answers) {
-    console.log("remove answert:", ex,user);
     const promise = firebase.database().ref(`answers/${user}/${ex}`).remove();
     allFirebaseRemovePromises.push(promise);
   }
-  return Promise.all(allFirebaseRemovePromises);
+  for(const {qna,user} of testDBdata.questions) {
+    const promise = firebase.database().ref(`questions/${user}/${qna}`).remove();
+    allFirebaseRemovePromises.push(promise);
+  }
+  return Promise.all(allFirebaseRemovePromises).then(results => {
+    console.log("deleteTestDBData: all deletions done.")
+    return results
+  });
+}
+
+async function __resetTestDBData() {
+  await __deleteTestDBData()
+  await __insertTestDBdata()
+  console.log("Done resetting test data.");
 }

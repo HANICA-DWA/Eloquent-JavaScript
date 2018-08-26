@@ -14,6 +14,6 @@ Please post at least 2 questions, remarks, or discussion items.
 * How does something in the text relate to something you already know; perhaps from other courses?
 * You may have heard or read about something that in not discussed in the text/video, but seems to be relevant for the subject.
 
-{{qna "CWD_3.1a" 3
+{{qna "CWD_3.1" 3
 
 qna}}

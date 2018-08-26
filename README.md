@@ -90,6 +90,27 @@ Skip annotations will gray-out the enclosed part of the book and inform students
 
 HTML tags will no longer be filtered out. Don't know if <BLINK> works, though...
 
+#### code blocks
+
+By default, all code blocks are assumed to contain JavaScript, so an editor is always created when the users clicks on the code. For text that should be rendered as a code block (i.e. monospaced), but isn't editable/executable JavaScript (e.g. HTML or Node.js-specific Javascript), you can prevent the creation of an editor using  `dontedit`, like this:
+
+```
+```dontedit
+...some monospaced text goes here...
+``````
+
+
+#### Q&A's
+
+{{qna "database key" 2
+
+qna}}
+
+The second parameter is the required minimum number of questions students have to submit.  
+This generates a form with _minimum_+2 markdown editors for submitting questions.  
+Any text _inside_ the `{{qna qna}}` markers is ignored. Any explanation should be placed _outside_ of the markers.
+
+You can place a Q&A like this inside a chapter file, but there is also some infrastructure for working with separate Q&A pages that are not part of the book. See the _Building_ section below.  
 
 #### notes while developing
 ```
@@ -114,7 +135,24 @@ Live reloading had to be disabled because Firebase.
 ## Building
 
     npm install
-    touch \*.md; make html
+
+To get the latest packages, including Firebase updates.
+
+    make html
+
+Renders all chapters that belong to the book.
+
+    make qnas
+
+Renders all files whose file name starts with "QnA_" (case sensitive, probably). The idea is that we create separate files for hosting the Q&A forms, with this prefix in the file name. We'll link to the generated html files from the unit-readme's from github. A typical Q&A link in a Github readme would be: `[https://dwa-courses.firebaseapp.com/QnA_cwd_1.1.html](https://dwa-courses.firebaseapp.com/QnA_cwd_1.1.html)`
+
+    make dwa
+
+Renders both the book chapters (make html) and the Q&A pages (make qnas).
+
+    make dwa-rebuild
+
+Rebuilds all the book chapters and all the Q&A pages, including the files whose sources have not changed. Use this when the JavaScript code generators have changed.
 
 ## Firebase
 
@@ -126,12 +164,26 @@ You need a Google account, and the permissions, to manage the Firebase project c
 
 You have to log in with the command line tool before testing or deploying.
 
+Listed below are the three firebase environments (hosting and RT-database) that are associated with this repo.
+
+    firebase use develop
+
+Using the `develop` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-develop.firebaseapp.com`. This environment is intended for program development, and things are likely to break in the environment.
+
+    firebase use default
+
+Using the `default` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-forms.firebaseapp.com`. This environment is intended for content development. I promise not to deploy versions that are too broken ;-).
+
+    firebase use production
+
+Using the `production` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-courses.firebaseapp.com`. This environment is for consumption by students and lecturers during the course. We're not going to insert test-data into this database. Github readme's that are used by students should link to pages on this environment, e.g. the `dwa-courses.firebaseapp.com` host.
+
     ./node_modules/.bin/firebase serve
 
-`firebase serve` starts a local HTTP server at localhost:5000. You can no longer use other http servers, because Firebase :-/  
+Once you've chosen your Firebase environment, `firebase serve` starts a local HTTP server at localhost:5000. You can no longer use other http servers, because Firebase :-/  
 
-Any changes to the DB will go to the production DB online, not to a (local) test DB.
+Any changes to the DB will go to the online DB for the environment you've chosen (develop, default or production), not to a local test DB.
 
     ./node_modules/.bin/firebase deploy
 
-`firebase deploy` bundles up the html-directory and sends it to the server at https://dwa-forms.firebaseapp.com.
+`firebase deploy` bundles up the html-directory and sends it to the hosting server that belongs to your chosen environment i.e. {dwa-develop,dwa-forms,dwa-courses}.firebaseapp.com .

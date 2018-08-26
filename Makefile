@@ -4,6 +4,13 @@ QnAs := $(basename $(shell ls QnA_*.md) .md)
 
 qnas: $(foreach QnA,$(QnAs),html/$(QnA).html)
 
+qna: qnas
+
+dwa: html qnas
+
+dwa-rebuild:
+	touch *.md; make dwa
+
 SVGS := $(wildcard img/*.svg)
 
 all: html book.pdf book_mobile.pdf book.epub book.mobi
@@ -45,14 +52,14 @@ tex: $(foreach CHAP,$(CHAPTERS),pdf/$(CHAP).tex) pdf/hints.tex $(patsubst img/%.
 
 book.pdf: tex pdf/book.tex
 	cd pdf && sh build.sh book > /dev/null
-	mv pdf/book.pdf .	
+	mv pdf/book.pdf .
 
 pdf/book_mobile.tex: pdf/book.tex
 	cat pdf/book.tex | sed -e 's/natbib}/natbib}\n\\usepackage[a5paper, left=5mm, right=5mm]{geometry}/' | sed -e 's/setmonofont.Scale=0.8./setmonofont[Scale=0.75]/' > pdf/book_mobile.tex
 
 book_mobile.pdf: pdf/book_mobile.tex tex
 	cd pdf && sh build.sh book_mobile > /dev/null
-	mv pdf/book_mobile.pdf .	
+	mv pdf/book_mobile.pdf .
 
 pdf/hints.tex: $(foreach CHAP,$(CHAPTERS),$(CHAP).md) src/extract_hints.js
 	node src/extract_hints.js | node src/render_latex.js - > $@

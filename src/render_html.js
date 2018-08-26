@@ -80,6 +80,11 @@ let linkedChapter = null
 
 let renderer = {
   fence(token) {
+    // dwa-addition
+    if(token.info == "dontedit") {
+      return `<pre>e${ escape(token.content.trimRight())}</pre>`
+    }
+    // end dwa-addition
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
     if (config.hidden) return "";
     let lang = config.lang || "javascript"
@@ -116,7 +121,10 @@ let renderer = {
     if(token.tag == "h2") {
       subChapterNumber++;
       exerciseNumber = 0;
-      numbering = chapterNumber + "." + subChapterNumber + " "
+      numbering = subChapterNumber
+      if(chapterNumber) {
+        numbering = chapterNumber + "." + numbering
+      }
       return `\n\n<div class="dwa-heading"><div class="numbering">${numbering}</div><div class="heading"><${token.tag}${attrs(token)}>${anchor(token)}`
     } else {
       return `\n\n<${token.tag}${attrs(token)}>${anchor(token)}${numbering}`
@@ -253,7 +261,6 @@ let renderer = {
   meta_qna_open(token) {
     const id = slugify(token.args[0])
     const minimum = token.args[1]
-    console.error("MINMUM:", minimum, typeof minimum, id);
     return `\n\n<div class="dwa-qna" data-qnaid="${id}" data-minimum="${minimum}">`;
   },
   meta_qna_close(token) {

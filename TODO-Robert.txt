@@ -1,11 +1,10 @@
-qna in db:
+*    QnA results reordering
+*    QnA results categories
+***  close button for QnA's and exercises
 
+**** possible bug when changing exercise type (other exercise props?)
 
-
-questions/[student]/[qnaId]/[nr]/question:string
-                                /time:int
-                                /seqnr:float
-                                /category:string
-qna/[qnaId]/[closed]/[group]:bool
-                    /minimum:int
-                    /
+**   some validation/feedback on commit urls?
+***  Allow predefined code in exCode exercises (last code block? marked code-block?)
+**   Allow some text to appear above Youtube video's
+***  Add radio-group and checkbox-group exercises.

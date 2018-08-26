@@ -10,6 +10,7 @@
 /book.pdf
 /book_mobile.pdf
 /html/[012]*.html
+/html/QnA_*.html
 /html/js/chapter_info.js
 /html/js/[012]*.js
 /html/js/acorn_codemirror.js
@@ -33,3 +34,4 @@
 
 .DS_Store
 \.firebase/
+/firebase-debug.log
