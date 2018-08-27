@@ -174,16 +174,20 @@ Using the `develop` environment causes the `serve` and `deploy` commands (see be
 
 Using the `default` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-forms.firebaseapp.com`. This environment is intended for content development. I promise not to deploy versions that are too broken ;-).
 
-    firebase use production
+    firebase use productie
 
-Using the `production` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-courses.firebaseapp.com`. This environment is for consumption by students and lecturers during the course. We're not going to insert test-data into this database. Github readme's that are used by students should link to pages on this environment, e.g. the `dwa-courses.firebaseapp.com` host.
+Using the `production` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-courses.firebaseapp.com`. This environment is for consumption by students and lecturers during the course. We're not going to insert test-data into this database. **Github readme's that are used by students should link to pages on this environment, e.g. the `dwa-courses.firebaseapp.com` host.**
 
     ./node_modules/.bin/firebase serve
 
-Once you've chosen your Firebase environment, `firebase serve` starts a local HTTP server at localhost:5000. You can no longer use other http servers, because Firebase :-/  
+Once you've chosen your Firebase environment, `firebase serve` starts a local HTTP server at localhost:5000.  
 
-Any changes to the DB will go to the online DB for the environment you've chosen (develop, default or production), not to a local test DB.
+Four notes on using `firebase serve`:
+1. While all static assets (html, css,js) are coming from the local `/html` directory, any **changes to the DB will go to the _online DB_** for the environment you've chosen (develop, default or production). There is no local test DB.
+2. If you have `firebase serve` running, and you change firebase environment using `firebase use`, **you have to restart `firebase serve`**. Otherwise your DB changes will still go to the online DB of the previously selected environment.
+4. Authentication will not work in Firefox when using `firebase serve`. Something about third party cookies being refused by FF. Chrome does not have this issue, so **local testing is best done with Chrome**. When the app is hosted from the Firebase cloud (see `firebase deploy`, below), the Firefox problem disappears, and authentication works fine.
+3. You can no longer use other http servers for local testing, because Firebase authentication won't work.
 
     ./node_modules/.bin/firebase deploy
 
-`firebase deploy` bundles up the html-directory and sends it to the hosting server that belongs to your chosen environment i.e. {dwa-develop,dwa-forms,dwa-courses}.firebaseapp.com .
+`firebase deploy` bundles up the html-directory and sends it "into the cloud!", to the hosting server that belongs to your chosen environment i.e. {dwa-develop,dwa-forms,dwa-courses}.firebaseapp.com .
