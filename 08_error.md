@@ -584,6 +584,15 @@ Well, almost...
 
 ## Cleaning up after exceptions
 
+{{note
+
+Hoewel het stuk hieronder wel nuttig is om te weten, is de hoeveelheid leerstof voor 
+deze week wel voldoende.
+
+note}}
+
+{{skip
+
 {{index "exception handling", "cleaning up"}}
 
 The effect of an exception is another kind of ((control flow)). Every
@@ -713,7 +722,10 @@ circumstances, the problem may occur so rarely that it is never even
 noticed. Whether that is a good thing or a really bad thing depends on
 how much damage the software will do when it fails.
 
-{{skip 
+skip}}
+
+{{skip
+
 ## Selective catching
 
 {{index "uncaught exception", "exception handling", "JavaScript console", "developer tools", "call stack", error}}
@@ -913,8 +925,6 @@ and then do something with it. To help address the unpredictable
 control flow caused by exceptions, `finally` blocks can be used to
 ensure that a piece of code _always_ runs when a block finishes.
 
-skip}}
-
 ## Exercises
 
 ### Retry
@@ -1053,3 +1063,5 @@ check its lock at the start of the function and unlock and lock
 it only when it started out locked.
 
 hint}}
+
+skip}}
