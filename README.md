@@ -166,15 +166,15 @@ You have to log in with the command line tool before testing or deploying.
 
 Listed below are the three firebase environments (hosting and RT-database) that are associated with this repo.
 
-    firebase use develop
+    ./node_modules/.bin/firebase use develop
 
 Using the `develop` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-develop.firebaseapp.com`. This environment is intended for program development, and things are likely to break in the environment.
 
-    firebase use default
+    ./node_modules/.bin/firebase use default
 
 Using the `default` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-forms.firebaseapp.com`. This environment is intended for content development. I promise not to deploy versions that are too broken ;-).
 
-    firebase use productie
+    ./node_modules/.bin/firebase use productie
 
 Using the `production` environment causes the `serve` and `deploy` commands (see below) to use the project at `dwa-courses.firebaseapp.com`. This environment is for consumption by students and lecturers during the course. We're not going to insert test-data into this database. **Github readme's that are used by students should link to pages on this environment, e.g. the `dwa-courses.firebaseapp.com` host.**
 
