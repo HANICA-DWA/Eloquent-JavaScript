@@ -299,12 +299,6 @@ that provide ways to interact with the surrounding system. For
 example, in a ((browser)), there are functions to interact with the
 currently loaded website and to read ((mouse)) and ((keyboard)) input.
 
-{{todo
-
-voorbeelden van overenkomsten en verschillen in global environment van Node en browser
-
-todo}}
-
 ## Functions
 
 {{indexsee "application (of functions)", "function application"}}
@@ -354,12 +348,6 @@ but most browsers open it when you press F12 or, on a Mac, [command]{keyname}-[o
 If that does not work, search through the menus for an item named Developer
 Tools or similar.
 
-{{todo
-
- video over browser devtools en node console.
-
-todo}}
-
 {{note
 
 In de loop der jaren is de MDN web docs een gezaghebbende bron geworden voor de API documentatie van JavaScript. Zie hier: [JavaScript op MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
@@ -367,12 +355,6 @@ In de loop der jaren is de MDN web docs een gezaghebbende bron geworden voor de 
 Node.js heeft zijn eigen API documentatie en die kun je hier vinden [Node.js API](https://nodejs.org/api/index.html).
 
 note}}
-
-{{todo
-
-Zoek in
-
-todo}}
 
 {{if interactive
 
@@ -998,12 +980,6 @@ of useful standard bindings into your environment.
 Functions are special values that encapsulate a piece of program. You
 can invoke them by writing `functionName(argument1, argument2)`. Such
 a function call is an expression and may produce a value.
-
-{{todo
-
-vingeroefingen over controlstructs
-
-todo}}
 
 {{skip
 
