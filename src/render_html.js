@@ -264,7 +264,7 @@ let renderer = {
     return `\n\n<div class="dwa-qna" data-qnaid="${id}" data-minimum="${minimum}">`;
   },
   meta_qna_close(token) {
-    return `\n\n</div><div class="sign-in"><button class="sign-in-btn">Log in</button> met je Github account om vragen in te sturen.</div>`;
+    return `\n\n</div><div class="sign-in dwa-addition"><button class="sign-in-btn">Log in</button> met je Github account om vragen in te sturen.</div>`;
   },
 
 
@@ -277,7 +277,9 @@ let renderer = {
       console.error("ERROR:",errorMsg);
       return `\n\n<div class="dwa-addition error-msg">INTERNAL BOOK ERROR: ${errorMsg}</div>`
     }
-    title = `Oefening ${chapterNumber}.${subChapterNumber}.${exerciseNumber}: ${title}`
+    if(chapterNumber) {
+      title = `Oefening ${chapterNumber}.${subChapterNumber}.${exerciseNumber}: ${title}`
+    }
     return `\n\n<div class="exercise dwa-addition"><div class="exercise-content"><header>${title}</header>`
   },
   meta_ex_close(token, exerciseType="Long") {

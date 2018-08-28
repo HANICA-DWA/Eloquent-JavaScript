@@ -1,12 +1,18 @@
 CHAPTERS := $(basename $(shell ls [0-9][0-9]_*.md) .md)
 
-QnAs := $(basename $(shell ls QnA_*.md) .md)
+QnAs := $(basename $(shell ls qna_*.md) .md)
+
+ASSINGMENTS := $(basename $(shell ls assignment_*.md) .md)
 
 qnas: $(foreach QnA,$(QnAs),html/$(QnA).html)
 
+assignments: $(foreach ASS,$(ASSINGMENTS),html/$(ASS).html)
+
+assign: assignments
+
 qna: qnas
 
-dwa: html qnas
+dwa: html qnas assignments
 
 dwa-rebuild:
 	touch *.md; make dwa

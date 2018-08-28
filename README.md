@@ -144,7 +144,12 @@ Renders all chapters that belong to the book.
 
     make qnas
 
-Renders all files whose file name starts with "QnA_" (case sensitive, probably). The idea is that we create separate files for hosting the Q&A forms, with this prefix in the file name. We'll link to the generated html files from the unit-readme's from github. A typical Q&A link in a Github readme would be: `[https://dwa-courses.firebaseapp.com/QnA_cwd_1.1.html](https://dwa-courses.firebaseapp.com/QnA_cwd_1.1.html)`
+Renders all files whose file name starts with "qna_" (case sensitive, probably). The idea is that we create separate files for hosting the Q&A forms, with this prefix in the file name. We'll link to the generated html files from the unit-readme's from github. A typical Q&A link in a Github readme would be: `[https://dwa-courses.firebaseapp.com/QnA_cwd_1.1.html](https://dwa-courses.firebaseapp.com/qna_cwd_1.1.html)`
+
+    make assignments
+
+Some assignments are specified in a markdown-file whose name starts with `assignment_`. These files contain a single exercise-tag (often an exCommit), and can contain as much explanatory text and assignment specification as you like. `make assignments` converts the markdown to an html file. The Github readme should contain a link to the assignment of the form `cwa-courses.firebaseapp.com/assignment_cwd_3.2.html`, if the file was called `assignment_cwd_3.2.md`.
+
 
     make dwa
 

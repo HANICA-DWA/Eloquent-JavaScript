@@ -10,7 +10,8 @@
 /book.pdf
 /book_mobile.pdf
 /html/[012]*.html
-/html/QnA_*.html
+/html/qna_*.html
+/html/assignment_*.html
 /html/js/chapter_info.js
 /html/js/[012]*.js
 /html/js/acorn_codemirror.js
