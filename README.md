@@ -21,9 +21,13 @@ Markdown will work inside the note.
 
 #### videos
 ```
-{{youtube "dQw4w9WgXcQ" }}
+{{youtube "dQw4w9WgXcQ"
+
+Some introductory text.
+
+youtube}}
 ```
-Youtube annotations live on a single line, and do not enclose text. Note that the quotes around the video-id are optional. You do need them if the
+Youtube annotations show a note that contains a video, below some introductory text. Note that the quotes around the video-id are optional. You do need them if the
 id contains special characters.
 
 #### margin notes (asides)
@@ -153,7 +157,7 @@ Some assignments are specified in a markdown-file whose name starts with `assign
 
     make dwa
 
-Renders both the book chapters (make html) and the Q&A pages (make qnas).
+Renders everything for dwa: the book chapters (make html), the Q&A pages (make qnas), and the assignments (make assignments).
 
     make dwa-rebuild
 

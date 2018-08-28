@@ -341,10 +341,16 @@ Beide for-constructies (`forEach` en `for`/`of`) worden veel gebruikt, dus je mo
 
 note}}
 
-{{todo
-Video over functies in array's opslaan.
+{{youtube "TUxB82hpq2c"
 
-todo}}
+### bekijk de video
+
+Deze video toont hoe een hogere-order functie gebruik kan maken van een array van functies.
+
+De video gaat ook in op een veel voorkomend probleem in het gebruik van hogere order functies: Wat doe je als je (1) een _bestaande_ functie hebt die je wilt meegeven, als parameter, aan een hogere-orde functie, maar (2) die hogere-orde functie z'n parameter aanroept met andere parameters dan jouw bestaande functie verwacht?  
+In de video wordt getoond hoe je b.v. een functie die 2 parameters nodig heeft kunt gebruiken met een hogere-orde functie die z'n parameter maar met één parameter aanroept.
+
+youtube}}
 
 ## Script data set
 

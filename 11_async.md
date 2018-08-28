@@ -531,13 +531,11 @@ callback is somewhat more involved and error-prone than simply
 returning a value, so needing to structure large parts of your program
 that way is not great.
 
-{{note
+{{youtube "8aGhZQkoFbQ"
 
-Bekijk nu onderstaande presentatie tot en 21:40 om een beter beeld te krijgen van hoe de asynchrone callbacks worden afgehandeld in Node en in de browser.
+Bekijk nu onderstaande presentatie tot en met 21:40 om een beter beeld te krijgen van hoe de asynchrone callbacks worden afgehandeld in Node en in de browser.
 
-note}}
-
-{{youtube "8aGhZQkoFbQ"}}
+youtube}}
 
 {{exShort "Timeout Loops (A)" "Timeout Loops A"
 

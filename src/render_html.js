@@ -210,11 +210,15 @@ let renderer = {
 
   //-------- Added meta-things by DWA team -------------
 
-  meta_youtube(token) {
+  meta_youtube_open(token) {
       let id = token.args[0]
       return (
-        `\n\n<div class="youtube dwa-addition">
-          <iframe width="560" height="315"
+        `\n\n<div class="youtube dwa-addition">\n`)
+  },
+  meta_youtube_close(token) {
+      let id = token.args[0]
+      return (
+        `\n\n<iframe width="560" height="315"
                   src="https://www.youtube.com/embed/${id}?rel=0"
                   frameborder="0"
                   allow="autoplay; encrypted-media"
