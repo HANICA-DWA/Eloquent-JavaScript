@@ -67,12 +67,6 @@ Om aan te geven dat dit hulpmiddelen voor onszelf zijn en niet in JavaScript-eng
 
 note}}
 
-{{todo
-
-screencast maken waarin we laten zien dat een console.log van een functie inderdaad de broncode geeft.
-
-todo}}
-
 A function is created with an expression that starts with the keyword
 `function`. Functions have a set of _((parameter))s_ (in this case,
 only `x`) and a _body_, which contains the statements that are to be
@@ -200,7 +194,8 @@ console.log(n);
 
 {{exShort "Scoping rules let and var (A)" "Scoping rules A"
 
-Schrijf voor elk van de onderstaande stukken code de output op van console.log.
+Schrijf voor elk van de onderstaande stukken code de output op van `console.log`. 
+Kies daarbij uit `42`, `undefined`, of `ReferenceError`
 
 **Voorbeeld: code**  
 
@@ -212,14 +207,14 @@ let a1 = 'hello';
 **Voorbeeld: antwoord**
 
 ```
-Exception
+error
 ```
 
 **De oefening**
 
 ```js
 console.log(a2);
-var a2 = 'hello';
+var a2 = 42;
 ```
 
 exShort}}
@@ -228,7 +223,7 @@ exShort}}
 
 ```js
 if (true) {
-    let b1 = 10;   
+    let b1 = 42;   
 }
 console.log(b1);
 ```
@@ -239,7 +234,7 @@ exShort}}
 
 ```js
 if (true) {
-    var b2 = 10;   
+    var b2 = 42;   
 }
 console.log(b2);
 ```
@@ -249,8 +244,8 @@ exShort}}
 {{exShort "Scoping rules let and var (C1)" "Scoping rules C1"
 
 ```js
-for (let c1 = 0; c1 < 4; c1++) {
-    console.log('in the for');
+for (let c1 = 0; c1 < 42; c1++) {
+    //do something interesting
 }
 console.log(c1);
 ```
@@ -261,7 +256,7 @@ exShort}}
 
 ```js
 for (var c2 = 0; c2 < 4; c2++) {
-    console.log('in the for');
+     //do something interesting
 }
 console.log(c2);
 ```
@@ -272,7 +267,7 @@ exShort}}
 
 ```js
 function test() {
-    let d1 = 'local?';
+    let d1 = 42;
 }
 console.log(d1);
 ```
@@ -283,7 +278,7 @@ exShort}}
 
 ```js
 function test() {
-    var d2 = 'local?';
+    var d2 = 42;
 }
 console.log(d2);
 ```
@@ -371,9 +366,9 @@ Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijv
 
 note}}
 
-{{exLong "Function and Variable" "Function and Variable"
+{{exCommit "Function in Variable (A)" "Function in Variable A"
 
-Gegeven onderstaande code
+Gegeven deze code.
 
 ```js
 const testFunction = function() {
@@ -381,8 +376,31 @@ const testFunction = function() {
 }
 
 const x = testFunction;
-x(); //Werkt dit? Waarom wel, of waarom niet.
 ```
+
+Vul het onderstaande lege geheugenmodelsjabloon in op basis van deze code. 
+
+{{figure {url: "img/memory_model/chap03/function_in_variable.svg", alt: ""}}}
+
+Vul het sjabloon in dat te vinden is in je persoonlijke repo en raadpleeg 
+onderstaande tekeninstructies om te weten wat je waar moet invullen.
+
+{{figure {url: "img/memory_model/chap03/function_in_variable_instructions.svg", alt: ""}}}
+
+exCommit}}
+
+{{exLong "Function in Variable (B)" "Function in Variable B"
+
+```js
+const testFunction = function() {
+    console.log('test');
+}
+
+const x = testFunction;
+x(); //<-- Werkt dit, of krijg je een foutmelding?
+```
+
+Leg op basis van het geheugenmodel uit of de regel `x()` werkt, of een foutmelding geeft.
 
 exLong}}
 
@@ -1300,7 +1318,7 @@ are often useful. There'd be no way to write a pure version of
 operations are also easier to express in an efficient way when we use
 side effects, so computing speed can be a reason to avoid purity.
 
-{{exShort "Pure or not Pure (A)" "Pure or not Pure A"
+{{exShort "Pure or not (A)" "Pure or not A"
 
 Hieronder zie je steeds een andere definitie van de functie `pureOrNot`. 
 Geef bij elke situatie hieronder aan of de functie `puur`, of 
@@ -1315,7 +1333,7 @@ pureOrNot('han');
 
 exShort}}
 
-{{exShort "Pure or not Pure (B)" "Pure or not Pure B"
+{{exShort "Pure or not (B)" "Pure or not B"
 
 ```js
 function pureOrNot() {
@@ -1326,7 +1344,7 @@ pureOrNot();
 
 exShort}}
 
-{{exShort "Pure or not Pure (C)" "Pure or not Pure C"
+{{exShort "Pure or not (C)" "Pure or not C"
 
 ```js
 function pureOrNot(name) {
@@ -1337,7 +1355,7 @@ pureOrNot('han');
 
 exShort}}
 
-{{exShort "Pure or not Pure (D)" "Pure or not Pure D"
+{{exShort "Pure or not (D)" "Pure or not D"
 
 ```js
 let name = 'han'
@@ -1349,7 +1367,7 @@ pureOrNot(name);
 
 exShort}}
 
-{{exShort "Pure or not Pure (E)" "Pure or not Pure E"
+{{exShort "Pure or not (E)" "Pure or not E"
 
 ```js
 let name = 'han';
@@ -1361,7 +1379,7 @@ pureOrNot();
 
 exShort}}
 
-{{exShort "Pure or not Pure (F)" "Pure or not Pure F"
+{{exShort "Pure or not (F)" "Pure or not F"
 
 ```js
 function pureOrNot(name) {
@@ -1373,7 +1391,7 @@ pureOrNot('han');
 
 exShort}}
 
-{{exShort "Pure or not Pure (G)" "Pure or not Pure G"
+{{exShort "Pure or not (G)" "Pure or not G"
 
 ```js
 function pureOrNot(name) {
@@ -1384,7 +1402,7 @@ pureOrNot('han');
 
 exShort}}
 
-{{exShort "Pure or not Pure (H)" "Pure or not Pure H"
+{{exShort "Pure or not (H)" "Pure or not H"
 
 ```js
 let greeting = ''
@@ -1397,7 +1415,7 @@ pureOrNot('han');
 
 exShort}}
 
-{{exShort "Pure or not Pure (I)" "Pure or not Pure I"
+{{exShort "Pure or not (I)" "Pure or not I"
 
 ```js
 let name = ''
@@ -1411,7 +1429,7 @@ pureOrNot('han');
 
 exShort}}
 
-{{exShort "Pure or not Pure (J)" "Pure or not Pure J"
+{{exShort "Pure or not (J)" "Pure or not J"
 
 ```js
 function getHan() {
