@@ -480,6 +480,7 @@ Dit selecteert alle objecten met de opgegeven waarden voor de opgegeven velden.
 Lodash is geen verplichte stof voor dit vak. Het is echter wel heel handig, en goed om
 te kennen. Je kunt er even mee spelen op deze pagina. We hebben Lodash ook toegevoegd aan
 de code-editor van dit hoofdstuk, onder de binding-naam "\_", zoals gebruikelijk.
+
 note}}
 
 {{id map}}
@@ -598,6 +599,88 @@ decided to treat them as a single writing system to save
 character codes. This is called _Han unification_ and still makes some
 people very angry.
 
+{{note
+
+Map, filter en reduce zijn niet alleen maar handige voorbeelden voor dit boek,
+en het zijn ook geen ideeën die JavaScript-specifiek zijn. Je komt ze,
+tegenwoordig, in veel programmeer-systemen tegen, en ze komen oorspronkelijk uit
+de familie van _functionele programmeertalen_, zoals Lisp, Haskell en F#. Google
+baseerde er een architectuur op,
+[MapReduce](https://en.wikipedia.org/wiki/MapReduce) voor het parallel verwerken
+van gigantische hoeveelheden data.
+
+Maar zelfs ruim voordat deze termen populair werden, zaten de ideeën al een
+beetje in SQL.
+
+note}}
+
+{{exLong "map, filter en reduce in SQL" "map, filter en reduce in SQL"
+
+Gegeven de volgende SQL-queries:
+
+
+```dontedit
+
+-- query A
+SELECT price, quantity, price * quantity as totalAmount FROM Orders
+
+-- query B
+SELECT AVG(price) FROM Orders
+
+-- query C
+SELECT productName, price, quantity FROM Orders
+WHERE quantity > 100
+```
+
+* Welke query doet iets dat lijkt op wat de `filter()` functie kan doen?
+* Welke query doet iets dat lijkt op wat de `map()` functie kan doen?
+* Welke query doet iets dat lijkt op wat de `reduce()` functie kan doen?
+
+exLong}}
+
+{{exCode "reduce() is powerful!" "filter with reduce"
+
+Het is onmogelijk om met de `filter()` functie iets te doen dat je met de
+`map()` functie kan. En omgekeerd. Maar `reduce()` is krachtiger. Door een
+geschikte functie-parameter aan `reduce` mee te geven, kun je met `reduce()` de
+werking van `map()` simuleren. Kijk maar:
+
+```
+  const table_rows1 = SCRIPTS.map( script =>
+    `<tr><td>${script.name}</td><td>${script.year}</td></tr>`
+  );
+
+  // De concat() functie plakt twee lijsten achter elkaar, maar kan ook
+  // gebruikt worden als pure versie van `push`. De gecombineerde lijst
+  // wordt als return-waarde opgeleverd. De twee parameters worden niet
+  // veranderd.
+
+  const table_rows2 = SCRIPTS.reduce( (list,script) => {
+      const row = `<tr><td>${script.name}</td><td>${script.year}</td></tr>`
+      return list.concat(row);
+  },[])
+
+  console.log(table_rows1)
+  console.log(table_rows2)
+```
+
+Hoe kun je met `reduce()` de `filter()`-functie simuleren? Schrijf een
+toepassing van `reduce()` die hetzelfde oplevert als de volgende toepassing van
+`filter()`:
+
+```
+const oldScripts = SCRIPTS.filter( script => script.year < 0 );
+```
+exCode}}
+
+{{exLong "Wel of geen return commando?" "return in arow functions"
+
+Leg uit waarom, in de voorbeeldcode van de exercise hierboven, de functie die
+aan `map()` werd meegegeven _geen_ `return` commando bevatte, terwijl de functie
+die aan `reduce()` werd meegegeven, _wel_ een `return` bevatte.
+
+exLong}}
+
 ## Composability
 
 {{index loop, maximum}}
@@ -676,6 +759,8 @@ running `filter` and `map`, whereas the second computes only some
 numbers, doing less work. You can usually afford the readable
 approach, but if you're processing huge arrays, and doing so many
 times, the less abstract style might be worth the extra speed.
+
+{{skip
 
 ## Strings and character codes
 
@@ -865,6 +950,9 @@ of characters that belong to a script, which we can compute with
 `reduce`. If no such characters are found, the function returns a
 specific string. Otherwise, it transforms the counting entries into
 readable strings with `map` and then combines them with `join`.
+
+skip}}
+
 
 ## Summary
 
