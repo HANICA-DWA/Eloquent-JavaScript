@@ -82,7 +82,7 @@ let renderer = {
   fence(token) {
     // dwa-addition
     if(token.info == "dontedit") {
-      return `<pre>e${ escape(token.content.trimRight())}</pre>`
+      return `<pre>${ escape(token.content.trimRight())}</pre>`
     }
     // end dwa-addition
     let config = /\S/.test(token.info) ? PJSON.parse(token.info) : {}
@@ -271,14 +271,15 @@ let renderer = {
     return `\n\n</div><div class="sign-in dwa-addition"><button class="sign-in-btn">Log in</button> met je Github account om vragen in te sturen.</div>`;
   },
 
-
   meta_ex_open(token, exerciseType="Long") {
     exerciseNumber++
-    const slug = slugify(token.args[1])
+    const slug = slugify(token.args[1] || "")
     let title = token.args[0]
     if( !title && !slug) {
       errorMsg = `Exercise ${chapterNumber}.${subChapterNumber}.${exerciseNumber} needs both a title and an internal name.`
+      console.error("###########################################");
       console.error("ERROR:",errorMsg);
+      console.error("###########################################");
       return `\n\n<div class="dwa-addition error-msg">INTERNAL BOOK ERROR: ${errorMsg}</div>`
     }
     if(chapterNumber) {
@@ -287,7 +288,7 @@ let renderer = {
     return `\n\n<div class="exercise dwa-addition"><div class="exercise-content"><header>${title}</header>`
   },
   meta_ex_close(token, exerciseType="Long") {
-    const slug = slugify(token.args[1])
+    const slug = slugify(token.args[1] || "")
     const exNumber = `${chapterNumber}.${subChapterNumber}.${exerciseNumber}`
     return `</div>\n\n<div class="sign-in"><button class="sign-in-btn">Log in</button> met je Github account om antwoorden in te sturen.</div><div class="dwa-exercise-submit" data-exercise_number="${exNumber}" data-exercise_slug="${slug}" data-exercise_type="${exerciseType}"></div></div>`
   },
