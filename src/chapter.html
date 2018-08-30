@@ -6,6 +6,11 @@
   <link rel=stylesheet href="css/codemirror.css">
   <script src="js/acorn_codemirror.js"></script>
   <link rel=stylesheet href="css/ejs.css">
+  <<if $in.isDwaPage >>
+
+    <link rel=stylesheet href="css/dwa-page.css">
+    
+  <</if>>
   <script src="js/sandbox.js"></script>
   <script src="js/ejs.js"></script>
   <link rel="stylesheet" href="css/simplemde.css">
@@ -32,7 +37,7 @@
 <</if>>
 
 <<if $in.title>>
-  <h1 <<if $in.id>> id="<<t $in.id>>"<</if>> 
+  <h1 <<if $in.id>> id="<<t $in.id>>"<</if>>
     <<if $in.chap_num>>
       <span class=chap_num>Chapter <<t $in.chap_num>></span>
     <</if>>>

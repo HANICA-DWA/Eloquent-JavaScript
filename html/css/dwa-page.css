@@ -1,0 +1,23 @@
+body {
+  font-family: "Crimson Text";
+  line-height: 1.3em;
+
+}
+
+li p{
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+pre {
+  background-color: #eee;
+  border-radius: 8px;
+}
+h4 {
+  font-family: "Rubik";
+  font-weight: bold;
+  margin-top: 3em;
+  margin-bottom: 0.7em;
+}
+img {
+  max-width: 100%;
+}

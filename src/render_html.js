@@ -16,6 +16,8 @@ for (let arg of process.argv.slice(2)) {
 }
 if (!file) throw new Error("No input file")
 let chapter = /^\d{2}_([^\.]+)/.exec(file) || [null, "hints"]
+const isQna = /^qna_/.test(file)
+const isAssignment = /^assignment_/.test(file)
 
 let {tokens, metadata} = transformTokens(require("./markdown").parse(fs.readFileSync(file, "utf8"), {}), {
   defined: epub ? ["book", "html"] : ["interactive", "html"],
@@ -367,6 +369,11 @@ if (chapter && (index = chapters.indexOf(chapter[1])) > -1) {
   metadata.current_page = `${pad(index)}_${chapters[index]}`
   if (index < chapters.length - 1) metadata.next_link = `${pad(index + 1)}_${chapters[index + 1]}`
 }
+
+if(isQna||isAssignment) {
+  metadata.isDwaPage = true
+}
+
 
 let template = mold.bake("chapter", fs.readFileSync(__dirname + `/${epub ? "epub_" : ""}chapter.html`, "utf8"))
 
