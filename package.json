@@ -9,8 +9,8 @@
     "url": "git://github.com/marijnh/Eloquent-JavaScript.git"
   },
   "dependencies": {
-    "acorn": "^5.1.0",
-    "codemirror": "^5.37.0",
+    "acorn": "^5.7.2",
+    "codemirror": "^5.40.0",
     "hjson": "^3.1.0",
     "jszip": "^2.5.0",
     "markdown-it": "^8.4.2",
@@ -22,9 +22,9 @@
     "uglify-js": "^2.0.0"
   },
   "devDependencies": {
-    "firebase-tools": "^4.2.0",
-    "jsdom": "^11.2.0",
-    "onchange": "^4.0.0",
+    "firebase-tools": "^4.2.1",
+    "jsdom": "^11.12.0",
+    "onchange": "^4.1.0",
     "promise": "^8.0.1"
   },
   "scripts": {
