@@ -1,5 +1,6 @@
 const PJSON = require("./pseudo_json")
 const markdownIt = require("markdown-it")
+var emoji = require('markdown-it-emoji');
 
 function parseData(str) {
   let tag = /^\s*(\w+)\s*?/.exec(str), args
@@ -174,3 +175,4 @@ module.exports = markdownIt({html: true})
   .use(plugin)
   .use(require("markdown-it-sup"))
   .use(require("markdown-it-sub"))
+  .use(emoji, {shortcuts:[]} )

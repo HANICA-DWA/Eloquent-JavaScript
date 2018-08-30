@@ -105,8 +105,12 @@ exports.transformTokens = function(tokens, options) {
     } else if (type == "meta_if_close" || (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {
       // Drop
     } else if (tok.tag == "h1" && options.takeTitle) {
-      if (tokens[i + 1].children.length != 1) throw new Error("Complex H1 not supported")
-      meta.title = tokens[i + 1].children[0].content
+      // if (tokens[i + 1].children.length != 1) {
+      //   console.error("===== Complex H1", tok, tokens[i+1]);
+      //   throw new Error("Complex H1 not supported")
+      // }
+      meta.title = tokens[i + 1].children.map( c => c.content).join("")
+//      meta.title = tokens[i + 1].children[0].content
       i += 2
     } else {
       if (type == "paragraph_open")

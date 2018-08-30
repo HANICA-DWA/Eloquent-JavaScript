@@ -212,6 +212,14 @@ let renderer = {
 
   //-------- Added meta-things by DWA team -------------
 
+  image(token) {
+    return `\n\n<${token.tag} src="${token.attrs[0][1]}" alt="${token.content}"/>`
+  },
+
+  emoji(token) {
+    return token.content
+  },
+
   meta_youtube_open(token) {
       let id = token.args[0]
       return (
