@@ -1,9 +1,8 @@
 body {
   font-family: "Crimson Text";
   line-height: 1.3em;
-
+  font-size: 12pt;
 }
-
 li p{
   margin-top: 0.2em;
   margin-bottom: 0.2em;
@@ -17,6 +16,14 @@ h4 {
   font-weight: bold;
   margin-top: 3em;
   margin-bottom: 0.7em;
+}
+h1 {
+  font-family: "Crimson Text";
+  font-weight: normal;
+  font-size: 36pt;
+  font-style: italic;
+  line-height: 1.3em;
+  letter-spacing: 0;
 }
 img {
   max-width: 100%;
