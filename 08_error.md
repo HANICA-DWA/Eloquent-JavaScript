@@ -552,12 +552,6 @@ exceptions: error-handling code is necessary only at the point where
 the error occurs and at the point where it is handled. The functions
 in between can forget all about it.
 
-{{todo
-
-Een plaatje van de stack laten zien. Als er geen try catch is, dan crashen we.
-
-todo}}
-
 {{note
 
 Je kunt `Error` inderdaad als een klasse zien met de bijbehorende constructor `Error()`. Hoewel JavaScript geen klasses kent, kun je klasses wel simuleren en vanaf ES6 heb je daar speciale syntax voor. Dit komt in een volgende les aan bod.
@@ -566,7 +560,7 @@ note}}
 
 {{note 
 
-Je kunt in JavaScript elk datatype gooien dat je wilt. Voorbeelden: 
+Je kunt in JavaScript elk datatype gooien. Voorbeelden: 
 
 ```javascript
 //throw new Error('failure');
@@ -576,7 +570,7 @@ Je kunt in JavaScript elk datatype gooien dat je wilt. Voorbeelden:
 //throw () => {return 'nee dit is echt handig'};
 ```
 
-Dit is echter af te raden omdat je op deze manier geen stack-trace krijgt en je in het catch-block niet de standaard properties...
+Dit is echter af te raden.
 
 note}}
 
