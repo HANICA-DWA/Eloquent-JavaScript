@@ -9,7 +9,7 @@
   <<if $in.isDwaPage >>
 
     <link rel=stylesheet href="css/dwa-page.css">
-    
+
   <</if>>
   <script src="js/sandbox.js"></script>
   <script src="js/ejs.js"></script>
@@ -37,10 +37,10 @@
 <</if>>
 
 <<if $in.title>>
-  <h1 <<if $in.id>> id="<<t $in.id>>"<</if>>
+  <h1 <<if $in.id>> id="<<t $in.id>>" <</if>> >
     <<if $in.chap_num>>
       <span class=chap_num>Chapter <<t $in.chap_num>></span>
-    <</if>>>
+    <</if>>
     <<t $in.title>>
   </h1>
 <</if>>
