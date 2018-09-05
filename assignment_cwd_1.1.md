@@ -101,8 +101,9 @@ Telnet is a very simple program that you can use to create an Internet connectio
 
 :point_right: Create a telnet connection to your server (that should be running still, in your commandline window)
 
-*  *On Windows*: Start Putty; in the 'PuTTY Configuration' window; enter `localhost` under `Host Name`; `Port: 3000`; and select *both* `Telnet` and `Close window on exit: Never`. <br>For every HTTP request, you'll start Putty like this again, so it'll save you some hassle if you save this 'session' in the same window (after setting the options correctly).
-*  ​*On Mac and Linux:* Simply enter the command `telnet localhost 3000`. Use a new command-line window, not the one where your `node app.js` command is running.
+*  *On Windows*: Start Putty; in the 'PuTTY Configuration' window; enter `localhost` under `Host Name`; `Port: 3000`; and select *both* `raw` (_not:_ telnet) and `Close window on exit: Never`. <br>For every HTTP request, you'll start Putty like this again, so it'll save you some hassle if you save this 'session' in the same window (after setting the options correctly).
+* *On Mac:* If you're using MacOS 10.14 "High Sierra", you don't get _telnet_ anymore. You'll need to install it yourself. The best way to install telnet for MacOS 10.14 and higher is to use [HomeBrew](https://brew.sh/).
+*  ​*On Linux:* Simply enter the command `telnet localhost 3000`. Use a new command-line window, not the one where your `node app.js` command is running.
 
 ```dontedit
 > telnet localhost 3000

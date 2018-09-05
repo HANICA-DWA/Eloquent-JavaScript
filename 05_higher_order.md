@@ -760,6 +760,25 @@ numbers, doing less work. You can usually afford the readable
 approach, but if you're processing huge arrays, and doing so many
 times, the less abstract style might be worth the extra speed.
 
+{{youtube "CLsghNjFmXc"
+
+Het hele idee achter hogere-orde functies is dat zodra functies als parameter en returnwaardes gebruikt worden,
+je je hele krachtige tools kunt maken (of krijgen van b.v. Lodash) terwijl de
+data-flow in je programma in zekere zin overzichtelijk blijft: data stroomt functies in via parameters, en gebruikt
+via return-waarden.
+Hoewel Javascript een object-georienteerde programmeertaal kan zijn (volgende hoofdstuk gaat over classes), kiezen
+geavanceerde Javascript programmeurs er steeds vaker voor om complexe
+
+Eén van de truuks die
+
+####
+
+In de volgende video bekijken we nog een truuk die veel gebruikt wordt om de flexibiliteit van functies in Javascript
+maximaal te benutten.
+
+youtube}}
+
+
 {{skip
 
 ## Strings and character codes
