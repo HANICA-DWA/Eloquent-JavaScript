@@ -484,7 +484,7 @@ Pas deze functie zo aan dat er weer een asynchrone callback kan worden meegegeve
 
 ```javascript
 let doAllTasks2 = (/* Pas hier de code aan */) => {
-    let completetTasks = [];
+    let completedTasks = [];
     setTimeout(() => {
         completedTasks.push('Taak 1 klaar');
         setTimeout(() => {
