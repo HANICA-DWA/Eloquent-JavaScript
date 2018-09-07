@@ -18,6 +18,6 @@ note}}
 
 Voer hieronder je Q&A bijdrage in.
 
-{{qna "swd-2.2" 
+{{qna "swd-2.2" 1
 
 qna}}
