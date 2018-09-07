@@ -207,7 +207,7 @@ If you prefer, Chrome is okay too.
 _(The Network panel in Firefox, showing info on one HTTP request)_
 
 {{exShort "Question:" "Assignment 1.1.k (What is the E-tag on the first cat picture?)"
-:question: What is the E-tag on the first cat picture?
+:question: What is the E-tag on the _logo.png_ picture?
 
 exShort}}
 
