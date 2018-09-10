@@ -21,12 +21,12 @@ In de repo vind je een html-file met daarin een uitprobeer-formulier. De file ge
 :two: Open `main.js`. De volgende dingen zijn de moeite van het bestuderen waard:
   * De initialisatie van de web-app start bij de `window.onload` event handler.
   * `handleFormSubmit` is een "nep functie" die net doet alsof er wat zinnigs gebeurt als het formulier ingediend kan worden zonder validatie-problemen.
-  * Aan het formulier wordt een event handler (a.k.a. event listener) gekoppeld die afgaat als de gebruikt op de submit-knop drukt (of op de enter-toets).
+  * Aan het formulier wordt een event handler (a.k.a. event listener) gekoppeld die afgaat als de gebruiker op de submit-knop drukt (of op de enter-toets).
   * De tweede parameter voor `addEventListener` _moet_ een functie-waarde zijn. Maar nu staat er een functie**_aanroep_**. Dat betekent dat de return-waarde van `makeFormValidator()` zelf een functie-waarde moet zijn. `makeFormValidator` zou je dus een 'function factory' kunnen noemen: een functie die functies maakt.
   * De form-validator wordt geconfigureerd met 'checker'-functies. (Dat is een term die is uitgevonden voor deze library; niet een algemene Javascript term.) Je ziet dat de configuratie een _object dat functies bevat_ is.
   * Hoewel de formValidator library zelf een checker-functie definieert, definieert `main.js` er ook eentje. De formValidator library is dus **uitbreidbaar**, en de checker-functies zijn een soort plug-ins.
 
-De basis-werking van de formvalidator is simpel: Als de gebruiker het formulier submit, dan checkt-ie van alle formuliervleden of er een checker voor megegeven is, en als dat zo is, of die checker `true` oplevert voor de huidige waarde van het invoerveld. Als _alle_ velden `true` opleveren, dan is het formulier OK, en wordt de 'succes'-functie aangeroepen (in dit voorbeeld zal dat `handleFormSubmit` in `main.js` zijn).
+De basis-werking van de formvalidator is simpel: Als de gebruiker het formulier submit, dan checkt-ie van alle formuliervelden of er een checker voor meegegeven is, en als dat zo is, of die checker `true` oplevert voor de huidige waarde van het invoerveld. Als _alle_ velden `true` opleveren, dan is het formulier OK, en wordt de 'succes'-functie aangeroepen (in dit voorbeeld zal dat `handleFormSubmit` in `main.js` zijn).
 
 {{exShort "Vraag:" "FormValidator-vraag-1"
 
@@ -71,7 +71,7 @@ Laten we afspreken dat zowel de voornaam als de achternaam:
 1. niet langer dan 20 karakters mogen zijn (om te voorkomen dat de naam niet meer op het vliegticket past b.v.), en
 2. niet korter dan 3 karakters mogen zijn.
 
-:point_right: Schrijf, in de file `main.js`, een checker-functie voor de naam-lengte (min 3; max 20). Checker-functies krijgen één parameter (de waarde die gechecked moet worden), en leveren een boolean (true/false) op om aan te geven of de waarde valide is. [Deze opdracht maak je in je lokale kopie van de je persoonlijke CWD repo. Straks, als je alle opdrachten hebt gedaan, lever je je hele werk in één keer in door te committen naar je persoonlijke Github, en de commit-URL via deze pagine in te leveren.]{aside}
+:point_right: Schrijf, in de file `main.js`, een checker-functie voor de naam-lengte (min 3; max 20). Checker-functies krijgen één parameter (de waarde die gechecked moet worden), en leveren een boolean (true/false) op om aan te geven of de waarde valide is. [Deze opdracht maak je in je lokale kopie van de je persoonlijke CWD repo. Straks, als je alle opdrachten hebt gedaan, lever je je hele werk in één keer in door te committen naar je persoonlijke Github, en de commit-URL via deze pagina in te leveren.]{aside}
 
 
 :point_right: pas `theFormCheckers` in de functie `initializeApp` aan, zodat de nieuwe checker gebruikt wordt voor de voornaam en de achternaam invoervelden.
@@ -82,7 +82,7 @@ Laten we afspreken dat zowel de voornaam als de achternaam:
 
 De requirement dat namen maximaal 20 karaters hebben, en minimaal 3, zou specifiek kunnen zijn aan deze app. Maar een algemeen bruikbare lengte-checker is wellicht iets wat deel kan uitmaken van de library i.p.v. de app. Dan moeten minimum en maximum wel flexibel in te stellen zijn.
 
-Begin even met een checker die alleen maar de _maximum_-lengte controleert. hecker-functies worden, door de formValidation library, aangeroepen met één parameter (de te controleren invoerwaarde). Om toch flexibel te zijn qua max-lengte, maak je een 'function factory':
+Begin even met een checker die alleen maar de _maximum_-lengte controleert. Checker-functies worden, door de formValidation library, aangeroepen met één parameter (de te controleren invoerwaarde). Om toch flexibel te zijn qua max-lengte, maak je een 'function factory':
 
 :point_right: Maak een function factory die de max-lengte als parameter krijgt, en dan **een checker-functie oplevert** (als returnwaarde) die invoer kan controleren op de gegeven max-lengte. De structuur van de functie is dit:
 
@@ -138,7 +138,7 @@ const theFormCheckers = {
 
 We zijn lekker bezig. Hogere-orde lekker. Maar er is een onhandigheid met de `isaPostCode` checker: De checker eist dat het veld een waarde heeft. Dus `isaPostCode` maakt het veld ook `Required`.
 
-Een oplossingsrichting zou kunnen zijn om een checker-factory te maken die `optional` heet, en een andere checker als parameter krijgt. `optional` levert een nieuwe checker op, die `true` oplevert als _ofwel_ het veld leeg is, _ofwel_ de megegeven checker `true` oplevert.
+Een oplossingsrichting zou kunnen zijn om een checker-factory te maken die `optional` heet, en een andere checker als parameter krijgt. `optional` levert een nieuwe checker op, die `true` oplevert als _ofwel_ het veld leeg is, _ofwel_ de meegegeven checker `true` oplevert.
 
 :point_right: Maak de `optional(checker)` checker-factory.
 
@@ -330,8 +330,7 @@ const theFormCheckers = {
 }
 ```
 
-Dus met deze `message`-combinator kunnen we _alle_ checkers voorzien van error-messages, ook al kunnen ze dat zelf niet!.  
-_(Een combinator is een functie die andere functies combineert tot nieuwe functies. Het is dus een specifiek soort hogere-orde functie: eentje die een functie als resultaat heeft. `.map()` en `.filter` etc. zijn geen combinatoren. De function-factories die jij gemaakt hebt zijn dat wel)_
+Dus met deze `message`-combinator [Een combinator is een functie die andere functies combineert tot nieuwe functies. Het is dus een specifiek soort hogere-orde functie: eentje die een functie als resultaat heeft. `.map()` en `.filter` etc. zijn geen combinatoren. De function-factories die jij gemaakt hebt zijn dat wel.]{aside} kunnen we _alle_ checkers voorzien van error-messages, ook al kunnen ze dat zelf niet!
 
 ### Stap 8: BONUS
 
