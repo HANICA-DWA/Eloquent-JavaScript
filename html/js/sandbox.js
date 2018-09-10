@@ -147,6 +147,7 @@
       })
 
       this.frame.style.height = "80px"
+      this.frame.style.backgroundColor = "#f0f0f0"
       this.resizeFrame()
       if (output) this.output = output
 

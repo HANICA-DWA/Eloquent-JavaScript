@@ -30,7 +30,26 @@ can be applied in JavaScript.
 
 The core idea in object-oriented programming is to divide programs
 into smaller pieces and make each piece responsible for managing its
-own state. [_state_ uitleggen, checken of de term eerder uitgelegd is in boek]{fixme}
+own state.
+
+{{note
+
+De term 'state' ga je vaker tegenkomen in deze course. Het betekent, grofweg, alle informatie die een programma moet onthouden terwijl het draait. State zit dus meestal in variabelen, maar kan bijvoorbeeld
+ook in een database zitten.
+
+State is niet of nauwelijks scherp te definiëren, dus je kunt uit verschillende bronnen verschillende meningen horen. Want sommige informatie is "meer state" dan andere. Bijvoorbeeld:
+* Een lokale variabele van een functie die maar kort draait is niet echt "state". Daarvoor leeft de variabele te kort, en heeft het te weinig invloed op het latere verloop van het programma.
+* Een productcatalogus in een database van een webshop is ook niet echt "state". Als de catalogus maar weinig of langzaam verandert, en de inhoud heeft weinig effect op het concrete _gedrag_ van het programma, dan is het ook niet echt state, maar meer "data".
+
+Dus als je aan state denkt, denk dan aan informatie,bijgehouden door het programma, die het latere verloop/gedrag van het programma kan/zal gaan beïnvloeden.
+
+De volgende dingen zijn wel voorbeelden van state:
+* De globale variabelen van een programma, mits die af-en-toe veranderen.
+* Veranderingen die je hebt aangevracht in de DOM, zeker als daardoor de dingen die de gebuiker kan doen anders worden.
+* Veranderende informatie in de database die straks gebruikt gaat worden door het programma om beslissingen te namen (b.v. inhoud van winkelwagentje.)
+* En, zoals de auteur de term hier gebruikt: De instantie variabelen van een object, zeker als dat object langer meegaat dat een paar microseconden. De coördinaten en gezondheid van alle SpaceInvaders in het spel is zeker deel van de state van het hele spel.
+
+note}}
 
 This way, some knowledge about the way a piece of the program works
 can be kept _local_ to that piece. Someone working on the rest of the
@@ -48,7 +67,7 @@ implementation.
 {{index "public properties", "private properties", "access control"}}
 
 Such program pieces are modeled using ((object))s. Their interface
-consists of a specific set of ((method))s and properties ["properties" uitleggen in termen van bindings, relatie met objecten en functies]{fixme}. Properties
+consists of a specific set of ((method))s and properties [Denk bij "properties" nu even aan _instantie variabelen_. Later in dit hoofdstuk zal blijken dat je speciale functies kan maken (_getters_ en _setters_) die, voor code buiten een _class_-definitie, lijken op variabelen. Die noemen we ook properties.]{aside}. Properties
 that are part of the interface are called _public_. The others, which
 outside code should not be touching, are called _private_.
 
@@ -148,17 +167,112 @@ normalize.call({coords: [0, 2, 3], length: 5});
 If I had written the argument to `map` using the `function` keyword,
 the code wouldn't work.
 
-{{todo
+{{note
 
-Beter(e) voorbeeld(en) van gebruik arrow-functions om omliggende `this` te kunnen gebruiken.
+Een CWD-achtig voorbeeld van hetzelfde probleem/oplossing is zou over event-handlers kunnen gaan.
 
-todo}}
+Bestudeer de volgend code, en voer 't uit:
 
-{{todo
 
-vingeroefening over betekenis van `this` i.v.m. arow functions.
+```{lang: "text/html"}
+<div id="exampleDiv" style="padding: 20px; background-color: #aaf">
+  <p>Wat zijn de interessantste karakters uit de Harry Potter serie?</p>
+  <ul id="answers">
+  </ul>
+  <p>Klik hier om antwoorden te zien.</p>
+</div>
 
-todo}}
+
+<script>
+  function addAnswers(event) {
+    this.removeChild(this.lastChild);
+    ["Sneep", "Tante Petunia", "Dobby"].forEach( name => {
+      const answerElement = document.createElement("li");
+      answerElement.style.marginLeft = "1em";
+      answerElement.textContent = name;
+      this.appendChild(answerElement);
+    })
+  }
+  document
+     .getElementById("exampleDiv")
+     .addEventListener('click', addAnswers);
+</script>
+
+```
+
+* Als je een functie als event-handler installeert op een DOM element, dan zal de _browser_ je functie
+  aanroepen
+* Omdat de broswer de 'aanroeper' is, is het de browser die bepaalt wat de waarde voor de 'this'-binding zal zijn in jouw event-handler.
+* Browsers geven dan het _DOM-element waarop de event-handler geïnstalleerd_ is mee als `this`.
+
+Onderstaande code gebruikt dat: De event-handler `addAnswers` roept, op regel 1, `this.removeChild(this.lastChild);` aan, om daarmee de "Klik hier..." instructie te verwijderen.
+
+Daarna gebruikt de code de `forEach()`-functie om drie list-items aan de `<div>` toe te voegen. `forEach()` is een hogere-orde functie (eigenlijk een method van array's), en de code die we herhaald uitvoeren is verpakt in een functie.
+
+Omdat die functie _ook gebruikt maakt van `this`_, en het nodig heeft dat dat **dezelfde `this` is als in de omliggende functie** (addAnswers), moet dit wel een arrow functie zijn!
+
+* Omdat we de code die we herhalen als functie aan `forEach()` geven, is het `forEach()` die die herhaal-code aan zal roepen (meerdere keren).
+* Dus `forEach` bepaalt wat de waarde van de `this`-binding zal zijn.
+* In de [documentatie van `forEach()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) kun je terugvinden dat die waarde `undefined` zal zijn.
+
+M.a.w: Als we een 'gewone' functie (gedefinieerd met `function naam() {...}`) aan forEach hadden meegegeven, dan had bovenstaande event-handler de list-items proberen toe te voegen aan `undefined`!
+
+Arrow-functions voorkomen dat. Bij een arrow-function wordt de waarde van `this` _nooit_ bepaald door de aanroepende functie. De waarde van `this` voor een arrow-functie is altijd de waarde van `this` in de omliggende code. En dat is exact wat onze event-handler nodig heeft.
+
+note}}
+
+{{exCode "Arrow functies voor events" "arrows-for-events"
+
+Onderstaande code toont een object dat 'quizComponent', en twee methodes heeft:
+* `render` kan de HTML voor het component in de pagina plaatsen, en
+* `clickHandler` is de functie die de browser moet aanroepen als de gebruiker erop geklikt heeft.
+
+De render-functie werkt. Maar het lukt de browser toch niet om de clickHandler goed aan te roepen. De code draait wel, maar 'this' bevat de verkeerde waarde (welke?), waardoor `this.answer` `undefined` oplevert, in plaats van "Albus Severus".
+
+```{lang: "text/html"}
+<div id="quizDiv" style="padding: 20px; background-color: #aaf">
+Quiz:
+</div>
+
+<script>
+
+const quizComponent1 = {
+  question:     "Hoe heet de jongste zoon van Harry " +
+                "Potter in deel 7 en 8?",
+  answer:       "Albus Severus",
+  render:       function() {
+    const theDiv = document.getElementById("quizDiv")
+    theDiv.innerHTML += `<button>${this.question}</button>`;
+    theDiv.lastChild.addEventListener( "click", this.clickHandler )
+  },
+  clickHandler: function() {
+    alert("Het antwoord is:\n"+ this.answer);
+  }
+}
+
+quizComponent1.render() // render() is een veelgebruikte naam voor functies
+                        // die data omzetten naar graphics (in dit geval
+                        // HTML-elementen in de DOM).
+</script>
+```
+
+**OPDRACHT:** Neem bovenstaande code over in de code-editor hieronder (bovenstaand code-blok kun je niet inleveren), en doe drie dingen:
+1. Voeg nog een quizComponent toe.
+   * Bedenk zelf een vraag en een antwoord,
+   * kopieer de definities voor de twee functies naar het nieuwe object.
+   * Zorg ervoor dat ook voor het nieuwe object de `render()` methode wordt aangeroepen.
+1. Zoek uit wat de waarde van `this` _wel_ is, als de clickHandler wordt aangeroepen. Dien dat antwoord bij de volgende vraag in.
+1. Fix het probleem van de event-handler door een arrow-functie op de goede plek in te zetten.
+
+**PS:** Die laatste stap kan tricky zijn. Als dit je meer dan een kwartier kost, lever dan in wat je hebt. We zullen in de klas bespreken wat de goede oplossing is, en waarom een oplossing die voor sommigen voor-de-hand-liggend is, niet correct is. Ook dat is leerzaam om de rol en werking van arrow functies te begrijpen.
+
+exCode}}
+
+{{exShort "Vervolgvraag" "this-in-eventhandler"
+
+Wat was _wel_ de waarde van `this` in clickHandler (voordat je het prbleem oploste)?
+
+exShort}}
 
 {{id prototypes}}
 
@@ -209,6 +323,15 @@ console.log(Object.getPrototypeOf(Object.prototype));
 As you guess, `Object.getPrototypeOf` returns the prototype of an
 object.
 
+{{note
+
+`getPrototypeOf` ziet er uit als een methode, maar 'Object' (met hoofdletter) is
+een soort klasse in Javascript, en getPrototypeOf is een 'static' methode van die klasse.
+Dat betekent, in de praktijk, dat (in tegenstelling tot gewone methodes), `Object.getPrototypeOf(o)` dus niet werkt op 'Object', maar op de parameter. Je krijgt het prototype van de parameter, niet van
+het ding voor de punt.
+
+note}}
+
 {{index "toString method"}}
 
 The prototype relations of JavaScript objects form a ((tree))-shaped
@@ -221,7 +344,8 @@ It provides a few ((method))s that show up in all objects, such as
 Many objects don't directly have `Object.prototype` as their
 ((prototype)) but instead have another object that provides a different set of
 default properties. Functions derive from `Function.prototype`, and
-arrays derive from `Array.prototype`.
+arrays derive from `Array.prototype`. [Marijn Haverbeke gebruikt hier de term 'derive', maar
+je kunt ook 'inherits' lezen. Protoype-inheritance in Javascript werkt iets anders dan class-based inheritance in talen als Java, PHP of C++, maar het globale idee is hetzelfde.]{aside}
 
 ```
 console.log(Object.getPrototypeOf(Math.max) ==
@@ -261,11 +385,36 @@ A property like `speak(line)` in an object expression is a shorthand way
 of defining a method. It creates a property called `speak` and gives
 it a function as its value.
 
-{{todo
+{{note
+De bovenstaande definitie van `speak` betekent precies hetzelfde als dit:
+```
+let protoRabbit = {
+  speak: function speak(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+  }
+};
+```
+Het verschil zit alleen in schrijfwijze, niet in betekenis. We hadden onze quizComponent
+hierboven ook zo kunnen definieren:
+```
+const quizComponent1 = {
+  question:     "Hoe heet de jongste zoon van Harry?"
+  answer:       "Albus Severus",
+  render() {
+    const theDiv = document.getElementById("quizDiv")
+    theDiv.innerHTML += `<button>${this.question}</button>`;
+    theDiv.lastChild.addEventListener( "click", this.clickHandler )
+  },
+  clickHandler() {
+    alert("Het antwoord is:\n"+ this.answer);
+  }
+}
+```
 
-uitleggen es6 method definities: equiv aan speak: function(line) {…}, maar static props bestaan niet in es6, dit soort defs kunnen alleen in object/class definitions
+Features in programmeertalen die eigenlijk alleen de schrijfwijze van dingen in
+de taal verbeteren, zonder nieuwe betekenis toe te voegen, noemen we **"syntactische suiker"**. Het maakt de taal lekkerder zonder 'm nuttiger te maken. Zometeen, in de sectie _Class Notation_ zullen we een veel belangrijker stuk syntactische suiker tegenkomen.
 
-todo}}
+note}}
 
 The "proto" rabbit acts as a container for the properties that are
 shared by all rabbits. An individual rabbit object, like the killer
@@ -393,7 +542,7 @@ The one named `constructor` is treated specially. It
 provides the actual constructor function, which will be bound to the
 name `Rabbit`. The others are packaged into that constructor's
 prototype. Thus, the earlier class declaration is equivalent to the
-constructor definition from the previous section. It just looks nicer.[uitleggen _syntactic sugar_]{fixme}
+constructor definition from the previous section. It just looks nicer.[Dit is de syntactische suiker]{aside}
 
 {{index ["class declaration", properties]}}
 
@@ -404,11 +553,6 @@ The next version of the language will probably improve this. For now, you
 can create such properties by directly manipulating the
 prototype after you've defined the class.
 
-{{todo
-
-uitleg over es7+ properties en hoe die te gebruiken.
-
-todo}}
 
 {{skip
 
@@ -569,9 +713,7 @@ console.log(ages.has("toString"));
 {{index interface, "set method", "get method", "has method", encapsulation}}
 
 The methods `set`, `get`, and `has` are part of the interface of the
-
-###### ###### ###### ###### ###### ###### ###### ###### ###### `Map` object. Writing a data structure that can quickly update and
-
+`Map` object. Writing a data structure that can quickly update and
 search a large set of values isn't easy, but we don't have to worry
 about that. Someone else did it for us, and we can go through this
 simple interface to use their work.
@@ -582,7 +724,7 @@ If you do have a plain object that you need to treat as a map for some
 reason, it is useful to know that `Object.keys` returns only an
 object's _own_ keys, not those in the prototype. As an alternative to
 the `in` operator, you can use the `hasOwnProperty` method, which
-ignores the object's prototype.
+ignores the object's prototype. [opmerken dat keys, values en entries heel cool zijn met map,forEach etc.]{fixme}
 
 ```
 console.log({x: 1}.hasOwnProperty("x"));
@@ -965,7 +1107,7 @@ _((subclass))_.
 To initialize a `SymmetricMatrix` instance, the constructor calls its
 superclass's constructor through the `super` keyword. This is necessary
 because if this new object is to behave (roughly) like a `Matrix`, it
-is going to need the instance properties that matrices have. 
+is going to need the instance properties that matrices have.
 To ensure the matrix is symmetrical, the constructor wraps the
 `content` method to swap the coordinates for values below the
 diagonal.
@@ -1202,7 +1344,7 @@ hint}}
 
 {{id group_iterator}}
 
-Make the `Group` class from the previous exercise iterable. Refer 
+Make the `Group` class from the previous exercise iterable. Refer
 to the section about the iterator interface earlier in the chapter if
 you aren't clear on the exact form of the interface anymore.
 
