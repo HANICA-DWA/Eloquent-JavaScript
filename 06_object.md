@@ -34,20 +34,35 @@ own state.
 
 {{note
 
-De term 'state' ga je vaker tegenkomen in deze course. Het betekent, grofweg, alle informatie die een programma moet onthouden terwijl het draait. State zit dus meestal in variabelen, maar kan bijvoorbeeld
-ook in een database zitten.
+De term 'state' ga je vaker tegenkomen in deze course. Het betekent, grofweg,
+alle informatie die een programma moet onthouden terwijl het draait. State zit
+dus meestal in variabelen, maar kan bijvoorbeeld ook in een database zitten.
 
-State is niet of nauwelijks scherp te definiëren, dus je kunt uit verschillende bronnen verschillende meningen horen. Want sommige informatie is "meer state" dan andere. Bijvoorbeeld:
-* Een lokale variabele van een functie die maar kort draait is niet echt "state". Daarvoor leeft de variabele te kort, en heeft het te weinig invloed op het latere verloop van het programma.
-* Een productcatalogus in een database van een webshop is ook niet echt "state". Als de catalogus maar weinig of langzaam verandert, en de inhoud heeft weinig effect op het concrete _gedrag_ van het programma, dan is het ook niet echt state, maar meer "data".
+State is niet of nauwelijks scherp te definiëren, dus je kunt uit verschillende
+bronnen verschillende meningen horen. Want sommige informatie is "meer state"
+dan andere. Bijvoorbeeld:
+* Een lokale variabele van een functie die maar kort
+  draait is niet echt "state". Daarvoor leeft de variabele te kort, en heeft het
+  te weinig invloed op het latere verloop van het programma.
+* Een productcatalogus in een database van een webshop is ook niet echt "state".
+  Als de catalogus maar weinig of langzaam verandert, en de inhoud heeft weinig
+  effect op het concrete _gedrag_ van het programma, dan is het ook niet echt
+  state, maar meer "data".
 
-Dus als je aan state denkt, denk dan aan informatie,bijgehouden door het programma, die het latere verloop/gedrag van het programma kan/zal gaan beïnvloeden.
+Dus als je aan state denkt, denk dan aan informatie,bijgehouden door het
+programma, die het latere verloop/gedrag van het programma kan/zal gaan
+beïnvloeden.
 
 De volgende dingen zijn wel voorbeelden van state:
 * De globale variabelen van een programma, mits die af-en-toe veranderen.
-* Veranderingen die je hebt aangevracht in de DOM, zeker als daardoor de dingen die de gebuiker kan doen anders worden.
-* Veranderende informatie in de database die straks gebruikt gaat worden door het programma om beslissingen te namen (b.v. inhoud van winkelwagentje.)
-* En, zoals de auteur de term hier gebruikt: De instantie variabelen van een object, zeker als dat object langer meegaat dat een paar microseconden. De coördinaten en gezondheid van alle SpaceInvaders in het spel is zeker deel van de state van het hele spel.
+* Veranderingen die je hebt aangevracht in de DOM, zeker als daardoor de dingen
+  die de gebuiker kan doen anders worden.
+* Veranderende informatie in de database die straks gebruikt gaat worden door
+  het programma om beslissingen te namen (b.v. inhoud van winkelwagentje.)
+* En, zoals de auteur de term hier gebruikt: De instantie variabelen van een
+  object, zeker als dat object langer meegaat dat een paar microseconden. De
+  coördinaten en gezondheid van alle SpaceInvaders in het spel is zeker deel van
+  de state van het hele spel.
 
 note}}
 
@@ -66,9 +81,12 @@ implementation.
 
 {{index "public properties", "private properties", "access control"}}
 
-Such program pieces are modeled using ((object))s. Their interface
-consists of a specific set of ((method))s and properties [Denk bij "properties" nu even aan _instantie variabelen_. Later in dit hoofdstuk zal blijken dat je speciale functies kan maken (_getters_ en _setters_) die, voor code buiten een _class_-definitie, lijken op variabelen. Die noemen we ook properties.]{aside}. Properties
-that are part of the interface are called _public_. The others, which
+Such program pieces are modeled using ((object))s. Their interface consists of a
+specific set of ((method))s and properties [Denk bij "properties" nu even aan
+_instantie variabelen_. Later in dit hoofdstuk zal blijken dat je speciale
+functies kan maken (_getters_ en _setters_) die, voor code buiten een
+_class_-definitie, lijken op variabelen. Die noemen we ook properties.]{aside}.
+Properties that are part of the interface are called _public_. The others, which
 outside code should not be touching, are called _private_.
 
 {{index "underscore character"}}
@@ -169,7 +187,8 @@ the code wouldn't work.
 
 {{note
 
-Een CWD-achtig voorbeeld van hetzelfde probleem/oplossing is zou over event-handlers kunnen gaan.
+Een CWD-achtig voorbeeld van hetzelfde probleem/oplossing is zou over
+event-handlers kunnen gaan.
 
 Bestudeer de volgend code, en voer 't uit:
 
@@ -200,34 +219,54 @@ Bestudeer de volgend code, en voer 't uit:
 
 ```
 
-* Als je een functie als event-handler installeert op een DOM element, dan zal de _browser_ je functie
+* Als je een functie als event-handler installeert op een DOM element, dan zal
+  de _browser_ je functie
   aanroepen
-* Omdat de broswer de 'aanroeper' is, is het de browser die bepaalt wat de waarde voor de 'this'-binding zal zijn in jouw event-handler.
-* Browsers geven dan het _DOM-element waarop de event-handler geïnstalleerd_ is mee als `this`.
+* Omdat de broswer de 'aanroeper' is, is het de browser die bepaalt wat de
+  waarde voor de 'this'-binding zal zijn in jouw event-handler.
+* Browsers geven dan het _DOM-element waarop de event-handler geïnstalleerd_ is
+  mee als `this`.
 
-Onderstaande code gebruikt dat: De event-handler `addAnswers` roept, op regel 1, `this.removeChild(this.lastChild);` aan, om daarmee de "Klik hier..." instructie te verwijderen.
+Onderstaande code gebruikt dat: De event-handler `addAnswers` roept, op regel 1,
+`this.removeChild(this.lastChild);` aan, om daarmee de "Klik hier..." instructie
+te verwijderen.
 
-Daarna gebruikt de code de `forEach()`-functie om drie list-items aan de `<div>` toe te voegen. `forEach()` is een hogere-orde functie (eigenlijk een method van array's), en de code die we herhaald uitvoeren is verpakt in een functie.
+Daarna gebruikt de code de `forEach()`-functie om drie list-items aan de `<div>`
+toe te voegen. `forEach()` is een hogere-orde functie (eigenlijk een method van
+array's), en de code die we herhaald uitvoeren is verpakt in een functie.
 
-Omdat die functie _ook gebruikt maakt van `this`_, en het nodig heeft dat dat **dezelfde `this` is als in de omliggende functie** (addAnswers), moet dit wel een arrow functie zijn!
+Omdat die functie _ook gebruikt maakt van `this`_, en het nodig heeft dat dat
+**dezelfde `this` is als in de omliggende functie** (addAnswers), moet dit wel
+een arrow functie zijn!
 
-* Omdat we de code die we herhalen als functie aan `forEach()` geven, is het `forEach()` die die herhaal-code aan zal roepen (meerdere keren).
+* Omdat we de code die we herhalen als functie aan `forEach()` geven, is het
+  `forEach()` die die herhaal-code aan zal roepen (meerdere keren).
 * Dus `forEach` bepaalt wat de waarde van de `this`-binding zal zijn.
 * In de [documentatie van `forEach()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) kun je terugvinden dat die waarde `undefined` zal zijn.
 
-M.a.w: Als we een 'gewone' functie (gedefinieerd met `function naam() {...}`) aan forEach hadden meegegeven, dan had bovenstaande event-handler de list-items proberen toe te voegen aan `undefined`!
+M.a.w: Als we een 'gewone' functie (gedefinieerd met `function naam() {...}`)
+aan forEach hadden meegegeven, dan had bovenstaande event-handler de list-items
+proberen toe te voegen aan `undefined`!
 
-Arrow-functions voorkomen dat. Bij een arrow-function wordt de waarde van `this` _nooit_ bepaald door de aanroepende functie. De waarde van `this` voor een arrow-functie is altijd de waarde van `this` in de omliggende code. En dat is exact wat onze event-handler nodig heeft.
+Arrow-functions voorkomen dat. Bij een arrow-function wordt de waarde van `this`
+_nooit_ bepaald door de aanroepende functie. De waarde van `this` voor een
+arrow-functie is altijd de waarde van `this` in de omliggende code. En dat is
+exact wat onze event-handler nodig heeft.
 
 note}}
 
 {{exCode "Arrow functies voor events" "arrows-for-events"
 
-Onderstaande code toont een object dat 'quizComponent', en twee methodes heeft:
+Onderstaande code toont een object dat 'quizComponent' heet, en twee methodes
+heeft:
 * `render` kan de HTML voor het component in de pagina plaatsen, en
-* `clickHandler` is de functie die de browser moet aanroepen als de gebruiker erop geklikt heeft.
+* `clickHandler` is de functie die de browser moet aanroepen als de gebruiker
+  erop geklikt heeft.
 
-De render-functie werkt. Maar het lukt de browser toch niet om de clickHandler goed aan te roepen. De code draait wel, maar 'this' bevat de verkeerde waarde (welke?), waardoor `this.answer` `undefined` oplevert, in plaats van "Albus Severus".
+De render-functie werkt. Maar het lukt de browser toch niet om de clickHandler
+goed aan te roepen. De code draait wel, maar 'this' bevat de verkeerde waarde
+(welke?), waardoor `this.answer` `undefined` oplevert, in plaats van "Albus
+Severus".
 
 ```{lang: "text/html"}
 <div id="quizDiv" style="padding: 20px; background-color: #aaf">
@@ -256,21 +295,29 @@ quizComponent1.render() // render() is een veelgebruikte naam voor functies
 </script>
 ```
 
-**OPDRACHT:** Neem bovenstaande code over in de code-editor hieronder (bovenstaand code-blok kun je niet inleveren), en doe drie dingen:
+**OPDRACHT:** Neem bovenstaande code over in de code-editor hieronder
+(bovenstaand code-blok kun je niet inleveren), en doe drie dingen:
 1. Voeg nog een quizComponent toe.
    * Bedenk zelf een vraag en een antwoord,
    * kopieer de definities voor de twee functies naar het nieuwe object.
-   * Zorg ervoor dat ook voor het nieuwe object de `render()` methode wordt aangeroepen.
-1. Zoek uit wat de waarde van `this` _wel_ is, als de clickHandler wordt aangeroepen. Dien dat antwoord bij de volgende vraag in.
-1. Fix het probleem van de event-handler door een arrow-functie op de goede plek in te zetten.
+   * Zorg ervoor dat ook voor het nieuwe object de `render()` methode wordt
+     aangeroepen.
+1. Zoek uit wat de waarde van `this` _wel_ is, als de clickHandler wordt
+   aangeroepen. Dien dat antwoord bij de volgende vraag in.
+1. Fix het probleem van de event-handler door een arrow-functie op de goede plek
+   in te zetten.
 
-**PS:** Die laatste stap kan tricky zijn. Als dit je meer dan een kwartier kost, lever dan in wat je hebt. We zullen in de klas bespreken wat de goede oplossing is, en waarom een oplossing die voor sommigen voor-de-hand-liggend is, niet correct is. Ook dat is leerzaam om de rol en werking van arrow functies te begrijpen.
+**PS:** Die laatste stap kan tricky zijn. Als dit je meer dan een kwartier kost,
+*lever dan in wat je hebt. We zullen in de klas bespreken wat de goede oplossing
+*is, en waarom een oplossing die voor sommigen voor-de-hand-liggend is, niet
+*correct is. Ook dat is leerzaam om de rol en werking van arrow functies te
+*begrijpen.
 
 exCode}}
 
 {{exShort "Vervolgvraag" "this-in-eventhandler"
 
-Wat was _wel_ de waarde van `this` in clickHandler (voordat je het prbleem oploste)?
+Wat was _wel_ de waarde van `this` in clickHandler (voordat je het probleem oploste)?
 
 exShort}}
 
@@ -326,9 +373,11 @@ object.
 {{note
 
 `getPrototypeOf` ziet er uit als een methode, maar 'Object' (met hoofdletter) is
-een soort klasse in Javascript, en getPrototypeOf is een 'static' methode van die klasse.
-Dat betekent, in de praktijk, dat (in tegenstelling tot gewone methodes), `Object.getPrototypeOf(o)` dus niet werkt op 'Object', maar op de parameter. Je krijgt het prototype van de parameter, niet van
-het ding voor de punt.
+een soort klasse in Javascript, en getPrototypeOf is een 'static' methode van
+die klasse. Dat betekent, in de praktijk, dat (in tegenstelling tot gewone
+methodes), `Object.getPrototypeOf(o)` dus niet werkt op 'Object', maar op de
+parameter. Je krijgt het prototype van de parameter, niet van het ding voor de
+punt.
 
 note}}
 
@@ -341,11 +390,13 @@ It provides a few ((method))s that show up in all objects, such as
 
 {{index inheritance, "Function prototype", "Array prototype", "Object prototype"}}
 
-Many objects don't directly have `Object.prototype` as their
-((prototype)) but instead have another object that provides a different set of
-default properties. Functions derive from `Function.prototype`, and
-arrays derive from `Array.prototype`. [Marijn Haverbeke gebruikt hier de term 'derive', maar
-je kunt ook 'inherits' lezen. Protoype-inheritance in Javascript werkt iets anders dan class-based inheritance in talen als Java, PHP of C++, maar het globale idee is hetzelfde.]{aside}
+Many objects don't directly have `Object.prototype` as their ((prototype)) but
+instead have another object that provides a different set of default properties.
+Functions derive from `Function.prototype`, and arrays derive from
+`Array.prototype`. [Marijn Haverbeke gebruikt hier de term 'derive', maar je
+kunt ook 'inherits' lezen. Protoype-inheritance in Javascript werkt iets anders
+dan class-based inheritance in talen als Java, PHP of C++, maar het globale idee
+is hetzelfde.]{aside}
 
 ```
 console.log(Object.getPrototypeOf(Math.max) ==
@@ -394,8 +445,10 @@ let protoRabbit = {
   }
 };
 ```
-Het verschil zit alleen in schrijfwijze, niet in betekenis. We hadden onze quizComponent
-hierboven ook zo kunnen definieren:
+
+Het verschil zit alleen in schrijfwijze, niet in betekenis. We hadden onze
+quizComponent hierboven ook zo kunnen definieren:
+
 ```
 const quizComponent1 = {
   question:     "Hoe heet de jongste zoon van Harry?"
@@ -412,7 +465,10 @@ const quizComponent1 = {
 ```
 
 Features in programmeertalen die eigenlijk alleen de schrijfwijze van dingen in
-de taal verbeteren, zonder nieuwe betekenis toe te voegen, noemen we **"syntactische suiker"**. Het maakt de taal lekkerder zonder 'm nuttiger te maken. Zometeen, in de sectie _Class Notation_ zullen we een veel belangrijker stuk syntactische suiker tegenkomen.
+de taal verbeteren, zonder nieuwe betekenis toe te voegen, noemen we
+**"syntactische suiker"**. Het maakt de taal lekkerder zonder 'm nuttiger te
+maken. Zometeen, in de sectie _Class Notation_ zullen we een veel belangrijker
+stuk syntactische suiker tegenkomen.
 
 note}}
 
@@ -542,7 +598,8 @@ The one named `constructor` is treated specially. It
 provides the actual constructor function, which will be bound to the
 name `Rabbit`. The others are packaged into that constructor's
 prototype. Thus, the earlier class declaration is equivalent to the
-constructor definition from the previous section. It just looks nicer.[Dit is de syntactische suiker]{aside}
+constructor definition from the previous section. It just looks nicer.
+[Dit is de syntactische suiker!]{aside}
 
 {{index ["class declaration", properties]}}
 
@@ -724,7 +781,7 @@ If you do have a plain object that you need to treat as a map for some
 reason, it is useful to know that `Object.keys` returns only an
 object's _own_ keys, not those in the prototype. As an alternative to
 the `in` operator, you can use the `hasOwnProperty` method, which
-ignores the object's prototype. [opmerken dat keys, values en entries heel cool zijn met map,forEach etc.]{fixme}
+ignores the object's prototype.
 
 ```
 console.log({x: 1}.hasOwnProperty("x"));
@@ -772,6 +829,44 @@ of polymorphism—such loops expect the data structure to expose a
 specific interface, which arrays and strings do. And we can also add
 this interface to your own objects! But before we can do that, we need
 to know what symbols are.
+
+{{note
+
+Hieronder staat een flink stuk dat je mag overslaan. De tekst in dit blok is
+een samenvatting ervan. **Deze samenvatting moet je niet overslaan**!
+
+In de sectie hierboven over _Maps_, schreef Marijn Haverbeke dat waardes in
+objecten opgeslagen moeten worden met een string als veldnaam (_key_). Daar is
+een uitzondering op. Sinds 2015 mogen waardes ook opgeslagen worden onder een
+"geheim nummer". Dat wordt een _symbol_ genoemd. De precieze werking van symbols
+wordt hieronder uitgelegd, maar voor nu is het niet nodig om objecten en classes
+te begrijpen.
+
+De reden waarom Marijn Haverbeke op dit moment over Symbols begint, is om straks
+een hele coole nieuwe feature van Javascript te kunnen beschrijven: _iterators_.
+
+Veel classes zijn datastructuren die meerdere items kunnen bevatten. Denk aan
+arrays, strings, DOM-elementen, objecten, Maps, en meer. Sinds ES2015 kennen
+veel van die classes een feature, toegankelijk via zo'n symbol, om de taal te
+helpen om al die elementen één-voor-één bij langs te gaan. Die feature heet een
+'iterator', en de precieze werking ervan hoeven we nu niet op in te gaan. Maar
+alles wat een iterator kan aanbieden, kan o.a.:
+
+* doorlopen worden met de for-of loop:  
+  `for(item of iterable_object) { ... }`
+* gebruikt worden om een array mee te vullen:  
+  `Array.from( iterable_object )`
+* gebruikt worden in destructuring-assignment:  
+  `[eerste, tweede, ...rest] = iterable_object`
+
+DOM-elementen kunnen nog geen Javascript-iterators leveren (dat komt wellicht in
+de toekomst). Gewone Javascript-objecten hebben geen standaard iterator-feature
+aan boord, waarschijnlijk omdat de meeste Javascript objecten helemaal niet
+bedoeld zijn als verzameling van items.
+
+note}}
+
+{{skip
 
 ## Symbols
 
@@ -976,6 +1071,8 @@ for (let {x, y, value} of matrix) {
 // → 1 1 value 1,1
 ```
 
+skip}}
+
 ## Getters, setters, and statics
 
 {{index interface, property, "Map class"}}
@@ -1054,7 +1151,221 @@ temperature using degrees Fahrenheit.
 
 ## Inheritance
 
+{{note
+
+Deze sectie is heel belangrijk, maar de oorspronkelijke tekst gaat uit van een
+wat wiskundig voorbeeld dat geïntroduceerd werd in het, zojuist overgeslagen,
+stuk over iterators. In dit tekstblok geven we een variant op de tekst van Marijn
+Haverbeke, maar dan met een ander voorbeeld.
+
+Laten we, als alternatief voorbeeld, starten met een class die plaatjes kan
+laten bewegen over de pagina. De class maakt gebruik van de CSS `transform`
+property, omdat dat de [meest soepele animaties
+oplevert](https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/).
+
+De klasse heeft een constructor, die wat informatie opslaat in het object, en
+een DOM-element maakt voor de sprite.
+
+Daarnaast heeft de klasse één methode, `update()` die periodiek aangeroepen moet
+worden om de sprite een nieuwe positie te geven.
+
+Buiten de class-definitie staat code om 4 sprite-objecten aan te maken, en om 30
+keer per seconde alle sprites zichzelf te laten updaten.
+
+Het ge-tover met CSS-positionering etc. hoef je niet te bestuderen.
+
+```{lang: "text/html"}
+<div id="animationDiv" style="position:         relative;
+                              height:           450px;
+                              width:            750px;
+                              background-image: url(https://images2.imgbox.com/77/de/rAvYPqko_o.jpg);
+                              overflow:         hidden;">
+</div>
+
+<script>
+class Sprite { // "Sprite" is een traditionele naam voor
+               // bewegende plaatjes.
+
+  constructor(imageUrl, x, y, xSpeed, ySpeed) {
+    // Bewaar lokatie en snelheid.
+    this.x = x; this.y =y;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+
+    // Maak een <image> element aan voor deze sprite.
+    this.element = document.createElement("img");
+    this.element.src = imageUrl;
+
+    // Zet 'm op de goede plek met CSS transform en translate.
+    this.element.style.transform =
+      `translate( ${this.x}px, ${this.y}px )`;
+
+    // Position:absolute is nodig om bovenstaande translate-truuk
+    // te laten werken.
+    this.element.style.position = 'absolute';
+
+    // voeg de <image> toe aan de <div>
+    document
+      .getElementById("animationDiv")
+      .appendChild(this.element);      
+  }
+
+  update() {
+    // Bereken nieuwe plek.
+    this.x += this.xSpeed;
+    this.y += this.ySpeed;
+
+    // Zet 'm daar neer.
+    this.element.style.transform =
+      `translate( ${this.x}px, ${this.y}px )`;
+  }
+}
+
+const ufos = [
+  // Iedere array bevat parameters voor de Sprite-constructor.
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225,  2, 1 ],
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225, -1, 2 ],
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225,  1,-2 ],
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225, -2,-1 ],
+].map( ufoData => {
+  return new Sprite( ...ufoData )
+})
+// ufos bevat nu een lijst objecten van de Sprite-klasse.
+
+function moveSprites() {
+  ufos.forEach( ufo => ufo.update() )
+}
+
+// setInterval maakt een timer die een functie periodiek aanroept. We roepen
+// 'm nu 30 keer per second aan (om de 33 milliseconden).
+setInterval( moveSprites, 33);
+
+</script>
+
+```
+
+_Gegeven bovenstaande klasse, volgt hieronder een aangepaste versie van de tekst
+van Marijn Haverbeeke:_
+
+Some sprites should be able to bounce back when they hit the edge of their
+container. Perhaps UFO's should bounce, but bullits shouldn't. We could write a
+brand new _BouncingSprite_ class from scratch, but that would involve repeating
+some code very similar to what we already wrote.
+
+JavaScript's prototype system makes it possible to create a _new_
+class, much like the old class, but with new definitions for some of
+its properties. The prototype for the new class derives from the old
+prototype but adds a new definition for, say, the `update` method.
+
+In object-oriented programming terms, this is called
+_((inheritance))_. The new class inherits properties and behavior from
+the old class.
+
+```
+class BouncingSprite extends Sprite {
+
+  constructor( url, x,y, xSpeed, ySpeed ) {
+    super(url,x,y,xSpeed,ySpeed);
+
+    // met een CSS-filter kunnen we deze versie een andere kleur geven  
+    this.element.style.filter = `hue-rotate(120deg)`
+  }
+
+  update() {
+    super.update();
+    if( this.x < 0 || this.x > 650) { // Voorbij linkerrand (0) of
+                                      // rechterrand (650 - image-width).
+        this.xSpeed = -this.xSpeed;   // Draai xSpeed de andere kant op.
+    }
+    if( this.y < 0 || this.y > 415) {
+        this.ySpeed = -this.ySpeed;   
+    }
+  }
+}
+
+const newUfos = [
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225,  1, 2 ],
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225, -2, 1 ],
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225,  2,-1 ],
+  ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225, -1,-2 ]
+].map( ufoData => new BouncingSprite(...ufoData) )
+
+ufos.push(...newUfos);
+```
+
+_[Kopieer deze code even naar het vorige code-blok, onderaan, om het uit te
+proberen. (Dat voorkomt dat we al die code hier moeten herhalen.)]_
+
+The use of the word `extends` indicates that this class shouldn't be
+directly based on the default `Object` prototype but on some other class. This
+is called the _superclass_. The derived class is the
+_subclass_.
+
+To initialize a `BouncingSprite` instance, the constructor calls its
+superclass's constructor through the `super` keyword. This is necessary
+because if this new object is to behave (roughly) like a `Sprite`, it
+is going to need the instance properties that sprites have.
+To make this new kind of sprite look a bit different, the constructor uses a
+CSS-filter to shift the color along the color-wheel.
+
+The `update` method again uses `super` but this time not to call the
+constructor but to call a specific method from the superclass's set of
+methods. We are redefining `update` but do want to use the original
+behavior. Because `this.update` refers to the _new_ `update` method, calling
+that wouldn't work. Inside class methods, `super` provides a way to
+call methods as they were defined in the superclass.
+
+Inheritance allows us to build slightly different data types from
+existing data types with relatively little work. It is a fundamental
+part of the object-oriented tradition, alongside encapsulation and
+polymorphism. But while the latter two are now generally regarded as
+wonderful ideas, inheritance is more controversial.
+
+Whereas encapsulation and polymorphism can be used to _separate_
+pieces of code from each other, reducing the tangledness of the
+overall program, inheritance fundamentally ties classes together,
+creating _more_ tangle. When inheriting from a class, you usually have
+to know more about how it works than when simply using it. Inheritance
+can be a useful tool, and I use it now and then in my own programs,
+but it shouldn't be the first tool you reach for, and you probably
+shouldn't actively go looking for opportunities to construct class
+hierarchies (family trees of classes).
+
+
+## The instanceof operator
+
+
+It is occasionally useful to know whether an object was derived from a
+specific class. For this, JavaScript provides a binary operator called
+`instanceof`.
+
+```
+const ufoData = ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225,  1, 2 ]
+
+console.log(
+  new BouncingSprite(...ufoData) instanceof BouncingSprite);
+// → true
+console.log(new BouncingSprite(...ufoData) instanceof Sprite);
+// → true
+console.log(new Sprite(...ufoData) instanceof BouncingSprite);
+// → false
+console.log([1] instanceof Array);
+// → true
+```
+
+The operator will see through inherited types, so a `BouncingSprite`
+is an instance of `Sprite`. The operator can also be applied to
+standard constructors like `Array`. Almost every object is an instance
+of `Object`.
+
+note}}
+
+{{skip
+
+## Inheritance
+
 {{index inheritance, "matrix example", "object-oriented programming", "SymmetricMatrix class"}}
+
 
 Some matrices are known to be _symmetric_. If you mirror a symmetric
 matrix around its top-left-to-bottom-right diagonal, it stays the
@@ -1163,6 +1474,8 @@ The operator will see through inherited types, so a `SymmetricMatrix`
 is an instance of `Matrix`. The operator can also be applied to
 standard constructors like `Array`. Almost every object is an instance
 of `Object`.
+
+skip}}
 
 ## Summary
 
