@@ -658,6 +658,54 @@ itself can be looked up.
 
 {{figure {url: "img/rabbits.svg", alt: "Rabbit object prototype schema",width: "8cm"}}}
 
+{{youtube esq3iFiEhfo
+
+Bovenstaand diagram laat een hele hoop dingen, die eerder in het boek wel
+beschreven zijn, niet zien in het plaatje. Dat is om het plaatje overzichtelijk
+te houden, maar we willen toch dat je je bewust bent van wat er _echt gebeurt_
+als je met classes, objecten en prototypes werkt. Bekijk deze video. De exercise
+hieronder gaat over het laatste stukje van de video.
+
+youtube}}
+
+{{note
+
+Hier nog even de samenvatting uit de video, en [een link naar de afbeelding](https://dwa-courses.firebaseapp.com/img/memory_model/chap06/Rabbit_memory_model.png):
+
+**In JavaScript:**
+
+1. …**zijn class-definities eigenlijk functie-definities**(de functie-code is de code van de constructor)
+1. …**methode-definities worden in een ander object gestopt.** Dat object zal het prototype zijn van instanties van die klasse
+1. …instanties hebben een veld dat **`__proto__` heet, waarmee ze hun prototype uitlezen**.
+1. …prototype-objecten zijn gewone JS-objecten, en **hebben zelf ook weer een prototype**.
+1. …functies zijn ‘ongewone’ objecten (hebben code), maar **functies hebben ook gewoon een prototype**, dat ze ook met `__proto__` aanwijzen.
+1. …**constructor-functies hebben nog een veld: “`prototype`”**. Dat wijst het object aan dat prototype gaat worden van nieuwe objecten die die constructor maakt.
+
+
+
+
+note}}
+
+{{exShort "Wat is het prototype van `Function.prototype`?" "__proto__ van Function.prototype"
+
+In het diagram dat in de video wordt getoond, verschijnen op het laatst twee
+objecten: de `Function` constructor en `Function.prototype`. Van beide blokjes
+is het `__proto__` veld leeg en groen.
+
+Deze vraag focust op het rechter-blockje: `Function.prototype`. _Naar welk object wijst
+dit veld?_ M.a.w: wat is het prototype van `Function.prototype`?
+
+exShort}}
+
+
+{{exShort "Wat is het prototype van `Function`?" "__proto__ van Function()"
+
+Dezelfde vraag voor het andere groene veld in het diagram. Dit gaat dus over de `Function`-constructor. *Naar welk object wijst
+het `__proto__` veld?*  M.a.w: wat is het prototype van `Function`?
+
+exShort}}
+
+
 {{index "shared property"}}
 
 Overriding properties that exist in a prototype can be a useful thing
@@ -1149,6 +1197,47 @@ their name are stored on the constructor. So the `Temperature` class
 allows you to write `Temperature.fromFahrenheit(100)` to create a
 temperature using degrees Fahrenheit.
 
+{{note
+
+Voor de volgende twee vragen pak je even het [diagram van de video]((https://dwa-courses.firebaseapp.com/img/memory_model/chap06/Rabbit_memory_model.png)) erbij.
+
+Stel dat we de klasse `Rabbit` een nieuwe _static_ methode `mate` erbij geven:
+```
+class Rabbit {
+  constructor(type) {
+    this.type = type;
+  }
+  speak(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+  }
+  static mate(rabbit1, rabbit2) {
+    return new Rabbit( rabbit1.type + "-" + rabbit2.type)
+  }
+}
+
+let killerRabbit = new Rabbit("killer");
+let blackRabbit = new Rabbit("black");
+
+let babyRabbit  = Rabbit.mate( blackRabbit, killerRabbit )
+babyRabbit.speak("dada") // "The black-killer rabbit says 'dada'"
+
+```
+Beantwoord de volgende twee vragen over deze nieuwe static functie:
+
+note}}
+
+{{exShort "Is `mate` ook een constructor functie?"  "mate a constructor?"
+
+exShort}}
+
+{{exShort "Waar wordt-ie opgeslagen?" "mate-in-memorymodel" 
+
+Als je deze `mate` methode in het diagram zou plaatsen, dan teken je (1) een nieuw blokje voor de functiedefinitie, en (2) een pijl van een ander blokje naar de nieuwe functiedefinitie.
+
+Vanuit welk blokje loopt de verwijzing (pijl) naar de nieuwe functie?
+ 
+exShort}}
+
 ## Inheritance
 
 {{note
@@ -1232,13 +1321,16 @@ const ufos = [
 })
 // ufos bevat nu een lijst objecten van de Sprite-klasse.
 
-function moveSprites() {
-  ufos.forEach( ufo => ufo.update() )
-}
+
 
 // setInterval maakt een timer die een functie periodiek aanroept. We roepen
 // 'm nu 30 keer per second aan (om de 33 milliseconden).
+function moveSprites() {
+  ufos.forEach( ufo => ufo.update() )
+}
 setInterval( moveSprites, 33);
+
+/* insert here */
 
 </script>
 
@@ -1290,10 +1382,10 @@ const newUfos = [
   ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225, -1,-2 ]
 ].map( ufoData => new BouncingSprite(...ufoData) )
 
-ufos.push(...newUfos);
+ufos.push(...newUfos); // add new ufos to existing array of sprites.
 ```
 
-_[Kopieer deze code even naar het vorige code-blok, onderaan, om het uit te
+_[Kopieer deze code even naar het vorige code-blok, onderaan bij `/* insert here */`, om het uit te
 proberen. (Dat voorkomt dat we al die code hier moeten herhalen.)]_
 
 The use of the word `extends` indicates that this class shouldn't be
@@ -1304,7 +1396,7 @@ _subclass_.
 To initialize a `BouncingSprite` instance, the constructor calls its
 superclass's constructor through the `super` keyword. This is necessary
 because if this new object is to behave (roughly) like a `Sprite`, it
-is going to need the instance properties that sprites have.
+is going to  need the instance properties that sprites have.
 To make this new kind of sprite look a bit different, the constructor uses a
 CSS-filter to shift the color along the color-wheel.
 
@@ -1340,7 +1432,8 @@ specific class. For this, JavaScript provides a binary operator called
 `instanceof`.
 
 ```
-const ufoData = ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 350,225,  1, 2 ]
+const ufoData = ["https://images2.imgbox.com/90/61/bP8foIzS_o.png", 
+                 350,225,  1, 2 ]
 
 console.log(
   new BouncingSprite(...ufoData) instanceof BouncingSprite);
@@ -1359,6 +1452,7 @@ standard constructors like `Array`. Almost every object is an instance
 of `Object`.
 
 note}}
+
 
 {{skip
 
