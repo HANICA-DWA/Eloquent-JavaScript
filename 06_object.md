@@ -307,11 +307,11 @@ quizComponent1.render() // render() is een veelgebruikte naam voor functies
 1. Fix het probleem van de event-handler door een arrow-functie op de goede plek
    in te zetten.
 
-**PS:** Die laatste stap kan tricky zijn. Als dit je meer dan een kwartier kost,
-*lever dan in wat je hebt. We zullen in de klas bespreken wat de goede oplossing
-*is, en waarom een oplossing die voor sommigen voor-de-hand-liggend is, niet
-*correct is. Ook dat is leerzaam om de rol en werking van arrow functies te
-*begrijpen.
+**PS:** Die laatste stap kan tricky zijn. Als dit je _meer dan een kwartier_ kost,
+**lever dan in wat je hebt**. We zullen in de klas bespreken wat de goede oplossing
+is, en waarom een oplossing die voor sommigen voor-de-hand-liggend is, niet
+correct is. Ook dat is leerzaam om de rol en werking van arrow functies te
+begrijpen.
 
 exCode}}
 
