@@ -74,7 +74,7 @@ Laten we afspreken dat zowel de voornaam als de achternaam:
 :point_right: Schrijf, in de file `main.js`, een checker-functie voor de naam-lengte (min 3; max 20). Checker-functies krijgen één parameter (de waarde die gechecked moet worden), en leveren een boolean (true/false) op om aan te geven of de waarde valide is. [Deze opdracht maak je in je lokale kopie van de je persoonlijke CWD repo. Straks, als je alle opdrachten hebt gedaan, lever je je hele werk in één keer in door te committen naar je persoonlijke Github, en de commit-URL via deze pagina in te leveren.]{aside}
 
 
-:point_right: pas `theFormCheckers` in de functie `initializeApp` aan, zodat de nieuwe checker gebruikt wordt voor de voornaam en de achternaam invoervelden.
+:point_right: pas `theFormCheckers` in de functie `initializeApp` aan, zodat de nieuwe checker gebruikt wordt voor de voornaam en de achternaam invoervelden.[Je kunt (nu nog) niet twee checkers combineren voor hetzelfde formulierveld. Dat komt straks, in stap 4. Voor nu _vervang_ je `isRequired` met je nieuwe checker.]{aside}
 
 :point_right: controleer dat je code werkt.
 
@@ -100,10 +100,10 @@ _Dit is de checker-variant op een function-factory. Een "checker-factory" :-)_
 
 ```dontedit
 const theFormCheckers = {
-  voornaam:   hasMaxLength(20)
-  achternaam: hasMaxLength(20),  
-  postcode:   isaPostCode,   
-  huisnummer: isRequired
+  voornaam:   hasMaxLength(10),  // om te testen, een andere waarde dan 20
+  achternaam: hasMaxLength(15),  // om te testen, een andere waarde dan 20 of 10 
+  postcode:   isaPostCode,
+  huisnummer: isRequired,
 };
 ```
 
@@ -119,7 +119,7 @@ Als een hogere-orde _functie_ een functie is die functies als waardes gebruikt, 
 
 We zouden graag de twee nieuwe checkers willen kunnen combineren, zodat beide checks `true` moeten opleveren om de invoer in het veld valide te vinden.
 
-:point_right: Maak een `checkBoth(checker1, checker2)` functie, die z'n twee parameters loslaat op de invoerwaarde, en alleen `true` terugkeert als _beide_ checkers ook `true` opleveren. (Een soort AND-operatie, dus).
+:point_right: Maak een `checkBoth(checker1, checker2)` functie, die (net als hasMaximumLength) een checker-factory is. Hij returnt een nieuwe checker-functie. Die _gereturnde checkerfunctie_ laat `checker1`, `checker2` los op de invoerwaarde, en returnt alleen `true` als _beide_ checkers ook `true` opleveren. (Een soort AND-operatie, dus).
 
 We zouden de nieuwe checker-combinator zo moeten kunnen gebruiken:
 
