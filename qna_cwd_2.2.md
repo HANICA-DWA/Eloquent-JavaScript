@@ -1,4 +1,4 @@
-# Optionele Q & A voor CWD assignment 2.1
+# Q & A over classes, prototypes en objects
 
 Gebruik deze Q & A pagina voor vragen over [_Chapter 6 - The Secret Life of Objects_](https://dwa-courses.firebaseapp.com/06_object.html) van "Eloquent Javascript".
 
