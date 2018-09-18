@@ -1,4 +1,4 @@
-# Q & A voor SWD sessie 3.1
+# Q & A voor SWD sessie 4.2
 
 Gebruik deze Q & A pagina voor de (minstens twee) vragen over de de voorbereidingen voor sessie 4.2:
 
