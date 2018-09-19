@@ -104,7 +104,7 @@ exports.transformTokens = function(tokens, options) {
       do { i++ } while (tokens[i].type != "meta_hint_close")
     } else if (type == "meta_if_close" || (options.index === false && (type == "meta_indexsee" || type == "meta_index"))) {
       // Drop
-    } else if (tok.tag == "h1" && options.takeTitle) {
+    } else if (tok.tag == "h1" && options.takeTitle && !meta.title) {
       // if (tokens[i + 1].children.length != 1) {
       //   console.error("===== Complex H1", tok, tokens[i+1]);
       //   throw new Error("Complex H1 not supported")
@@ -116,7 +116,7 @@ exports.transformTokens = function(tokens, options) {
       if (type == "paragraph_open")
         tok.hashID = "p_" + hash(startAndEnd(childrenText(tokens[i + 1])))
       else if (type == "heading_open")
-        tok.hashID = (tok.tag == "h2" ? "h_" : "i_") + hash(childrenText(tokens[i + 1]))
+        tok.hashID = (tok.tag == "h2" || tok.tag == "h1" ? "h_" : "i_") + hash(childrenText(tokens[i + 1]))
       else if (type == "fence")
         tok.hashID = "c_" + hash(tok.content)
 
