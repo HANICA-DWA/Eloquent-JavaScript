@@ -1,4 +1,4 @@
-# Q & A over React Boek (hoodfstuk 1 en 2)
+# Q & A over React Boek (hoofdstuk 1 en 2)
 
 Gebruik deze Q & A pagina voor vragen over hoofstuk 1 en 2 van _Pro React_ van Cássio de Sousa Antonio.
 
