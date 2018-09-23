@@ -4,7 +4,7 @@
 Create the preferences forms as it was shown in class. In the preparations folder you'll find some HTML and CSS that you can copy.
 
 ![RrHN with preferences](https://images2.imgbox.com/71/42/cIbhBW58_o.png)
-_Notice the gear-icon ⚙️ in the header of the left-column.  
+_Notice the gear-icon_ ⚙️ _in the header of the left-column.  
 Please ignore the "Mark all items as seen" button and the different colors of the titles in the left-hand column. That will be the next task._
 
 ### Step 6: Add a component for the Preferences Dialog.
