@@ -47,7 +47,7 @@ curl --request PUT --header 'Content-Type:text/plain' --data 'seen'  localhost:3
 
 👉 Now look at the itemStatuses again:
 ```sh
-curl http://localhost:3000/item-statuses
+curl http://localhost:3000/itemStatuses
 ```
 
 **Note:** the datastructure is different from a regular REST request. Examine the difference.  
