@@ -60,7 +60,7 @@ exLong}}
 
 ## Optionele Q & A
 
-{{qna "swd-4.2" 0
+{{qna "swd-5.2" 0
 
 qna}}
 
