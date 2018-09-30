@@ -1,4 +1,4 @@
-# Client-side routing gebruiken
+# Workshop Client-side Routing
 
 Om het gebruiken van client-side routing te oefenen in een praktische context, gaan we een bestaande React appplicatie voorzien van [React Router](https://reacttraining.com/react-router/). Met de bestaande applicatie kun je vertragingen op treintrajecten bijhouden; niet echt heel nuttig om met de hand te doen, maar we hebben iets om van client-side routing te voorzien 😉. Je hoeft dus niet helemaal vanaf scratch te beginnen en kunt je focussen op het toevoegen van de React Router code.
 
@@ -276,10 +276,104 @@ Onder water gebruikt React Router gewone `<a>` hyperlinks om in de browser weer 
 
 note}}
 
-<!--
-## Stap 7: Actieve links weergeven met `<NavLink>`
+## Stap 7: Actieve links anders weergeven
 
-## Stap 8: Inclusive and exclusive routing and catching 404's
+Momenteel wordt de huidige route wel weergegeven in de URL balk van de browser, maar nog niet in het navigatie menu in de applicatie. Dit komt omdat `<Link>` componenten alleen de URL aanpassen en eventuele `<Route>` componenten... maar niet de hyperlinks zelf. Om dit te bereiken moet je gebruik naken van het `<NavLink>` component van React Router.
+
+👉🏻 Vervang overal in het bestand `NavBar.js` het gebruik van `<Link>...</Link>` naar `<NavLink>...</NavLink>`. Uiteraard moet je ook het `import` statement aanpassen.
+
+Nu zal elke link waarvan het pad (gedeeltelijk) overeenkomt met de browser URL de extra CSS classname `active` krijgen. Je kunt dit zelf bekijken door in de browser mbv Developer Tools de html elementen te inspecteren.
+
+👉🏻 Omdat we nog niks in het `index.css` bestand hebben aangepast zul je ook nog geen effect van de `<NavLink>` zien. Voeg daarom de volgende code toe in `index.css`:
+
+```css
+a.active,
+a.active:hover {
+  color: mediumblue;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+```
+
+{{note
+
+Standaard gebruikt het `NavLink` component de CSS classname `active` waardoor we er op die manier in de CSS naar verwijzen. Aangezien het hier om een classname gaat gebruiken we in de CSS code `.active`. Dit is iets anders dan de `:active` pseudo-class voor hyperlinks (zie [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/:active))
+
+Met de `activeClassName` property van `<NavLink>` kun je zelf een andere naam voor de CSS classname opgeven. Bijvoorbeeld:
+
+```jsx
+<NavLink activeClassName="your-style-name">Click here</NavLink>
+```
+
+en in je CSS bestand
+
+```css
+.your-style-name {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+```
+
+note}}
+
+{{exShort "Vraag:" "ReactTutorial-vraag-7"
+
+Momenteel kan het in de applicatie voorkomen dat er twee hyperlinks als actief worden gemarkeerd; bijvoorbeeld als je naar de **Delays** pagina navigeert.
+
+Waarom is dit zo? En hoe lossen we dit op?
+
+Tip: in stap 5 zijn we een soortgelijk probleem tegengekomen.
+
+exShort}}
+
+## Stap 8: Inclusieve en exclusieve routes
+
+Standaard wordt elke `<Route>` die overeenkomt met de URL geactiveerd (render); dit noemen ze _inclusive_ routing. Soms wil je echter _exclusive_ routing: slechts één `<Route>` wordt geactiveerd, en alle overige `<Route>`'s worden uitgesloten.
+Dit komt heel handig van pas als je een `<Route>` hebt die geactiveerd moet worden, _als_ alle andere `<Route>`'s niet overeenkomen. Eigenlijk hetzelfde gedrag als een `default` in een `switch` statement, of de laatste `else` in een `if ... else if ... else` statement.
+
+Exclusieve routes voegen we toe door gebruik te maken van het `<Switch>` component van React Router. Dit zorgt ervoor dat slechts één `<Route>` geactiveerd wordt; zodra de eerste `<Route>` waarvan het `path` overeenkomt met de URL gevonden is, wordt de rest van de `<Route>` componenten niet meer gecontroleerd.
+
+Een goed voorbeeld hiervan is een `404` of `Page not Found` component, welke natuurlijk alleen getoond moet worden als geen enkele route - die daarvoor geprobeerd is - overeenkomt.
+
+👉🏻 Voeg in `App.js` een import toe van het `<Switch>` component uit `react-router-dom`:
+
+👉🏻 Voeg nu het `<Switch>` component rondom alle bestaande routes:
+
+```jsx
+<Router>
+  <div className="app">
+    <NavBar />
+
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/account" component={Account} />
+      <Route path="/login" component={Login} />
+    </Switch>
+  </div>
+</Router>
+);
+```
+
+👉🏻 In de allereerste code hadden we al een `<NotFound>` component (uit het bestand `NotFound.js`) die getoond wordt als de URL een pad bevatte dat niet overeen kwam met onze routes. Voeg deze toe als `<Route>` binnen het `<Switch>` blok.
+
+{{exShort "Vraag:" "ReactTutorial-vraag-8-1"
+
+Wat is de waarde van `path` voor deze nieuwe `<Route component={NotFound} />`?
+
+Zoek het eventueel op in de [officiële documentatie](https://reacttraining.com/react-router/web/api/Route) van React Router.
+
+exShort}}
+
+{{exShort "Vraag:" "ReactTutorial-vraag-8-1"
+
+Op welke plek binnen het `<Switch>` blok moet deze nieuwe `<Route component={NotFound} />` toegevoegd worden?
+
+exShort}}
+
+👉🏻 Verander in de browser nu de URL naar bijvoorbeeld `localhost:3000/foo` of `localhost:3000/about/contact`. Controleer dat nu het `<NotFound>` component getoond wordt.
+
+<!--
 
 ## Stap 9: Nested routes
 
