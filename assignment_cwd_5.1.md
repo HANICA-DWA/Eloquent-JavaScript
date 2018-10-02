@@ -1,6 +1,6 @@
 # Workshop Client-side Routing
 
-Om het gebruiken van client-side routing te oefenen in een praktische context, gaan we een bestaande React appplicatie voorzien van [React Router](https://reacttraining.com/react-router/). Met de bestaande applicatie kun je vertragingen op treintrajecten bijhouden; niet echt heel nuttig om met de hand te doen, maar we hebben iets om van client-side routing te voorzien 😉. Je hoeft dus niet helemaal vanaf scratch te beginnen en kunt je focussen op het toevoegen van de React Router code.
+Om het gebruiken van client-side routing te oefenen in een praktische context, gaan we een bestaande React applicatie voorzien van [React Router](https://reacttraining.com/react-router/). Met de bestaande applicatie kun je vertragingen op treintrajecten bijhouden; niet echt heel nuttig om met de hand te doen, maar we hebben iets om van client-side routing te voorzien 😉. Je hoeft dus niet helemaal vanaf scratch te beginnen en kunt je focussen op het toevoegen van de React Router code.
 
 ![RRT-app](https://i.imgur.com/RHarMRV.png)
 
@@ -352,7 +352,6 @@ Een goed voorbeeld hiervan is een `404` of `Page not Found` component, welke nat
     </Switch>
   </div>
 </Router>
-);
 ```
 
 👉🏻 In de allereerste code hadden we al een `<NotFound>` component (uit het bestand `NotFound.js`) die getoond wordt als de URL een pad bevatte dat niet overeen kwam met onze routes. Voeg deze toe als `<Route>` binnen het `<Switch>` blok.
@@ -365,7 +364,7 @@ Zoek het eventueel op in de [officiële documentatie](https://reacttraining.com/
 
 exShort}}
 
-{{exShort "Vraag:" "ReactTutorial-vraag-8-1"
+{{exShort "Vraag:" "ReactTutorial-vraag-8-2"
 
 Op welke plek binnen het `<Switch>` blok moet deze nieuwe `<Route component={NotFound} />` toegevoegd worden?
 
