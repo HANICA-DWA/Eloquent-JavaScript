@@ -1,6 +1,6 @@
 # Q & A over Redux video's
 
-Gebruik deze Q & A pagina voor vragen over [_Workshop Client-side Routing_](https://dwa-courses.firebaseapp.com/assignment_cwd_5.1.html).
+Gebruik deze Q & A pagina voor vragen over [_de Redux video's_](https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBbSLZjvleMwldX8jGgXV6a).
 
 {{note
 
