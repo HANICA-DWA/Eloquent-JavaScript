@@ -33,6 +33,8 @@
 /book.epub
 /book.mobi
 
+/db-exports/*
+
 .DS_Store
 \.firebase/
 /firebase-debug.log

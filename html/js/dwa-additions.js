@@ -787,10 +787,13 @@ async function renderQnAResults() {
   let allQuestions = await Promise.all( allQuestionPromises )
 
   // create a flat list of all questions, each question augmenten with student githubName
-
   allQuestions = allQuestions.reduce( (list, snapshot,idx) => {
     const studentName = snapshot.ref.parent.key
-    let studentQuestions = snapshot.val() || []
+    // Students don't always answer all quesions, so the array may have empty spots.
+    // Sometimes, Firebase will even return an object instead of an array, because the empty
+    // spots prevent is from recognizing the set of key/value pairs as beonging to an array. 
+    // Object.values() will convert all these situations to an array without empty spots. 
+    let studentQuestions = Object.values( snapshot.val()||[] ) 
     studentQuestions = studentQuestions.filter( q => q.question != "" );
     if(studentQuestions.length == 0) {
       list.push( {studentName} )  // students without questions should appear in list
