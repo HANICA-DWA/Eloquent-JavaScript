@@ -81,7 +81,7 @@ Which important design decision do you need to make when designing a MongoDB dat
 
 exLong}}
 
-## Preparation 1: Embed or Link
+## Preparation 5: Embed or Link
 
 {{exLong "embed or link 1" "embed or link 1"
 
@@ -129,7 +129,7 @@ exLong}}
 
 exLong}}
 
-## Preparation 5: Q & A
+## Preparation 6: Q & A
 
 Gebruik deze Q & A pagina voor de (minstens één) vraag over de de voorbereidingen voor sessie 6.1:
 
