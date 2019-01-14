@@ -1,26 +1,19 @@
-# Assignment Unit 6: MongoDB & Express
+# ICA Adventure in Mongoose
 
-{{exCommit "Assignment Unit 6 C1" "Assignment Unit 6 C1"
+{{exCommit "Assignment 7A" "Assignment 7A"
 
-
-exCommit}}
-
-{{exCommit "Assignment Unit 6 C2" "Assignment Unit 6 C2"
-
+Zie preparation 2 van session 7-1 in de README van unit 7 voor een volledige beschrijving van deze opdracht.
 
 exCommit}}
 
-{{exCommit "Assignment Unit 6 C3" "Assignment Unit 6 C3"
+{{exCommit "Assignment 7B" "Assignment Unit 7B"
 
-
-exCommit}}
-
-{{exCommit "Assignment Unit 6 C4" "Assignment Unit 6 C4"
-
+Zie Classroom Activities van session 7-1 in de README van unit 7 voor een volledige beschrijving van deze opdracht.
 
 exCommit}}
 
-{{exCommit "Assignment Unit 6 C5" "Assignment Unit 6 C5"
+{{exCommit "Assignment 7C" "Assignment Unit 7C"
 
+Zie Classroom Activities van session 7-1 in de README van unit 7 voor een volledige beschrijving van deze opdracht.
 
 exCommit}}
