@@ -61,6 +61,7 @@ What name does MongoDB use for specifying the fields you want to return from a `
 
 exShort}}
 
+
 ## Preparation 4: MongoDB
 
 {{exLong "preparation 4B1" "preparation 4B1"
@@ -81,53 +82,7 @@ Which important design decision do you need to make when designing a MongoDB dat
 
 exLong}}
 
-## Preparation 1: Embed or Link
 
-{{exLong "embed or link 1" "embed or link 1"
-
-```
-+-------------------+          +-------------------+
-|     Employee      |          |      Resume       |
-+-------------------+          +-------------------+
-| _id: ObjectID     |          | _id: ObjectID     |
-| name: String      |          | jobs: []          |
-+-------------------+          | education: []     |
-                               | skills: []        |
-                               +-------------------+
-```
-
-exLong}}
-
-{{exLong "embed or link 2" "embed or link 2"
-
-```
-+-------------------+          +-------------------+
-|     Character     |          |     Location      |
-+-------------------+          +-------------------+
-| _id: ObjectID     |          | _id: ObjectID     |
-| name: String      |          | name: String      |
-| race: String      |          +-------------------+
-| class: String     |
-+-------------------+
-```
-
-exLong}}
-
-{{exLong "embed or link 3" "embed or link 3"
-
-```
-+-------------------+         +-------------------+
-|      Student      |         |     Semester      |
-+-------------------+         +-------------------+
-| _id: ObjectID     |         | _id: String       |
-| name: String      |         | name: String      |
-| address: String   |         | credits: String   |
-| e-mail: String    |         +-------------------+
-| phones: []        |
-+-------------------+
-```
-
-exLong}}
 
 ## Preparation 5: Q & A
 
@@ -136,5 +91,6 @@ Gebruik deze Q & A pagina voor de (minstens één) vraag over de de voorbereidin
 Voer hieronder je Q&A bijdrage in.
 
 {{qna "swd-6.1" 1
+
 
 qna}}
