@@ -1,19 +1,19 @@
 # ICA Adventure in Mongoose
 
-{{exCommit "Assignment 7A" "Assignment 7A"
+{{exCommit "Assignment 6A" "Assignment 6A"
 
-Zie preparation 2 van session 7-1 in de README van unit 7 voor een volledige beschrijving van deze opdracht.
-
-exCommit}}
-
-{{exCommit "Assignment 7B" "Assignment Unit 7B"
-
-Zie Classroom Activities van session 7-1 in de README van unit 7 voor een volledige beschrijving van deze opdracht.
+Zie preparation 2 van session 6-2 in de README van unit 6 voor een volledige beschrijving van deze opdracht.
 
 exCommit}}
 
-{{exCommit "Assignment 7C" "Assignment Unit 7C"
+{{exCommit "Assignment 6B" "Assignment Unit 6B"
 
-Zie Classroom Activities van session 7-1 in de README van unit 7 voor een volledige beschrijving van deze opdracht.
+Zie Classroom Activities van session 6-2 in de README van unit 6 voor een volledige beschrijving van deze opdracht.
+
+exCommit}}
+
+{{exCommit "Assignment 6C" "Assignment Unit 6C"
+
+Zie Classroom Activities van session 6-2 in de README van unit 6 voor een volledige beschrijving van deze opdracht.
 
 exCommit}}
