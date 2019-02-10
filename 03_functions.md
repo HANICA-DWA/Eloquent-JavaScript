@@ -1418,20 +1418,6 @@ exShort}}
 {{exShort "Pure or not (I)" "Pure or not I"
 
 ```js
-let name = ''
-function pureOrNot(name) {
-    name = name.toUpperCase();
-    return `hello ${name}`;
-    
-}
-pureOrNot('han');
-```
-
-exShort}}
-
-{{exShort "Pure or not (J)" "Pure or not J"
-
-```js
 function getHan() {
     return 'han';
 }
@@ -1452,7 +1438,7 @@ value. When used as a statement, it can be used to declare a binding
 and give it a function as its value. Arrow functions are yet another
 way to create functions.
 
-```
+```js
 // Define f to hold a function value
 const f = function(a) {
   console.log(a + 2);
