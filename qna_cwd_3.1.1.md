@@ -1,7 +1,6 @@
 # Q & A over Tools en Modules voor Client-Side Apps
 
-Gebruik deze Q & A pagina voor vragen over de twee video's end e text:
-* video: [Preprocessing Javascript Apps](https://youtu.be/MJJ3tB3ejCA)
+Gebruik deze Q & A pagina voor vragen over de video en de text:
 * video: [Create-React-App](https://youtu.be/_qeOhgW7MLg)
 * text: [An Intro To Using npm and ES6 Modules for Front End Development](https://wesbos.com/javascript-modules/)
 

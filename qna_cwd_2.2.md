@@ -1,6 +1,8 @@
 # Q & A over classes, prototypes en objects
 
-Gebruik deze Q & A pagina voor vragen over [_Chapter 6 - The Secret Life of Objects_](https://dwa-courses.firebaseapp.com/06_object.html) van "Eloquent Javascript".
+Gebruik deze Q & A pagina voor vragen over 
+1. [_Chapter 6 - The Secret Life of Objects_](https://dwa-courses.firebaseapp.com/06_object.html) van "Eloquent Javascript".
+2. De [video "preprocessingJS"](https://youtu.be/MJJ3tB3ejCA) over Javascript-uitbreidingen en -tools.
 
 {{note
   
