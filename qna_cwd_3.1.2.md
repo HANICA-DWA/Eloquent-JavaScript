@@ -13,6 +13,6 @@ Is er iets dat je niet begrijpt? Is er iets dat je vreemd, stom of verrassend vi
 note}}
 
 
-{{qna "cwd-3.2" 2
+{{qna "cwd-3.1.2" 2
 
 qna}}
