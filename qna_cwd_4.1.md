@@ -1,6 +1,13 @@
-# Q & A over React Boek (hoofdstuk 2 en 3)
+# Q & A over React Docs
 
-Gebruik deze Q & A pagina voor vragen over hoofstuk 2 en 3 van _Pro React_ van Cássio de Sousa Antonio.
+Gebruik deze Q & A pagina voor vragen over de volgende pagina's van de React documentatie:
+
+* [Forms](https://reactjs.org/docs/forms.html)
+* [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
+* [Composition vs Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html)
+* [Thinking In React](https://reactjs.org/docs/thinking-in-react.html)
+en
+* [JSX in Depth](https://reactjs.org/docs/jsx-in-depth.html)
 
 {{note
   
