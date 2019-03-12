@@ -4,7 +4,7 @@ Om het gebruiken van client-side routing te oefenen in een praktische context, g
 
 ![RRT-app](https://i.imgur.com/RHarMRV.png)
 
-In de `SWD` repo in de folder `unit05 - Advanced React/session5.1/workshop` kun je de code van de applicatie vinden.
+In de `CWD` repo in de folder `unit05 - Advanced React/session5.1/workshop` kun je de code van de applicatie vinden.
 
 ## Stap 1: De voorbeeld applicatie
 
