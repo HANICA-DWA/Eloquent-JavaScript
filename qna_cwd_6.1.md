@@ -1,7 +1,14 @@
-# Q & A over Redux hoofdstuk
+# Q & A over Redux Basic Tutorial
 
-Gebruik deze Q & A pagina voor vragen over [replacement chapter that uses Redux ](http://www.pro-react.com/materials/ch06-alt-redux.pdf).
+Gebruik deze Q & A pagina voor minstens één vraag over [Basic Redux Tutorial](https://redux.js.org/basics/basic-tutorial).
 
-{{qna "cwd-6.1" 2
+
+{{note
+Dit is een _halve_ Q&A. Als je geen inspiratie hebt is één vraag voldoende, deze keer.
+
+note}}
+
+
+{{qna "cwd-6.1" 1
 
 qna}}

@@ -1,13 +1,10 @@
-# Q & A over Redux hoofdstuk
+# Q & A over Redux
 
-Gebruik deze Q & A pagina voor vragen over de sectie _"Asynchronous Action Creators"_ tot **en met** de subsectie _"App Component"_ van het [Redux hoofdstuk van "Pro React"](http://www.pro-react.com/materials/ch06-alt-redux.pdf).
+Gebruik deze Q & A pagina voor minstens twee vragen over het extra Redux leesvoer:
 
-{{note
-Dit is een _halve_ Q&A. Als je geen inspiratie hebt is één vraag voldoende, deze keer.
+* from the Advanced Tutorial the first three pages: [Async Actions](https://redux.js.org/advanced/async-actions), [Async Flow](https://redux.js.org/advanced/async-flow), and [Middleware](https://redux.js.org/advanced/middleware).
+* from the Introduction: [Motivation](https://redux.js.org/introduction/motivation), [Core Concepts](https://redux.js.org/introduction/core-concepts), and [Three Principles](https://redux.js.org/introduction/three-principles).
 
-
-note}}
-
-{{qna "cwd-6.2" 1
+{{qna "cwd-6.2" 2
 
 qna}}
