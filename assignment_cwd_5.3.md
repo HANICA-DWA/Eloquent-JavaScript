@@ -2,7 +2,7 @@
 
 Before we add the full power of React Hooks to the RRHN we first want to get accustomed to its syntax and its use.
 
-Let's look at a basic example where we try to move from a class-based component to a functional component using Hooks. First let's take a look at the app we're using. We're using a simple little [Pokemon search app](./session5.2). 
+Let's look at a basic example where we try to move from a class-based component to a functional component using Hooks. First let's take a look at the app we're using. We're using a simple little [Pokemon search app](https://github.com/HANICA-DWA/dwa-cwd/tree/hooks/unit05%20-%20Advanced%20React/session5.2/workshop). 
 
 Let's look at the main `App.js`:
 
@@ -52,9 +52,9 @@ Basically we would like to work on 3 things:
 
 👉🏻 Class based component --> functional component
 
-👉🏻 Replace the state with `useState`
+👉🏻 Replace the state with the `useState` hook
 
-👉🏻 Replace the methods with `useEffect`
+👉🏻 Replace all side effects (methods that use fetch with `useEffect`)
 
 
 
@@ -112,8 +112,8 @@ Writing the change handler is now extremely simple. Below are the differences be
 
 There is only one problem. We also need rewrite the rest of the change handler, fetching the data etc. We'll do that below in the [Replace all side effects section](#replace-all-side-effects)
 
-👉🏻 Let's do the same for the history (you can do it :party:)
-👉🏻 And for the active / current pokemon data
+* Let's do the same for the history (you can do it :party:)
+* And for the active / current pokemon data
 
 
 ## Replace all side effects
