@@ -730,6 +730,9 @@ async function renderExerciseResults() {
 
 function renderResultTable( results, exerciseType ) {
   let html = `<table class="results-table">`
+
+  results = results.sort((a, b) => (b.votes || 0) - (a.votes ||0))
+
   results.forEach( result => {
     const typeClass = exerciseType.toLowerCase();
     const time = result.time ? " - " + new Date(result.time).toLocaleString("nl-NL") : "";
@@ -748,13 +751,40 @@ function renderResultTable( results, exerciseType ) {
     }
     const eh = escapeHtml
     html += `<tr class="result-row ${typeClass} ${unkownClass} ${nothingClass}">`
+    if (exerciseType === "QnA") {
+      html += `  <td class="result-upvote ${typeClass}"><a data-time="${result.time}" class="vote-up" title="vote up">🔺</a></td>`
+    }
     html += `  <td class="result-photo ${typeClass}"><img src="${eh(result.avatarURL)}"></td>`
     html += `  <td class="result-author ${typeClass}"><h3>${eh(result.studentName)}</h3><h4>${eh(result.realName)}${time}</h4></td>`
     html += `  <td class="result-content ${typeClass}">${content || "Geen antwoord gegeven :-("}</td>`
     html += `</tr>`
   })
   html += `</table>`
-  document.getElementById('results-container').innerHTML = html;
+  var resultsEl = document.getElementById('results-container')
+  resultsEl.innerHTML = html;
+
+
+  /// Render upvote buttons if this is the QNA results page
+  if (exerciseType === "QnA") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const qnaId = urlParams.get('qna')
+    resultsEl.querySelectorAll('a.vote-up').forEach(a => {
+      a.addEventListener('click', function (e) {
+        renderResultTable(results.map(result => {
+          if (e.target.dataset.time == result.time) {
+            if (result.votes) {
+              result.votes++;
+            } else {
+              result.votes = 1;
+            }
+            const quest = firebase.database().ref(`questions/${result.studentName}/${qnaId}/${result.qid}`)
+            quest.set({question: result.question, time: result.time, votes: result.votes})
+          }
+          return result
+        }), exerciseType)
+      })
+    })
+  }
 }
 
 async function renderQnAResults() {
@@ -798,8 +828,9 @@ async function renderQnAResults() {
     if(studentQuestions.length == 0) {
       list.push( {studentName} )  // students without questions should appear in list
     } else {
-      Object.values(studentQuestions).forEach( question => {
-        list.push( {...question,studentName})
+      // also add the qid so it can be used for the upvotes
+      Object.values(studentQuestions).forEach( (question, idx) => {
+        list.push( {...question,studentName, qid: idx})
       })
     }
     return list
