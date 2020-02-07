@@ -191,7 +191,7 @@ note}}
 
 Dit betekent ook dat JavaScript code die erg traag is, de performance van het hele systeem onderuit kan halen.
 
-In het onderstaande voorbeeld wel "A" nooit op de console worden getoond.
+In het onderstaande voorbeeld zal "A" nooit op de console worden getoond.
 
 ```javascript
 setTimeout(() => {
