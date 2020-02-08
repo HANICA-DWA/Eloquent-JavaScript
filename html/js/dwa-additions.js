@@ -777,8 +777,13 @@ function renderResultTable( results, exerciseType ) {
             } else {
               result.votes = 1;
             }
-            const quest = firebase.database().ref(`questions/${result.studentName}/${qnaId}/${result.qid}`)
-            quest.set({question: result.question, time: result.time, votes: result.votes})
+            const quest = firebase.database().ref(`questions/${result.studentName}/${qnaId}/`)
+            quest.once('value').then(snapshot => {
+              const allQuestions = snapshot.val()
+              const updateQ = {question: result.question, time: result.time, votes: result.votes}
+              const updatedQs = allQuestions.map(a => (a.time == result.time) ? updateQ : a)
+              quest.set(updatedQs)
+            })
           }
           return result
         }), exerciseType)
