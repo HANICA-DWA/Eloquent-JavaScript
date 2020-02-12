@@ -164,7 +164,7 @@ setTimeout(() => console.log("Tick"), 500);
 
 Waiting is not generally a very important type of work, but it can be
 useful when doing something like updating an animation or checking whether
-something is taking longer than a given amount of ((time)).[Daarnaast is `setTimeout` een handige functie voor het simuleren van asynchroon gedrag. Normaal gesproken heb je hiervoor functies nodig die specifieke I/O-functionaliteit beidne (bijvoorbeeld een bestand lezen van de harde schijf, of een netwerk request doen). De crow-nest code maakt intern ook gebruik van `setTimeout` om asynchroon gedrag te kunnen simuleren waardoor je de code in de browser en in een Node-omgeving kan runnen]{aside}
+something is taking longer than a given amount of ((time)).[Daarnaast is `setTimeout` een handige functie voor het simuleren van asynchroon gedrag. Normaal gesproken heb je hiervoor functies nodig die specifieke I/O-functionaliteit bieden (bijvoorbeeld een bestand lezen van de harde schijf, of een netwerk request doen). De crow-nest code maakt intern ook gebruik van `setTimeout` om asynchroon gedrag te kunnen simuleren waardoor je de code in de browser en in een Node-omgeving kan runnen]{aside}
 
 {{note
 
@@ -191,7 +191,7 @@ note}}
 
 Dit betekent ook dat JavaScript code die erg traag is, de performance van het hele systeem onderuit kan halen.
 
-In het onderstaande voorbeeld wel "A" nooit op de console worden getoond.
+In het onderstaande voorbeeld zal "A" nooit op de console worden getoond.
 
 ```javascript
 setTimeout(() => {
@@ -247,7 +247,7 @@ setTimeout(() => { //definitie van callback 1
 }, 500);
 ```
 
-In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wannee we uit meerder 'tabellen' gegevens nodig hebben.
+In werkelijkheid krijg je met dit soort code te maken als je bijvoorbeeld eerst een bestand van de harde schijf wil lezen en op basis van de inhoud van dit bestand een specifiek netwerk request wil doen. Een ander voorbeeld waar we in de lessen over databases mee te maken krijgen is wanneer we uit meerdere 'tabellen' gegevens nodig hebben.
 
 note}}
 
