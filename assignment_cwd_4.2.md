@@ -69,7 +69,7 @@ The React answer to the question above (which component should keep the item-sta
 _The closest component that is a parent to all components that need the info_. It is not usual for React application to have little component at the leaves of the comonent-tree to keep state.  
 So the `ItemList` would be a good answer. 
 
-👉 In the component of your choice, use the constructor to start an AJAX request for all the item-statuses. The callback should use `setState` to store the data received from the server in the component (updating the UI automatically).
+👉 In the component of your choice, use the componentDidMount to start an AJAX request for all the item-statuses. The callback should use `setState` to store the data received from the server in the component (updating the UI automatically).
 
 👉 Have the callback use `console.log()` to notify you that the data has arrived. Use the **React DevTools** to check that the data is correct, and succesfully stored inside the component state.
 
