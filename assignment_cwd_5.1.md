@@ -202,7 +202,7 @@ render() {
 }
 ```
 
-👉🏻 Voeg nu zelf de routes toe voor de componeten `Delays`, `AddDelay`, `Login` en `Logout`. Gebruik hiervoor respectievelijk de URL paden `/delays`, `/adddelay`, `/login` en `/logout`.
+👉🏻 Voeg nu zelf de routes toe voor de componenten `Delays`, `AddDelay`, `Login` en `Logout`. Gebruik hiervoor respectievelijk de URL paden `/delays`, `/adddelay`, `/login` en `/logout`.
 
 {{note
 
@@ -210,11 +210,11 @@ Voor nu maken we nog even geen gebruik van het `NotFound` component. Die komt in
 
 note}}
 
-👉🏻 Ondanks dat onze hyperlinks in de navigatie balk nog niet zijn aangepast kunnen we al wel gebruik maken van de client-side routing door de URL in de browser te veranderen naar `localhost:3000/about` of `localhost:3000/login`. Je moet misschien even naar beneden scrollen om te zien dat nu zowel de Home pagina als de About pagina getoond worden.
+👉🏻 Ondanks dat je de hyperlinks in de navigatie balk nog niet hebt aangepast kun je al wel gebruik maken van de client-side routing door de URL in de browser te veranderen naar `localhost:3000/about` of `localhost:3000/login`. Scroll zo nodig even naar beneden scrollen om te zien dat de browser nu zowel de Home pagina als de About pagina toont.
 
 {{note
 
-In React Router zijn `<Route>`'s gewone componenten die de waarde van `component` tonen zodra de waarde van `path` overeenkomt met de URL in de browser. Je zult wellicht al gemerkt hebben dat de waarde van `path` alleen maar _aan het begin_ van de URL hoeft overeen te komen om de `<Route>` te activeren. Dus als de URL in de browser `localhost:3000/about` is, komt deze overeen met pad `/` en met pad `/about`; vandaar dat beide componenten getoond worden.
+In React Router zijn `<Route>`'s gewone componenten die de waarde van `component` tonen zodra de waarde van `path` overeenkomt met de URL in de browser. Je zult wellicht al gemerkt hebben dat de waarde van `path` alleen maar _aan het begin_ van de URL hoeft overeen te komen om de `<Route>` te activeren. Dus als de URL in de browser `localhost:3000/about` is, komt deze overeen met pad `/` &eacute;n met pad `/about`; vandaar dat beide componenten getoond worden.
 
 note}}
 
@@ -263,7 +263,7 @@ note}}
 ## Stap 6: De juiste navigatie links gebruiken
 
 Nu de routering vanaf de browser URL werkt kunnen we code toevoegen om de hyperlinks in de navigatie balk op de juiste manier te laten werken. Want telkens de URL met de hand aanpassen is ook niet wat we de gebruiker willen aandoen.
-Standaard hyperlinks (`<a>...</a>`) worden door de browser afgevangen... en dat willen we eigenlijk niet. React Router heeft een eigen variant voor hyperlinks en dat is het `<Link>` component.
+Standaard hyperlinks (`<a>...</a>`) vangt de browser af... en dat willen we eigenlijk niet. React Router heeft een eigen variant voor hyperlinks en dat is het `<Link>` component.
 
 👉🏻 Zorg eerst dat we in `NavBar.js` het `<Link>` component kunnen gebruiken door het te importeren. Voeg de volgende regel code toe:
 
@@ -287,19 +287,19 @@ import { Link } from "react-router-dom";
 
 {{note
 
-Zoals je hebt gezien in de code hierboven wordt door het `<Link>` component de property `to={...}` gebruikt om aan te geven waar naartoe genavigeerd moet worden. Er wordt bewust geen gebruik gemaakt van `href="..."` om verwarring met externe hyperlinks te voorkomen. Probeer maar eens de `to` property van `About` te veranderen naar `http://www.han.nl`, en vervolgens op deze hyperlink in de browser te klikken.
+Zoals je hebt gezien in de code hierboven gebruikt de `<Link>` component de property `to={...}` om aan te geven waar de link naartoe navigeert. React gebruikt bewust **geen** `href="..."` om verwarring met externe hyperlinks te voorkomen. Probeer maar eens de `to` property van `About` te veranderen naar `https://www.han.nl`, en vervolgens op deze hyperlink in de browser te klikken.
 
-Onder water gebruikt React Router gewone `<a>` hyperlinks om in de browser weer te geven. Maar aan elke hyperlink wordt een `onClick()` handler toegevoegd die het afhandelen van de klik door de browser voorkomt. Vervolgens past React Router zelf de URL in de browser aan en worden alle `<Route>` componenten die we in de applicatie gebruiken opnieuw uitgevoerd. Mocht een `<Route>` nu wel matchen met de nieuwe URL, dan wordt het bijbehorende component weergegeven.
+Onder water gebruikt React Router gewone `<a>` hyperlinks om in de browser weer te geven. Maar de `Link` component voegt hierbij aan elke hyperlink een `onClick()` handler toe die voorkomt dat de browser de click afhandelt. Vervolgens past React Router zelf de URL in de browser aan en voert alle `<Route>` componenten die we in de applicatie gebruiken opnieuw uit. Mocht een `<Route>` nu wel matchen met de nieuwe URL, dan wordt het bijbehorende component weergegeven.
 
 note}}
 
 ## Stap 7: Actieve links anders weergeven
 
-Momenteel wordt de huidige route wel weergegeven in de URL balk van de browser, maar nog niet in het navigatie menu in de applicatie. Dit komt omdat `<Link>` componenten alleen de URL aanpassen en eventuele `<Route>` componenten... maar niet de hyperlinks zelf. Om dit te bereiken moet je gebruik naken van het `<NavLink>` component van React Router.
+Momenteel geeft de URL balk van de browser de huidige route wel weer, maar nog niet in het navigatie menu in de applicatie. Dit komt omdat `<Link>` componenten alleen de URL aanpassen en eventuele `<Route>` componenten... maar niet de hyperlinks zelf. Om dit te bereiken kun je gebruik naken van het `<NavLink>` component van React Router.
 
-👉🏻 Vervang overal in het bestand `NavBar.js` het gebruik van `<Link>...</Link>` naar `<NavLink>...</NavLink>`. Uiteraard moet je ook het `import` statement aanpassen.
+👉🏻 Vervang overal in het bestand `NavBar.js` het gebruik van `<Link>...</Link>` door `<NavLink>...</NavLink>`. Uiteraard moet je ook het `import` statement aanpassen.
 
-Nu zal elke link waarvan het pad (gedeeltelijk) overeenkomt met de browser URL de extra CSS classname `active` krijgen. Je kunt dit zelf bekijken door in de browser mbv Developer Tools de html elementen te inspecteren.
+Nu zal elke link waarvan het pad (gedeeltelijk) overeenkomt met de browser URL de extra CSS classname `active` krijgen. Je kunt dit zelf bekijken door in de browser m.b.v. Developer Tools de html elementen te inspecteren.
 
 👉🏻 Omdat we nog niks in het `index.css` bestand hebben aangepast zul je ook nog geen effect van de `<NavLink>` zien. Voeg daarom de volgende code toe in `index.css`:
 
@@ -314,7 +314,7 @@ a.active:hover {
 
 {{note
 
-Standaard gebruikt het `NavLink` component de CSS classname `active` waardoor we er op die manier in de CSS naar verwijzen. Aangezien het hier om een classname gaat gebruiken we in de CSS code `.active`. Dit is iets anders dan de `:active` pseudo-class voor hyperlinks (zie [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/:active))
+Standaard gebruikt het `NavLink` component de CSS classname `active` waardoor we er op die manier in de CSS naar verwijzen. Aangezien het hier om een classname gaat gebruiken we in de CSS code `.active`. Dit is iets **anders** dan de `:active` pseudo-class voor hyperlinks (zie [hier](https://developer.mozilla.org/en-US/docs/Web/CSS/:active))
 
 Met de `activeClassName` property van `<NavLink>` kun je zelf een andere naam voor de CSS classname opgeven. Bijvoorbeeld:
 
