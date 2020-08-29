@@ -19,7 +19,7 @@ Zie ook het commentaar in de code.
 ## Opdracht
 
 ### A1) in game.js
-Iplementeer de functie `goToLocation` volgens de specificatie. Gebruik de module `request` om een http-request naar de map_server te sturen. 
+Implementeer de functie `goToLocation` volgens de specificatie. Gebruik de module `request` om een http-request naar de map_server te sturen. 
 
 Geef alleen een error object mee aan de `done` callback wanneer `request` een error oplevert.
 

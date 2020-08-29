@@ -4,6 +4,8 @@ QnAs := $(basename $(shell ls qna_*.md) .md)
 
 ASSINGMENTS := $(basename $(shell ls assignment_*.md) .md)
 
+all: html book.pdf book_mobile.pdf book.epub book.mobi
+
 qnas: $(foreach QnA,$(QnAs),html/$(QnA).html)
 
 assignments: $(foreach ASS,$(ASSINGMENTS),html/$(ASS).html)
@@ -18,8 +20,6 @@ dwa-rebuild:
 	touch *.md; make dwa
 
 SVGS := $(wildcard img/*.svg)
-
-all: html book.pdf book_mobile.pdf book.epub book.mobi
 
 html: $(foreach CHAP,$(CHAPTERS),html/$(CHAP).html) html/js/acorn_codemirror.js \
       code/skillsharing.zip code/solutions/20_3_a_public_space_on_the_web.zip html/js/chapter_info.js
