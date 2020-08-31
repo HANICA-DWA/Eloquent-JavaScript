@@ -1342,7 +1342,7 @@ console.log(["will", ...words, "understand"]);
 
 {{exCode "Spread Object" "Spread Object"
 
-Gebruik de spread syntax om de een nieuw object te maken die alle
+Gebruik de spread syntax om een nieuw object te maken die alle
 properties van `student` en `results` bevat.
 
 ```js
