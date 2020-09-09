@@ -55,7 +55,7 @@ beïnvloeden.
 
 De volgende dingen zijn wel voorbeelden van state:
 * De globale variabelen van een programma, mits die af-en-toe veranderen.
-* Veranderingen die je hebt aangevracht in de DOM, zeker als daardoor de dingen
+* Veranderingen die je hebt aangebracht in de DOM, zeker als daardoor de dingen
   die de gebuiker kan doen anders worden.
 * Veranderende informatie in de database die straks gebruikt gaat worden door
   het programma om beslissingen te namen (b.v. inhoud van winkelwagentje.)
@@ -1340,7 +1340,7 @@ _Gegeven bovenstaande klasse, volgt hieronder een aangepaste versie van de tekst
 van Marijn Haverbeeke:_
 
 Some sprites should be able to bounce back when they hit the edge of their
-container. Perhaps UFO's should bounce, but bullits shouldn't. We could write a
+container. Perhaps UFO's should bounce, but bullets shouldn't. We could write a
 brand new _BouncingSprite_ class from scratch, but that would involve repeating
 some code very similar to what we already wrote.
 
