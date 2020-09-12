@@ -1014,6 +1014,9 @@ sup {
   background-color: rgb(185, 203, 179);
 }
 
+.voting-section.hidden{
+  display: none;
+}
 
 .vote-up {
   cursor: pointer;
