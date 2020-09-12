@@ -515,13 +515,19 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     this.minimum    = element.dataset.minimum;
     this.fbCallback = []
     this.mde        = []
+    this.minimumQuestionLength = 8;
 
     allExercises[this.qnaId] = this
   }
 
   createResultsLink() {
     const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qna=${encodeURIComponent(this.qnaId)}`
-    this.element.innerHTML = `<div class="results-link"><a href="${url}">Toon resultaten</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
+    this.element.innerHTML += `<div class="results-link"><a href="${url}">Toon resultaten</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
+  }
+
+  createVotingLink(){
+    const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qna=${encodeURIComponent(this.qnaId)}`
+    this.element.innerHTML += `<div class="dwa-addition voting-section"><p>Omdat je het minimaal aantal vragen hebt ingevuld kun je stemmen op vragen gesteld door medestudenten. De docent gebruikt deze stemmen om te bepalen wat de belangrijkste vragen zijn.</p><a href="${url}">Stem op de ingediende vragen</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
   }
 
   showUI() {
@@ -529,6 +535,8 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
       this.createResultsLink();
       this.storeQnAToDB();
     } else {
+      this.createVotingLink();
+      this.showVotingLinkWhenAvailable();
       this.createFormUI();
       this.setupFirebaseSubscription();
     }
@@ -611,8 +619,16 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
       this.fbCallback = [];
   }
 
+  showVotingLinkWhenAvailable(){
+    const amountOfProvidedQuestions = this.mde.filter(e => e.value().length >= this.minimumQuestionLength).length;
+    const hasMissingQuestions = amountOfProvidedQuestions < this.minimum;
+
+    const votingSection = document.querySelector('.voting-section');
+    votingSection.classList.toggle('hidden', hasMissingQuestions)
+  }
+
   saveInput(text,questionNr) {
-      // console.log("setting text for", this.exNumber, this.qnaId, pr(text));
+      this.showVotingLinkWhenAvailable();
       questionRef(this.qnaId,questionNr).set( {question:text, time:firebase.database.ServerValue.TIMESTAMP} )
   }
 
@@ -663,10 +679,6 @@ function showResultsPageSigninUI(pageType) {
 }
 
 function showResultsDisplayUI(pageType) {
-  if( window.userInfo.status != "staff") {
-    doSignOut();
-    return;
-  }
   document.getElementById('sign-in-ui').classList.add("hidden")
   document.getElementById('sign-out-ui').classList.remove("hidden")
   document.getElementById('results-ui').classList.remove("hidden")
@@ -688,6 +700,7 @@ async function renderExerciseResults() {
     alert(errMessage)
     throw new Error(errMessage);
   }
+
   const studentsP = firebase.database().ref("users").once('value')
   const exerciseP = firebase.database().ref(`exercises/${exercise_slug}`).once('value')
   let [students, exercise] = await Promise.all([studentsP, exerciseP])
@@ -729,14 +742,20 @@ async function renderExerciseResults() {
 }
 
 function renderResultTable( results, exerciseType ) {
-  let html = `<table class="results-table">`
+    const isQnAExercise = exerciseType === 'QnA';
 
-  results = results.sort((a, b) => (b.votes || 0) - (a.votes ||0))
+    const tableHeaders = isQnAExercise
+      ? ['Score', 'Avatar', 'Details', 'Answer', 'Upvoters']
+      : ['Avatar', 'Details', 'Answer']
 
-  results.forEach( result => {
+    let html = `<table class="results-table"><thead class="result-row"><tr>${tableHeaders.map(name => `<th>${name}</th>`).join('')}</tr></thead>`
+
+    results = results.sort((a, b) => Object.keys(b.upVoters || {}).length - Object.keys(a.upVoters || {}).length)
+
+    results.forEach( result => {
     const typeClass = exerciseType.toLowerCase();
     const time = result.time ? " - " + new Date(result.time).toLocaleString("nl-NL") : "";
-    let content = exerciseType == "QnA" ? result.question : result.answer
+    let content = isQnAExercise ? result.question : result.answer
     const nothingClass = content ? "" : "no-answer"
     const unkownClass = result.group == "UNKNOWN" ? "unkown" : ""
     if( content ) {
@@ -751,39 +770,57 @@ function renderResultTable( results, exerciseType ) {
     }
     const eh = escapeHtml
     html += `<tr class="result-row ${typeClass} ${unkownClass} ${nothingClass}">`
-    if (exerciseType === "QnA") {
-      html += `  <td class="result-upvote ${typeClass}"><a data-time="${result.time}" class="vote-up" title="vote up">🔺</a></td>`
+    if (isQnAExercise) {
+      const upVoterNames = Object.keys(result.upVoters || {});
+      const hasUpVotedQuestion = upVoterNames.includes(window.userInfo.gitHubName);
+
+      const upVotesLabel = `<span>${upVoterNames.length} ${upVoterNames.length === 1 ? 'upvote' : 'upvotes'}</span>`
+      html += `  <td class="result-upvote ${typeClass}"><span data-time="${result.time}" class="vote-up" title="vote up">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${hasUpVotedQuestion ? 'green' : 'black'}" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+        </span> ${upVotesLabel}</td>`
     }
     html += `  <td class="result-photo ${typeClass}"><img src="${eh(result.avatarURL)}"></td>`
     html += `  <td class="result-author ${typeClass}"><h3>${eh(result.studentName)}</h3><h4>${eh(result.realName)}${time}</h4></td>`
     html += `  <td class="result-content ${typeClass}">${content || "Geen antwoord gegeven :-("}</td>`
+
+    if(isQnAExercise){
+        const upVoterNames = Object.keys(result.upVoters || {});
+        html += `  <td class="result-content ${typeClass}">
+                    ${upVoterNames.length > 0 ? `<select disabled="true" multiple>${upVoterNames.map(name => `<option>${name}</option>`).join('')}</select>` : ''}
+                </td>`
+    }
+
     html += `</tr>`
   })
   html += `</table>`
   var resultsEl = document.getElementById('results-container')
   resultsEl.innerHTML = html;
 
-
   /// Render upvote buttons if this is the QNA results page
   if (exerciseType === "QnA") {
     const urlParams = new URLSearchParams(window.location.search);
     const qnaId = urlParams.get('qna')
-    resultsEl.querySelectorAll('a.vote-up').forEach(a => {
+    resultsEl.querySelectorAll('.vote-up').forEach(a => {
       a.addEventListener('click', function (e) {
         renderResultTable(results.map(result => {
-          if (e.target.dataset.time == result.time) {
-            if (result.votes) {
-              result.votes++;
-            } else {
-              result.votes = 1;
-            }
-            const quest = firebase.database().ref(`questions/${result.studentName}/${qnaId}/`)
-            quest.once('value').then(snapshot => {
-              const allQuestions = snapshot.val()
-              const updateQ = {question: result.question, time: result.time, votes: result.votes}
-              const updatedQs = allQuestions.map(a => (a.time == result.time) ? updateQ : a)
-              quest.set(updatedQs)
-            })
+          const isUpVotedItem = parseInt(e.currentTarget.dataset.time) === result.time;
+          const authenticatedGitHubName = window.userInfo.gitHubName;
+
+          if (isUpVotedItem) {
+            const quest = firebase.database().ref(`questions/${result.studentName}/${qnaId}/${result.questionKey}/upVoters/${authenticatedGitHubName}`);
+
+            const upVoters = {...(result.upVoters || {})};
+            const hasCurrentlyUpVotedQuestion = Object.keys(upVoters).includes(authenticatedGitHubName);
+
+            hasCurrentlyUpVotedQuestion
+                ? delete upVoters[authenticatedGitHubName]
+                : upVoters[authenticatedGitHubName] = true;
+
+            hasCurrentlyUpVotedQuestion
+                ? quest.remove()
+                : quest.set(true)
+
+            result.upVoters = upVoters;
           }
           return result
         }), exerciseType)
@@ -821,24 +858,29 @@ async function renderQnAResults() {
   })
   let allQuestions = await Promise.all( allQuestionPromises )
 
+  const authenticatedUserIsStaff = window.userInfo.status === "staff";
+
   // create a flat list of all questions, each question augmenten with student githubName
   allQuestions = allQuestions.reduce( (list, snapshot,idx) => {
     const studentName = snapshot.ref.parent.key
-    // Students don't always answer all quesions, so the array may have empty spots.
-    // Sometimes, Firebase will even return an object instead of an array, because the empty
-    // spots prevent is from recognizing the set of key/value pairs as beonging to an array. 
-    // Object.values() will convert all these situations to an array without empty spots. 
-    let studentQuestions = Object.values( snapshot.val()||[] ) 
-    studentQuestions = studentQuestions.filter( q => q.question != "" );
-    if(studentQuestions.length == 0) {
-      list.push( {studentName} )  // students without questions should appear in list
-    } else {
-      // also add the qid so it can be used for the upvotes
-      Object.values(studentQuestions).forEach( (question, idx) => {
-        list.push( {...question,studentName, qid: idx})
-      })
+
+    const questions = snapshot.val() || {};
+    const questionKeys = Object.keys(questions);
+    const hasAtLeastSingleQuestion = questionKeys.some(key => questions[key].question !== "");
+
+    if(!hasAtLeastSingleQuestion && authenticatedUserIsStaff){
+      return [...list, {studentName}];
     }
-    return list
+
+    const questionsFromUser = questionKeys.reduce((acc, questionKey) => {
+      if(questions[questionKey].question === ""){
+        return acc;
+      }
+
+      return [...acc, {...questions[questionKey], studentName, questionKey: questionKey, qid: idx}];
+    },[]);
+
+    return [...list, ...questionsFromUser];
   }, [])
 
   // add rest of student info to each question
