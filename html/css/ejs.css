@@ -1008,3 +1008,13 @@ sup {
     color: black;
     font-size: 70%;
 }
+
+.dwa-qna .voting-section {
+  border-color: rgb(76, 144, 71);
+  background-color: rgb(185, 203, 179);
+}
+
+
+.vote-up {
+  cursor: pointer;
+}
