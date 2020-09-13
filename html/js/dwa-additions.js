@@ -536,7 +536,6 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
       this.storeQnAToDB();
     } else {
       this.createVotingLink();
-      this.showVotingLinkWhenAvailable();
       this.createFormUI();
       this.setupFirebaseSubscription();
     }
@@ -591,6 +590,7 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     this.mde[questionNr].codemirror.on("change", (codemirrorInstance, changeObj) => {
       // console.log("MDE ON CHANGE", changeObj);
       if(changeObj.origin == "setValue") {
+        this.showVotingLinkWhenAvailable();
         return;
       } else {
         this.saveInput(this.mde[questionNr].value(), questionNr);
