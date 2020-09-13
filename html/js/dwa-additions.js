@@ -527,7 +527,7 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
 
   createVotingLink(){
     const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qna=${encodeURIComponent(this.qnaId)}`
-    this.element.innerHTML += `<div class="dwa-addition voting-section"><p>Omdat je het minimaal aantal vragen hebt ingevuld kun je stemmen op vragen gesteld door medestudenten. De docent gebruikt deze stemmen om te bepalen wat de belangrijkste vragen zijn.</p><a href="${url}">Stem op de ingediende vragen</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
+    this.element.innerHTML += `<div class="dwa-addition voting-section hidden"><p>Omdat je het minimaal aantal vragen hebt ingevuld kun je stemmen op vragen gesteld door medestudenten. De docent gebruikt deze stemmen om te bepalen wat de belangrijkste vragen zijn.</p><a href="${url}">Stem op de ingediende vragen</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
   }
 
   showUI() {
