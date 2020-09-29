@@ -2,7 +2,7 @@
 
 Before we add the full power of React Hooks to the RRHN we first want to get accustomed to its syntax and its use.
 
-Let's look at a basic example where we try to move from a class-based component to a functional component using Hooks. First let's take a look at the app we're using. We're using a simple little [Pokemon search app](https://github.com/HANICA-DWA/dwa-cwd/tree/hooks/unit05%20-%20Advanced%20React/session5.2/workshop). 
+Let's look at a basic example where we try to move from a class-based component to a functional component using Hooks. First let's take a look at the app we're using. We're using a simple little Pokemon search app (see workshop folder for session 5.2). 
 
 Let's look at the main `App.js`:
 
