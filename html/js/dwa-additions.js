@@ -65,6 +65,9 @@ function questionRef(qnaId, nr) {
 function qnaRef(slug) {
   return firebase.database().ref(`qnas/${slug}`)
 }
+function getQnaRefForGroup(qnaId) {
+  return firebase.database().ref(`qnas/${qnaId}/groups/${window.userInfo.group}`);
+}
 
 
 // function pr(str) {
@@ -516,6 +519,7 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     this.fbCallback = []
     this.mde        = []
     this.minimumQuestionLength = 8;
+    this.votingPeriodIsActive = false;
 
     allExercises[this.qnaId] = this
   }
@@ -525,17 +529,53 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
     this.element.innerHTML += `<div class="results-link"><a href="${url}">Toon resultaten</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
   }
 
-  createVotingLink(){
+  setupStaffVotingSection(){
+    const buildActionLabel = votingPeriodIsActive => votingPeriodIsActive ? 'Stop stem periode' : 'Start stem periode';
+
+    this.element.innerHTML += `<div class="dwa-addition"><p>Bij het starten van de stem periode wordt de QnA voor de huidige klas gesloten, ze zullen geen vragen meer kunnen indienen. Na het starten kunnen studenten stemmen via de resultaten pagina.</p>
+                                    <button id="toggle-voting-period">${buildActionLabel(false)}</button>
+                                </div>`
+    const qnaVotingPeriodRef = getQnaRefForGroup(this.qnaId).child('votingPeriodIsActive');
+    const toggleAction = document.querySelector('#toggle-voting-period');
+
+    toggleAction.addEventListener("click", e => {
+      qnaVotingPeriodRef.set(!this.votingPeriodIsActive);
+    });
+
+    qnaVotingPeriodRef.on('value', snapshot => {
+      this.votingPeriodIsActive = snapshot.val() || false;
+      toggleAction.innerText = buildActionLabel(this.votingPeriodIsActive);
+    });
+  }
+
+
+  setupStudentVotingSection(){
     const url = `/qna-results.html?group=${encodeURIComponent(window.userInfo.group)}&qna=${encodeURIComponent(this.qnaId)}`
-    this.element.innerHTML += `<div class="dwa-addition voting-section hidden"><p>Omdat je het minimaal aantal vragen hebt ingevuld kun je stemmen op vragen gesteld door medestudenten. De docent gebruikt deze stemmen om te bepalen wat de belangrijkste vragen zijn.</p><a href="${url}">Stem op de ingediende vragen</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
+    this.element.innerHTML += `<div class="dwa-addition voting-section hidden"><p>Omdat je het minimaal aantal vragen hebt ingevuld en de stem periode is gestart kun je stemmen op vragen gesteld door medestudenten. De docent gebruikt deze stemmen om te bepalen wat de belangrijkste vragen zijn.</p><a href="${url}">Stem op de ingediende vragen</a>&nbsp;&nbsp;&nbsp;<a target="_blank" href="${url}">(in nieuw tabblad)</a>`
+
+    const qnaVotingPeriodRef = getQnaRefForGroup(this.qnaId).child('votingPeriodIsActive');
+
+    qnaVotingPeriodRef.on('value', snapshot => {
+      this.votingPeriodIsActive = snapshot.val() || false;
+
+      this.showVotingLinkWhenAvailable();
+      this.disableFormsWhenVotingIsActive();
+    });
+  }
+
+  disableFormsWhenVotingIsActive(){
+    this.mde.forEach(editor => {
+      editor.codemirror.doc.cantEdit = this.votingPeriodIsActive;
+    })
   }
 
   showUI() {
-    if(window.userInfo.status == "staff") {
+    if(window.userInfo.status === "staff") {
       this.createResultsLink();
+      this.setupStaffVotingSection();
       this.storeQnAToDB();
     } else {
-      this.createVotingLink();
+      this.setupStudentVotingSection();
       this.createFormUI();
       this.setupFirebaseSubscription();
     }
@@ -620,11 +660,13 @@ class QnAForm {  // similar to LongExercise, but having multiple fields
   }
 
   showVotingLinkWhenAvailable(){
-    const amountOfProvidedQuestions = this.mde.filter(e => e.value().length >= this.minimumQuestionLength).length;
-    const hasMissingQuestions = amountOfProvidedQuestions < this.minimum;
+      const amountOfProvidedQuestions = this.mde.filter(e => e.value().length >= this.minimumQuestionLength).length;
+      const hasMissingQuestions = amountOfProvidedQuestions < this.minimum;
 
-    const votingSection = document.querySelector('.voting-section');
-    votingSection.classList.toggle('hidden', hasMissingQuestions)
+      const hideVotingSection = !this.votingPeriodIsActive || hasMissingQuestions;
+
+      const votingSection = document.querySelector('.voting-section');
+      votingSection.classList.toggle('hidden', hideVotingSection)
   }
 
   saveInput(text,questionNr) {
@@ -833,6 +875,8 @@ async function renderQnAResults() {
   const urlParams = new URLSearchParams(window.location.search);
   const qnaId  = urlParams.get('qna');
   const group     = urlParams.get('group');
+  const authenticatedUserIsStaff = window.userInfo.status === "staff";
+
   if( qnaId === undefined || group === undefined) {
     const errMessage = 'Cannot show results without required querystring parameters "group" and "qna"'
     alert(errMessage)
@@ -840,8 +884,19 @@ async function renderQnAResults() {
   }
   // get all users, and the selected qna info from DB
   const studentsP = firebase.database().ref("users").once('value')
-  const exerciseP = firebase.database().ref(`qnas/${qnaId}`).once('value')
-  let [students, exercise] = await Promise.all([studentsP, exerciseP])
+  const qnaForGroup = this.getQnaRefForGroup(qnaId).once('value');
+
+  let [students, exerciseSnapshot] = await Promise.all([studentsP, qnaForGroup])
+
+  const exercise = exerciseSnapshot.val() || {votingPeriodIsActive: false};
+
+  if(!authenticatedUserIsStaff && !exercise.votingPeriodIsActive){
+    const resultsEl = document.getElementById('results-container')
+    resultsEl.innerHTML = `<div class="dwa-addition"><p>De stem periode voor deze QnA is nog niet gestart, vraag je docent om deze te starten!</p></div>`;
+
+    return;
+  }
+
 
   // convert set of users into mapping (githubLogin->studentinfo) of relevant students
   const studentsByGithubName = {}
@@ -850,7 +905,7 @@ async function renderQnAResults() {
     if( s.status == "student" && (s.group == group || s.group == "UNKNOWN"))
     studentsByGithubName[s.gitHubName] = {...s, uid: snapshot.key }
   });
-  exercise = exercise.val();
+
 
   // get the answers given by the relevant students from FB
   const allQuestionPromises = Object.values(studentsByGithubName).map( s => {
@@ -858,7 +913,6 @@ async function renderQnAResults() {
   })
   let allQuestions = await Promise.all( allQuestionPromises )
 
-  const authenticatedUserIsStaff = window.userInfo.status === "staff";
 
   // create a flat list of all questions, each question augmenten with student githubName
   allQuestions = allQuestions.reduce( (list, snapshot,idx) => {
