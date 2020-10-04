@@ -21,11 +21,21 @@
       ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
       "$githubName": {
         ".read":  "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName",
-        ".write": "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName"
+        ".write": "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $githubName",
+        "$questionName": {
+          ".read":  "auth != null && root.child('questions').child(root.child('users').child(auth.uid).child('gitHubName').val()).val() != null && root.child('questions').child(root.child('users').child(auth.uid).child('gitHubName').val()).child($questionName).val() != null && root.child('questions').child(root.child('users').child(auth.uid).child('gitHubName').val()).child($questionName).hasChildren()",
+          "$questionIndex": {
+            "upVoters" : {
+              "$upVoter": {
+                ".write": "auth != null && root.child('users').child(auth.uid).child('gitHubName').val() == $upVoter"
+              }
+            }
+          }
+        }
       }
     },
     "users": {
-      ".read":  "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
+      ".read":  "auth != null",
       ".write": "auth != null && root.child('users').child(auth.uid).child('status').val() == 'staff'",
       "$uid": {
         ".read":  "auth != null && auth.uid == $uid",
