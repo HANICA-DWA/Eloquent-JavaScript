@@ -1018,6 +1018,25 @@ sup {
   display: none;
 }
 
+.result-upvote {
+  font-size: 14px;
+}
+
+.own-upvote td {
+  background-color: #b9a2d0 !important;
+}
+
 .vote-up {
   cursor: pointer;
+  font-size: 200%;
+}
+
+.own-upvote .vote-up {
+  color: rgb(255, 225, 0);
+}
+
+.upvoters {
+  column-count: 3;
+  column-gap: 1em;
+  font-size: 14px;
 }

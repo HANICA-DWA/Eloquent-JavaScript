@@ -784,23 +784,24 @@ async function renderExerciseResults() {
 }
 
 function renderResultTable( results, exerciseType ) {
-    const isQnAExercise = exerciseType === 'QnA';
+  const isQnAExercise = exerciseType === 'QnA';
 
-    const tableHeaders = isQnAExercise
-      ? ['Score', 'Avatar', 'Details', 'Answer', 'Upvoters']
-      : ['Avatar', 'Details', 'Answer']
+  const tableHeaders = isQnAExercise
+    ? ['Score', 'Avatar', 'Details', 'Answer', 'Upvoters']
+    : ['Avatar', 'Details', 'Answer']
 
-    let html = `<table class="results-table"><thead class="result-row"><tr>${tableHeaders.map(name => `<th>${name}</th>`).join('')}</tr></thead>`
+  let html = `<table class="results-table"><thead class="result-row"><tr>${tableHeaders.map(name => `<th>${name}</th>`).join('')}</tr></thead>`
 
-    results = results.sort((a, b) => Object.keys(b.upVoters || {}).length - Object.keys(a.upVoters || {}).length)
+  //results = results.sort((a, b) => Object.keys(b.upVoters || {}).length - Object.keys(a.upVoters || {}).length)
 
-    results.forEach( result => {
+  results.forEach( result => {
     const typeClass = exerciseType.toLowerCase();
     const time = result.time ? " - " + new Date(result.time).toLocaleString("nl-NL") : "";
     let content = isQnAExercise ? result.question : result.answer
+    const hasContent = content != undefined
     const nothingClass = content ? "" : "no-answer"
     const unkownClass = result.group == "UNKNOWN" ? "unkown" : ""
-    if( content ) {
+    if( hasContent ) {
       switch (exerciseType) {
         case "Short":  content = renderShortContent(content);  break;
         case "Long":   content = renderLongContent(content);   break;
@@ -811,24 +812,31 @@ function renderResultTable( results, exerciseType ) {
       }
     }
     const eh = escapeHtml
-    html += `<tr class="result-row ${typeClass} ${unkownClass} ${nothingClass}">`
-    if (isQnAExercise) {
+    html += `<tr class="result-row ${typeClass} ${unkownClass} ${nothingClass}`
+    if (isQnAExercise && hasContent) {
       const upVoterNames = Object.keys(result.upVoters || {});
       const hasUpVotedQuestion = upVoterNames.includes(window.userInfo.gitHubName);
-
-      const upVotesLabel = `<span>${upVoterNames.length} ${upVoterNames.length === 1 ? 'upvote' : 'upvotes'}</span>`
-      html += `  <td class="result-upvote ${typeClass}"><span data-time="${result.time}" class="vote-up" title="vote up">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${hasUpVotedQuestion ? 'green' : 'black'}" width="18px" height="18px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
-        </span> ${upVotesLabel}</td>`
+      if( hasUpVotedQuestion ) {
+        html += "own-upvote"
+      }
+      html += `">`
+      const upVotesLabel = `<span>${upVoterNames.length}&nbsp;${upVoterNames.length === 1 ? 'upvote' : 'upvotes'}</span>`
+      html += `  <td class="result-upvote ${typeClass}">
+        <span data-time="${result.time}" class="vote-up" title="vote up">${hasUpVotedQuestion?"★":"☆"}</span><br>
+        ${upVotesLabel}</td>`
+    } else {
+      html += `"><td></td>`
     }
+
     html += `  <td class="result-photo ${typeClass}"><img src="${eh(result.avatarURL)}"></td>`
     html += `  <td class="result-author ${typeClass}"><h3>${eh(result.studentName)}</h3><h4>${eh(result.realName)}${time}</h4></td>`
     html += `  <td class="result-content ${typeClass}">${content || "Geen antwoord gegeven :-("}</td>`
 
     if(isQnAExercise){
-        const upVoterNames = Object.keys(result.upVoters || {});
-        html += `  <td class="result-content ${typeClass}">
-                    ${upVoterNames.length > 0 ? `<select disabled="true" multiple>${upVoterNames.map(name => `<option>${name}</option>`).join('')}</select>` : ''}
+        let upVoterNames = Object.keys(result.upVoters || {});
+        // upVoterNames = upVoterNames.concat(["aaaa", "bbbbb", "cccc dddd",  "eee",  "fffffff",  "gggggg ggg", "hhhh", "ii", "jj", "kkkkk kk kk"])
+        html += `  <td class="result-content ${typeClass} upvoters">
+                    ${upVoterNames.join('<br>')}
                 </td>`
     }
 
@@ -966,10 +974,15 @@ async function renderQnAResults() {
       return nameCompare || byTime(a,b)
     }
 
+    const upvotesA = Object.keys(a.upVoters || {}).length
+    const upvotesB = Object.keys(b.upVoters || {}).length
+
     if(a.question === undefined && b.question !== undefined) {
       return -1
     } else if(a.question !== undefined && b.question === undefined) {
       return 1
+    } else if(upvotesA != upvotesB) {
+      return upvotesB -  upvotesA
     } else if(a.group === "UNKNOWN" && b.group !== "UNKNOWN") {
       return -1
     } else if(a.group !== "UNKNOWN" && b.group === "UNKNOWN") {
