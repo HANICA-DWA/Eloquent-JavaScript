@@ -354,7 +354,7 @@ const theFormCheckers = {
 }
 ```
 
-Stap 9: Stuur je uitwerking in.
+### Stap 9: Stuur je uitwerking in.
 
 :point_right: Commit je code voor alle opdrachten in dit document naar je persoonlijke DWA repo.
 
