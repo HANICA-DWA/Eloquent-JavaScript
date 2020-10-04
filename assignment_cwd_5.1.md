@@ -529,7 +529,7 @@ const DelaysOnDate = props => {
       {delays.length > 0 ? (
         delays.map(({ id, fromLocation, to, minutesHuman }) => (
           <p key={id}>
-            from {from} to {to} - {minutesHuman} delay
+            from {fromLocation} to {to} - {minutesHuman} delay
           </p>
         ))
       ) : (
