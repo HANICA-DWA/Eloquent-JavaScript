@@ -602,7 +602,7 @@ Hieronder is te zien in het geheugenmodel, hoe de regel `score.visitors = 1` de 
 
 {{figure {url: "img/memory_model/chap04/score_ok.svg", alt: ""}}}
 
-De waarde in het doosje van `score` (de pijl die naar het object verwijst) verander zelf niet.
+De waarde in het doosje van `score` (de pijl die naar het object verwijst) veranderd zelf niet.
 
 Hieronder is te zien hoe de regel `score = {visitors: 1, home: 1}` eruit ziet.
 
@@ -1342,7 +1342,7 @@ console.log(["will", ...words, "understand"]);
 
 {{exCode "Spread Object" "Spread Object"
 
-Gebruik de spread syntax om de een nieuw object te maken die alle
+Gebruik de spread syntax om een nieuw object te maken die alle
 properties van `student` en `results` bevat.
 
 ```js

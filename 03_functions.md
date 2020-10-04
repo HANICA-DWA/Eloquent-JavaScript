@@ -362,7 +362,7 @@ that can be done by passing around function values to other functions.
 
 {{note
 
-Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijvoorbeeld Java. In JavasScript is het al vanaf de eerste versie mogelijk om function-bindings te maken. Daarnaast kun je functies op elke plek in de code definieren en niet alleen in een klasse. Soms lees, of hoor je daarom: *'In JavaScript functies are firts-class citizens'*.
+Dit is een van de belangrijkste verschillen van JavaScript ten opzichte van bijvoorbeeld Java. In JavasScript is het al vanaf de eerste versie mogelijk om function-bindings te maken. Daarnaast kun je functies op elke plek in de code definieren en niet alleen in een klasse. Soms lees, of hoor je daarom: *'In JavaScript functies are first-class citizens'*.
 
 note}}
 
@@ -1477,7 +1477,7 @@ in de definitie van `executeNrOfTimes` gebruiken.
 
 ```js
 /**
- * Exexutes the provided function the given number of times
+ * Executes the provided function the given number of times
  * @param {Number} nrTimes: the number of times the given function 
  *   is executed
  * @param {Function} func: the function that is executed
