@@ -26,7 +26,9 @@ function ll(msg,...fs) {
     }
     return list
   }, [])
-  console.log(ll.caller.name.toUpperCase(), msg + ":",...toPrint)
+  let caller = null;
+  try { caller = ll.caller } catch (e) {}  
+  console.log((caller?.name || "").toUpperCase(), msg + ":",...toPrint)
   return result
 }
 
