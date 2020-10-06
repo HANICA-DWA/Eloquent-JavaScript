@@ -785,7 +785,7 @@ async function renderExerciseResults() {
   renderResultTable( allAnswers, exercise.exerciseType );
 }
 
-function renderResultTable( results, exerciseType ) {
+function renderResultTable( results, exerciseType, studentsByGithubName ) {
   const isQnAExercise = exerciseType === 'QnA';
 
   const tableHeaders = isQnAExercise
@@ -836,9 +836,9 @@ function renderResultTable( results, exerciseType ) {
 
     if(isQnAExercise){
         let upVoterNames = Object.keys(result.upVoters || {});
-        // upVoterNames = upVoterNames.concat(["aaaa", "bbbbb", "cccc dddd",  "eee",  "fffffff",  "gggggg ggg", "hhhh", "ii", "jj", "kkkkk kk kk"])
+        upVoterNames = upVoterNames.map( githubName => studentsByGithubName[githubName]?.shortName || "<b>"+githubName+"</b>" )
         html += `  <td class="result-content ${typeClass} upvoters">
-                    ${upVoterNames.join('<br>')}
+                    ${upVoterNames.join('<br>').replace(" ", "&nbsp;")}
                 </td>`
     }
 
@@ -875,7 +875,7 @@ function renderResultTable( results, exerciseType ) {
             result.upVoters = upVoters;
           }
           return result
-        }), exerciseType)
+        }), exerciseType, studentsByGithubName)
       })
     })
   }
@@ -925,7 +925,7 @@ async function renderQnAResults() {
   students.forEach( (snapshot) => {
     const s = snapshot.val();
     if( s.status == "student" && (s.group == group || s.group == "UNKNOWN"))
-    studentsByGithubName[s.gitHubName] = {...s, uid: snapshot.key }
+    studentsByGithubName[s.gitHubName] = {...s, uid: snapshot.key, shortName: shortenRealName(s.realName) }
   });
 
 
@@ -1006,20 +1006,39 @@ async function renderQnAResults() {
     }
   })
 
-  renderResultTable( allQuestions, "QnA" );
+  renderResultTable( allQuestions, "QnA", studentsByGithubName );
 }
 
 function renderShortContent( content ) {
   return escapeHtml(content);
 }
 function renderLongContent( content ) {
-  return marked(escapeHtml(content));
+  return marked(content);
 }
 function renderCodeContent( content ) {
   return '<pre><code>'+escapeHtml(content)+'</code></pre>';
 }
 function renderCommitContent( content ) {
   return `<a href=${content}>${escapeHtml(content)}</a>`;
+}
+
+
+
+function shortenRealName(realName) {
+  if(realName == undefined || realName=="UNKNOWN") return null;
+  let nameWords = realName.split(/ +/);
+  let shortName = nameWords.pop().charAt(0)+"."
+  const isVoegsel = { "van": true, "de":true, "den":true, "der":true, "te":true, "ten":true, "ter":true, "in":true, "het":true, "tot":true, "voor":true, "aan":true, "op":true, "uit":true }
+  let nameWord = nameWords.pop();
+  if(isVoegsel[nameWord]) shortName = " " + shortName
+  while( isVoegsel[nameWord] ) {
+    shortName = nameWord.charAt(0)+shortName
+    nameWord = nameWords.pop();
+  }
+  nameWords.push(nameWord)
+  shortName = nameWords.join(" ") + " " + shortName;
+  console.log("sRN:", realName,"=>", shortName)
+  return shortName;
 }
 
 
