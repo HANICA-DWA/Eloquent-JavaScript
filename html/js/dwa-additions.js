@@ -907,6 +907,18 @@ async function renderQnAResults() {
     return;
   }
 
+  if(authenticatedUserIsStaff) {
+    const headerEL = document.getElementById("results-header")
+    headerEL.innerHTML = '<button id="kickAssButton">Kick Ass</button>'
+    document.getElementById("kickAssButton").onclick = function() {
+      var KICKASSVERSION='2.0';
+      var s = document.createElement('script');
+      s.type='text/javascript';
+      document.body.appendChild(s);
+      s.src='//hi.kickassapp.com/kickass.js';
+    }
+  }
+
 
   // convert set of users into mapping (githubLogin->studentinfo) of relevant students
   const studentsByGithubName = {}

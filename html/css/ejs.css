@@ -1040,3 +1040,7 @@ sup {
   column-gap: 1em;
   font-size: 14px;
 }
+
+#kickAssButton {
+  margin: 20px;
+}
