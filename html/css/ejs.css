@@ -1043,4 +1043,10 @@ sup {
 
 #kickAssButton {
   margin: 20px;
+  float: left;
+}
+
+#sortSpan {
+  margin: 20px;
+  float: right;
 }

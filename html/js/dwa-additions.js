@@ -787,10 +787,17 @@ async function renderExerciseResults() {
 
 function renderResultTable( results, exerciseType, studentsByGithubName ) {
   const isQnAExercise = exerciseType === 'QnA';
+  if( isQnAExercise ) {
+    sortQuestions( results )
+  }
 
-  const tableHeaders = isQnAExercise
-    ? ['Score', 'Avatar', 'Details', 'Answer', 'Upvoters']
-    : ['Avatar', 'Details', 'Answer']
+  const tableHeaders = ['Avatar', 'Details', 'Answer']
+  if( isQnAExercise ) {
+    tableHeaders.unshift('Upvote')
+    if(window.userInfo.status === "staff") {
+      tableHeaders.push('Upvoted By')
+    }
+  }
 
   let html = `<table class="results-table"><thead class="result-row"><tr>${tableHeaders.map(name => `<th>${name}</th>`).join('')}</tr></thead>`
 
@@ -834,7 +841,7 @@ function renderResultTable( results, exerciseType, studentsByGithubName ) {
     html += `  <td class="result-author ${typeClass}"><h3>${eh(result.studentName)}</h3><h4>${eh(result.realName)}${time}</h4></td>`
     html += `  <td class="result-content ${typeClass}">${content || "Geen antwoord gegeven :-("}</td>`
 
-    if(isQnAExercise){
+    if(isQnAExercise && window.userInfo.status === "staff"){
         let upVoterNames = Object.keys(result.upVoters || {});
         upVoterNames = upVoterNames.map( githubName => studentsByGithubName[githubName]?.shortName || "<b>"+githubName+"</b>" )
         html += `  <td class="result-content ${typeClass} upvoters">
@@ -854,28 +861,27 @@ function renderResultTable( results, exerciseType, studentsByGithubName ) {
     const qnaId = urlParams.get('qna')
     resultsEl.querySelectorAll('.vote-up').forEach(a => {
       a.addEventListener('click', function (e) {
-        renderResultTable(results.map(result => {
+
+        results.forEach( result => {
           const isUpVotedItem = parseInt(e.currentTarget.dataset.time) === result.time;
           const authenticatedGitHubName = window.userInfo.gitHubName;
-
           if (isUpVotedItem) {
             const quest = firebase.database().ref(`questions/${result.studentName}/${qnaId}/${result.questionKey}/upVoters/${authenticatedGitHubName}`);
-
+  
             const upVoters = {...(result.upVoters || {})};
             const hasCurrentlyUpVotedQuestion = Object.keys(upVoters).includes(authenticatedGitHubName);
-
             hasCurrentlyUpVotedQuestion
                 ? delete upVoters[authenticatedGitHubName]
                 : upVoters[authenticatedGitHubName] = true;
-
+    
             hasCurrentlyUpVotedQuestion
                 ? quest.remove()
                 : quest.set(true)
-
+    
             result.upVoters = upVoters;
           }
-          return result
-        }), exerciseType, studentsByGithubName)
+        })
+        renderResultTable(results, exerciseType, studentsByGithubName)
       })
     })
   }
@@ -907,9 +913,10 @@ async function renderQnAResults() {
     return;
   }
 
+  const headerEL = document.getElementById("results-header")
+  headerEL.innerHTML = ""
   if(authenticatedUserIsStaff) {
-    const headerEL = document.getElementById("results-header")
-    headerEL.innerHTML = '<button id="kickAssButton">Kick Ass</button>'
+    headerEL.insertAdjacentHTML("afterbegin", '<button id="kickAssButton">Kick Ass</button>')  
     document.getElementById("kickAssButton").onclick = function() {
       var KICKASSVERSION='2.0';
       var s = document.createElement('script');
@@ -917,8 +924,19 @@ async function renderQnAResults() {
       document.body.appendChild(s);
       s.src='//hi.kickassapp.com/kickass.js';
     }
+    let sortSelect = '<span id="sortSpan"><label for="sortSelect">sort by</label> '
+    sortSelect += '<select id="sortSelect">'
+    sortSelect += '  <option value="timeThenName">time</option>'
+    sortSelect += '  <option value="upvotesThenTimeThenName">upvotes</option>'
+    sortSelect += '  <option value="nameThenTime">name</option>'
+    sortSelect += '</select></span>';
+    headerEL.insertAdjacentHTML("beforeend", sortSelect)
+    headerEL.querySelector(`option[value="${currentSortOrder}"]`).selected = true
+    document.getElementById('sortSelect').onchange = function() {
+      currentSortOrder = document.getElementById('sortSelect').value
+      renderQnAResults()    
+    }  
   }
-
 
   // convert set of users into mapping (githubLogin->studentinfo) of relevant students
   const studentsByGithubName = {}
@@ -969,45 +987,62 @@ async function renderQnAResults() {
     return (a.group != "UNKNOWN" || a.question != undefined)
   })
 
+  renderResultTable( allQuestions, "QnA", studentsByGithubName )
+}
+
+// comparison functions used to sort QnA questions.
+const sortBy = {}
+sortBy.time = function(a,b) {
+  if( a.time && b.time ) return a.time - b.time
+  // if( a.time ) return 1
+  // if( b.time ) return -1
+  return 0
+}
+sortBy.name = function(a,b) {
+    const nameCompare = a.realName.localeCompare(b.realName, "nl-NL", {sensitivity:"base"})
+    return nameCompare
+}
+sortBy.timeThenName = function(a,b) {
+  return sortBy.time(a,b) || sortBy.name(a,b)
+}
+sortBy.nameThenTime = function(a,b) {
+  return sortBy.name(a,b) || sortBy.time(a,b)
+}
+sortBy.upvotesThenTimeThenName = function(a,b) {
+  const upvotersA = Object.keys(a.upVoters || {})
+  const upvotersB = Object.keys(b.upVoters || {})
+  let nrUpvotesA = upvotersA.length
+  let nrUpvotesB = upvotersB.length
+  if( upvotersA.includes(window.userInfo.gitHubName) ) {
+    nrUpvotesA += 10000  // make own upvotes sort higher than other's upvotes
+  }
+  if( upvotersB.includes(window.userInfo.gitHubName) ) {
+    nrUpvotesB += 10000  // make own upvotes sort higher than other's upvotes
+  }
+  upvotesDifference = nrUpvotesB - nrUpvotesA
+  return upvotesDifference || sortBy.timeThenName(a,b)
+}
+
+let currentSortOrder = "timeThenName"
+function sortQuestions( questions ) {
   // sorting:
-  //    first: students without questions
-  //   second: questions from students without group
-  //    third: questions from students of current group,
-  //           ordered by: time
-  allQuestions.sort( (a,b) => {
-
-    const byTime = (a,b) => {
-      if( a.time && b.time ) return a.time - b.time
-      if( a.time ) return 1
-      if( b.time ) return -1
-      return 0;
-    }
-
-    const byNameAndTime = (a,b) => {
-      const nameCompare = a.localeCompare(b, "nl-NL", {sensitivity:"base"})
-      return nameCompare || byTime(a,b)
-    }
-
-    const upvotesA = Object.keys(a.upVoters || {}).length
-    const upvotesB = Object.keys(b.upVoters || {}).length
-
-    if(a.question === undefined && b.question !== undefined) {
+  //    first:  students without questions
+  //    second: questions from students of current group,
+  //            ordered by the sort order selected by the user.
+  questions.sort( (a,b) => {
+    if( a.question === undefined && b.question === undefined ) {
+      return 0
+    } else if(a.question === undefined) {
       return -1
-    } else if(a.question !== undefined && b.question === undefined) {
-      return 1
-    } else if(upvotesA != upvotesB) {
-      return upvotesB -  upvotesA
-    } else if(a.group === "UNKNOWN" && b.group !== "UNKNOWN") {
-      return -1
-    } else if(a.group !== "UNKNOWN" && b.group === "UNKNOWN") {
+    } else if(b.question === undefined) {
       return 1
     } else {
-      return byTime(a,b)
+      return sortBy[currentSortOrder](a,b)
     }
   })
-
-  renderResultTable( allQuestions, "QnA", studentsByGithubName );
+  return questions
 }
+
 
 function renderShortContent( content ) {
   return escapeHtml(content);
@@ -1037,11 +1072,8 @@ function shortenRealName(realName) {
   }
   nameWords.push(nameWord)
   shortName = nameWords.join(" ") + " " + shortName;
-  console.log("sRN:", realName,"=>", shortName)
   return shortName;
 }
-
-
 
 /*
 ████████ ███████ ███████ ████████     ██████   █████  ████████  █████
@@ -1050,7 +1082,6 @@ function shortenRealName(realName) {
    ██    ██           ██    ██        ██   ██ ██   ██    ██    ██   ██
    ██    ███████ ███████    ██        ██████  ██   ██    ██    ██   ██
 */
-
 
 testDBdata = {
   users: [  {uid: "testUser_01", gitHubName: "testUser_01", group:"A",      status: "staff",   realName: "Teacher 1 (A)",       email: "a@b.com", avatarURL: "https://avatars3.githubusercontent.com/u/42325189?v=4"},
